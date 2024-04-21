@@ -1,0 +1,9 @@
+\frametitle{Përdorimi i ciklit ``for'' për të iteruar mbi një listë}
+\protect\hypertarget{puxebrdorimi-i-ciklit-for-puxebr-tuxeb-iteruar-mbi-njuxeb-listuxeb-1}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_shqiptare }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\ControlFlowTok{for}\NormalTok{ qytet në qytete\_shqiptare:}
+    \BuiltInTok{print}\NormalTok{(qytet)}
+\end{Highlighting}
+\end{Shaded}

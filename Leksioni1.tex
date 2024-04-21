@@ -142,7 +142,6 @@
 \usepackage{amsmath}
 
 
-
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -150,12 +149,12 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Leksioni1},
+  pdftitle={Leksioni 1},
   pdfauthor={Endri Raco},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Leksioni1}
+\title{Leksioni 1}
 \author{Endri Raco}
 \date{21 April, 2024}
 
@@ -165,6 +164,10 @@
 \begin{frame}[allowframebreaks]
   \tableofcontents[hideallsubsections]
 \end{frame}
+\hypertarget{hyrje}{%
+\section*{Hyrje}\label{hyrje}}
+\addcontentsline{toc}{section}{Hyrje}
+
 \begin{frame}{Organizimi i kursit - Python}
 \protect\hypertarget{organizimi-i-kursit---python}{}
 \begin{itemize}
@@ -204,6 +207,10 @@
   Analiza e terrenit
 \end{itemize}
 \end{frame}
+
+\hypertarget{instalimi}{%
+\section*{Instalimi}\label{instalimi}}
+\addcontentsline{toc}{section}{Instalimi}
 
 \begin{frame}{Instalimi i Python-it}
 \protect\hypertarget{instalimi-i-python-it}{}
@@ -270,9 +277,18 @@
 \item
   Në skedarët YAML, mund të përcaktojmë specifikat e mjedisit, përfshirë
   versionin e Python-it dhe libraritë që do përdorim.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Konfigurimi dhe Dokumentimi i Mjediseve}
+\protect\hypertarget{konfigurimi-dhe-dokumentimi-i-mjediseve-1}{}
+\begin{itemize}
+\tightlist
 \item
   Formati tipik për mjediset Conda/Mamba është \textbf{environment.yaml}
 \end{itemize}
+
+\href{./Figs/enviroment.png}{}
 \end{frame}
 
 \begin{frame}{Praktika të Mira}
@@ -370,7 +386,7 @@
   librarive të nevojshme
 \item
   Hapim Terminalin dhe shkoni te direktoria ku keni shkarkuar
-  ``environment.yml''.
+  \href{https://github.com/endri81/instatgis/blob/master/environment.yml}{environment.yml}
 \end{itemize}
 \end{frame}
 
@@ -463,6 +479,1571 @@ Për të instaluar paketa të reja, përdorim komandën:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mamba list}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Çfarë është JupyterLab?}
+\protect\hypertarget{uxe7faruxeb-uxebshtuxeb-jupyterlab}{}
+\begin{itemize}
+\item
+  JupyterLab është një mjet programimi i bazuar në shfletues (browser)
+  për programim dhe data science.
+\item
+  Ofron një mjedis të integruar që përfshin interpretues Python,
+  redaktor teksti, terminal, dhe shumë më tepër.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përbërësit Kryesorë të JupyterLab}
+\protect\hypertarget{puxebrbuxebruxebsit-kryesoruxeb-tuxeb-jupyterlab}{}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{File Browser (Paneli i Navigimit)}:
+\end{itemize}
+
+\includegraphics{./Figs/jupyter1.png} \#\# Përbërësit Kryesorë të
+JupyterLab
+
+\begin{itemize}
+\item
+  I vendosur në anën e majtë të ndërfaqes.
+\item
+  Përdoret për të naviguar në sistemin e skedarëve, për të krijuar
+  skedarë të rinj ose dosje (folder).
+\item
+  Mund të hapim një skedar duke double-klikuar mbi të.
+\item
+  Për opsione të tjera, siç janë riemërtimi, kopjimi, ose fshirja e
+  skedarëve, klikojmë me butonin e djathtë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përbërësit Kryesorë të JupyterLab}
+\protect\hypertarget{puxebrbuxebruxebsit-kryesoruxeb-tuxeb-jupyterlab-1}{}
+\includegraphics{./Figs/jupyter1.png}
+\end{frame}
+
+\begin{frame}{Përbërësit Kryesorë të JupyterLab}
+\protect\hypertarget{puxebrbuxebruxebsit-kryesoruxeb-tuxeb-jupyterlab-2}{}
+\begin{itemize}
+\item
+  \textbf{Launcher Panel (Paneli i Nisjes)}:
+
+  \begin{itemize}
+  \item
+    I vendosur në të djathtë të ndërfaqes.
+  \item
+    Përdoret për të krijuar elemente të rinj, si Jupyter Notebooks,
+    skedarë të rinj teksti, ose terminale të reja.
+  \item
+    Mund të krijojmë dokumente të reja ose sesione të reja për programim
+    nga ky panel.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përbërësit Kryesorë të JupyterLab}
+\protect\hypertarget{puxebrbuxebruxebsit-kryesoruxeb-tuxeb-jupyterlab-3}{}
+\includegraphics{./Figs/jupyter2.png}
+\end{frame}
+
+\hypertarget{programimi-bazik-nuxeb-python}{%
+\section*{Programimi bazik në
+Python}\label{programimi-bazik-nuxeb-python}}
+\addcontentsline{toc}{section}{Programimi bazik në Python}
+
+\hypertarget{matematika-e-thjeshtuxeb-nuxeb-python}{%
+\section*{Matematika e Thjeshtë në
+Python}\label{matematika-e-thjeshtuxeb-nuxeb-python}}
+\addcontentsline{toc}{section}{Matematika e Thjeshtë në Python}
+
+\begin{frame}[fragile]{Veprimet Bazë Matematike}
+\protect\hypertarget{veprimet-bazuxeb-matematike}{}
+\begin{itemize}
+\item
+  Python mund të përdoret për të kryer operacione të thjeshta
+  matematikore.
+\item
+  Shembuj: \texttt{1\ +\ 1}, \texttt{5\ *\ 7}, \texttt{10\ /\ 2},
+  \texttt{2\ **\ 3}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Veprimet Bazë Matematike}
+\protect\hypertarget{veprimet-bazuxeb-matematike-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Në Jupyter Notebook, shtypim \textbf{Shift-Enter} për të ekzekutuar
+  kodin.
+\end{itemize}
+
+\includegraphics{./Figs/math1.png}
+\end{frame}
+
+\begin{frame}{Më shumë Veprime}
+\protect\hypertarget{muxeb-shumuxeb-veprime}{}
+\includegraphics{./Figs/math2.png}
+\end{frame}
+
+\begin{frame}{Çfarë është Një Funksion?}
+\protect\hypertarget{uxe7faruxeb-uxebshtuxeb-njuxeb-funksion}{}
+\begin{itemize}
+\item
+  Funksionet janë pjesë të kodit që kryejnë një veprim të vetëm, si
+  p.sh., printimi i informacionit në ekran.
+\item
+  Python ka një shumëllojshmëri të madhe funksionesh për operacione të
+  ndryshme.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Shembuj të Funksioneve Bazë}
+\protect\hypertarget{shembuj-tuxeb-funksioneve-bazuxeb}{}
+\begin{itemize}
+\item
+  Funksioni \textbf{print()} përdoret për të shfaqur tekst në ekran.
+\item
+  Funksioni \textbf{len()} kthen gjatësinë e një liste ose vargu.
+\item
+  Funksioni \textbf{sum()} llogarit shumën e elementeve në një listë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Më shumë Veprime}
+\protect\hypertarget{muxeb-shumuxeb-veprime-1}{}
+\begin{itemize}
+\item
+  Për të bërë veprime më komplekse, përdorim module të tilla si
+  \texttt{math}.
+\item
+  Importojmë modulin \texttt{math} për të përdorur funksione si
+  \texttt{math.sin()}, \texttt{math.sqrt()}, etj.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull}
+\protect\hypertarget{shembull}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ImportTok{import}\NormalTok{ math}
+\NormalTok{  math.sin(}\DecValTok{3}\NormalTok{)}
+\NormalTok{  math.sqrt(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shembull}
+\protect\hypertarget{shembull-1}{}
+\includegraphics{./Figs/math3.png}
+\end{frame}
+
+\begin{frame}{Përmbledhje}
+\protect\hypertarget{puxebrmbledhje}{}
+Ja përmbledhja e asaj që pamë:
+
+\begin{itemize}
+\item
+  Çfarë Është Një Modul?
+
+  \begin{itemize}
+  \item
+    Një modul është një grup pjesësh kodi, si p.sh funksione, që janë të
+    lidhura me njëri-tjetrin.
+  \item
+    Modulet individuale shpesh përfshihen në një grup të quajtur
+    bibliotekë.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përmbledhje}
+\protect\hypertarget{puxebrmbledhje-1}{}
+\begin{itemize}
+\item
+  Si Të Ngarkoni Një Modul?
+
+  \begin{itemize}
+  \item
+    Për të ngarkuar një modul, përdorni deklaratën \textbf{import}.
+  \item
+    Funksionet që janë pjesë e një moduli mund të përdoren duke shkruar
+    \textbf{modulename.functionname()}
+  \item
+    Për shembull, \textbf{sin()} është një funksion i modulit
+    \textbf{math}, dhe përdoret duke shkruar \textbf{math.sin()} me një
+    numër brenda kllapave.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përmbledhje}
+\protect\hypertarget{puxebrmbledhje-2}{}
+\begin{itemize}
+\item
+  Përdorimi i Moduleve në Jupyter Notebook
+
+  \begin{itemize}
+  \item
+    Në Jupyter Notebook, variablat që përcaktohen në qelizat e mëparshme
+    janë të disponueshme për përdorim në qelizat që pasojnë, për sa kohë
+    që ato janë ekzekutuar më parë.
+  \item
+    Kjo lejon ruajtjen e variablave për përdorim të mëtejshëm gjatë
+    ekzekutimit të kodit. Konstantet në Module
+  \item
+    Modulet gjithashtu mund të përmbajnë konstante si \textbf{math.pi}
+  \end{itemize}
+\end{itemize}
+
+\emph{Për të thirrur konstante, nuk përdoren kllapa; thjesht shkruajmë
+emrin e konstantes}
+\end{frame}
+
+\hypertarget{kombinimi-i-funksioneve-nuxeb-python}{%
+\section*{Kombinimi i Funksioneve në
+Python}\label{kombinimi-i-funksioneve-nuxeb-python}}
+\addcontentsline{toc}{section}{Kombinimi i Funksioneve në Python}
+
+\begin{frame}[fragile]{Kombinimi i Funksioneve me print()}
+\protect\hypertarget{kombinimi-i-funksioneve-me-print}{}
+\begin{itemize}
+\item
+  Funksioni \texttt{print()} shfaq tekstin në ekran.
+\item
+  Për të printuar rezultatin e një funksioni tjetër, përdorim
+  \texttt{print()} brenda kodit:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ImportTok{import}\NormalTok{ math}
+  \BuiltInTok{print}\NormalTok{(math.sqrt(}\DecValTok{4}\NormalTok{))  }\CommentTok{\# Shfaq 2.0}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kombinimi i Tekstit me Vlerat e Llogaritura}
+\protect\hypertarget{kombinimi-i-tekstit-me-vlerat-e-llogaritura}{}
+\begin{itemize}
+\tightlist
+\item
+  Përdorim \textbf{print()} për të shfaqur tekst dhe vlera të
+  llogaritura së bashku.
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Dy plus dy është"}\NormalTok{, }\DecValTok{2} \OperatorTok{+} \DecValTok{2}\NormalTok{)  }\CommentTok{\# Shfaq "Dy plus dy është 4"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kombinimi i Funksioneve}
+\protect\hypertarget{kombinimi-i-funksioneve}{}
+\begin{itemize}
+\tightlist
+\item
+  Kombinojmë funksione të ndryshme për të prodhuar rezultat më të
+  avancuar:
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Rrënja katrore e 4 është"}\NormalTok{, math.sqrt(}\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Variablave në Python}
+\protect\hypertarget{puxebrdorimi-i-variablave-nuxeb-python}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të caktuar vlerën e një variabli, përdorni \texttt{=}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  temp\_celsius }\OperatorTok{=} \FloatTok{10.0}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Variablave në Python}
+\protect\hypertarget{puxebrdorimi-i-variablave-nuxeb-python-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të parë vlerën e një variabli, përdorim \textbf{print()} ose
+  thjesht emrin e variablit në një qelizë Jupyter Notebook:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp\_celsius  }\CommentTok{\# Kthen 10.0}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kombinimi i Variablave me Tekst}
+\protect\hypertarget{kombinimi-i-variablave-me-tekst}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kombinuar tekst dhe vlera të llogaritura, përdorim
+  \textbf{print()}
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Temperatura në Fahrenheit:"}\NormalTok{, }\DecValTok{9} \OperatorTok{/} \DecValTok{5} \OperatorTok{*}\NormalTok{ temp\_celsius }\OperatorTok{+} \DecValTok{32}\NormalTok{)  }\CommentTok{\# Shfaq "Temperatura në Fahrenheit: 50.0"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përditësimi i Variablave}
+\protect\hypertarget{puxebrdituxebsimi-i-variablave}{}
+\begin{itemize}
+\tightlist
+\item
+  Variablat mund të përditësohen me vlera të reja:
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp\_celsius }\OperatorTok{=} \FloatTok{15.0}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Temperatura në Celsius është tani:"}\NormalTok{, temp\_celsius)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Kujdes me Gabimet}
+\protect\hypertarget{kujdes-me-gabimet}{}
+\begin{itemize}
+\tightlist
+\item
+  Nëse përpiqeni të përdorni një variabël që nuk është definuar, do të
+  merrni një \textbf{NameError}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Trajtimi i Gabimeve të Zakonshme në Python}
+\protect\hypertarget{trajtimi-i-gabimeve-tuxeb-zakonshme-nuxeb-python}{}
+Gabimi \textbf{NameError}
+
+\begin{itemize}
+\tightlist
+\item
+  Ky gabim ndodh kur një variabël ose funksion nuk është definuar.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Temperature in Celsius:"}\NormalTok{, }\DecValTok{5} \OperatorTok{/} \DecValTok{9} \OperatorTok{*}\NormalTok{ (tempFahrenheit }\OperatorTok{{-}} \DecValTok{32}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Trajtimi i Gabimeve të Zakonshme në Python}
+\protect\hypertarget{trajtimi-i-gabimeve-tuxeb-zakonshme-nuxeb-python-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të zgjidhur këtë gabim, sigurohemi që të gjitha variablat dhe
+  funksionet të jenë të definuara dhe të importuara siç duhet.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tempFahrenheit }\OperatorTok{=} \DecValTok{9} \OperatorTok{/} \DecValTok{5} \OperatorTok{*}\NormalTok{ temp\_celsius }\OperatorTok{+} \DecValTok{32}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\hypertarget{llojet-e-tuxeb-dhuxebnave-nuxeb-python}{%
+\section*{Llojet e të Dhënave në
+Python}\label{llojet-e-tuxeb-dhuxebnave-nuxeb-python}}
+\addcontentsline{toc}{section}{Llojet e të Dhënave në Python}
+
+\begin{frame}{Llojet e të Dhënave në Python}
+\protect\hypertarget{llojet-e-tuxeb-dhuxebnave-nuxeb-python-1}{}
+\begin{itemize}
+\item
+  Lloji i të dhënave përcakton karakteristikat e të dhënave në një
+  program.
+\item
+  Python ka katër lloje bazë të të dhënave: \emph{int, float, str} dhe
+  \emph{bool}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Llojet Bazë të të Dhënave}
+\protect\hypertarget{llojet-bazuxeb-tuxeb-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\item
+  \textbf{int:} vlera të plota të numrave të plotë.
+\item
+  \textbf{float:} vlera dhjetore.
+\item
+  \textbf{str:} vargje karakteresh (tekste).
+\item
+  \textbf{bool:} vlera të tipit të vërtetë/false.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Shembuj të Llojeve të të Dhënave}
+\protect\hypertarget{shembuj-tuxeb-llojeve-tuxeb-tuxeb-dhuxebnave}{}
+int: 4
+
+float: 3.1415
+
+str: `Hot'
+
+bool: True
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Llojit të të Dhënave}
+\protect\hypertarget{kontrollimi-i-llojit-tuxeb-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\tightlist
+\item
+  Përdorim funksionin \textbf{type()} për të marrë llojin e të dhënave
+  të një variabli.
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weatherForecast }\OperatorTok{=} \StringTok{"Hot"}
+\BuiltInTok{type}\NormalTok{(weatherForecast)  }\CommentTok{\# Kthen "str"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Kujdes me Llojet e Dhënave}
+\protect\hypertarget{kujdes-me-llojet-e-dhuxebnave}{}
+\begin{itemize}
+\item
+  Llojet e të dhënave janë të rëndësishme sepse disa prej tyre nuk janë
+  kompatibël me njëri-tjetrin.
+\item
+  Për shembull, nuk mund të mbledhim një int me një str.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Trajtimi i Gabimeve të Zakonshme në Python}
+\protect\hypertarget{trajtimi-i-gabimeve-tuxeb-zakonshme-nuxeb-python-2}{}
+Gabimi \textbf{TypeError}
+
+\begin{itemize}
+\tightlist
+\item
+  Ky gabim ndodh kur përpiqeni të kryejmë operacione me tipe të ndryshme
+  të dhënave që nuk janë kompatibël.
+\end{itemize}
+
+Shembull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  tempFahrenheit }\OperatorTok{+} \FloatTok{5.0} \OperatorTok{*} \StringTok{"Hot"}  \CommentTok{\# Kthen TypeError}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Për të shmangur këtë gabim, sigurohemi që të gjitha llojet e dhënave
+  të jenë të kompatibël përpara se të kryejmë veprime.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Çfarë Është Një Listë?}
+\protect\hypertarget{uxe7faruxeb-uxebshtuxeb-njuxeb-listuxeb}{}
+\begin{itemize}
+\item
+  Një listë është një koleksion vlerash të lidhura së bashku me një
+  variabël të vetme.
+\item
+  Listat mund të përmbajnë lloje të ndryshme të dhënash, si numra,
+  vargje, ose madje edhe lista të tjera.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Krijimi i Një Liste}
+\protect\hypertarget{krijimi-i-njuxeb-liste}{}
+\begin{itemize}
+\item
+  Për të krijuar një listë, përdorim kllapat katrore \texttt{{[}{]}} dhe
+  ndajmë elementët me presje.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  station\_names }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tirane"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Elbasan"}\NormalTok{, }\StringTok{"Sarandë"}\NormalTok{]  }
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Llojit të Një Liste}
+\protect\hypertarget{kontrollimi-i-llojit-tuxeb-njuxeb-liste}{}
+\begin{itemize}
+\item
+  Përdorim funksionin \textbf{type()} për të kontrolluar nëse një
+  variabël është një listë.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{type}\NormalTok{(station\_names)  }\CommentTok{\# Kthen "list"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Përdorimi i Listave}
+\protect\hypertarget{puxebrdorimi-i-listave}{}
+\begin{itemize}
+\item
+  Listat mund të përdoren për të ruajtur shumë vlera të lidhura.
+\item
+  Në Python, listat janë një nga llojet më të zakonshme të koleksioneve.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Indeksimi në Python}
+\protect\hypertarget{indeksimi-nuxeb-python}{}
+\begin{itemize}
+\item
+  Një indeks është një numër që tregon një pozicion në listë.
+\item
+  Indeksi i parë është gjithmonë 0, prandaj për të marrë elementin e
+  parë të një liste, përdorim indeksin 0.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  station\_names[}\DecValTok{0}\NormalTok{]  }\CommentTok{\# Kthen "Tirane"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Marrja e Një Vlere nga Një Listë}
+\protect\hypertarget{marrja-e-njuxeb-vlere-nga-njuxeb-listuxeb}{}
+\begin{itemize}
+\item
+  Për të marrë një vlerë nga një listë, përdorim indeksin e duhur.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{station\_names[}\DecValTok{1}\NormalTok{]  }\CommentTok{\# Kthen "Durres"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Indekse Negativë}
+\protect\hypertarget{indekse-negativuxeb}{}
+Për të marrë elementë nga fundi i një liste, përdorim indekse negativë.
+
+\begin{itemize}
+\tightlist
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  station\_names[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]  }\CommentTok{\# Kthen "Sarande"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kujdes me Indekset Jashtë Kufijve}
+\protect\hypertarget{kujdes-me-indekset-jashtuxeb-kufijve}{}
+\begin{itemize}
+\item
+  Nëse përdorim një indeks që është jashtë kufijve të listës, do të
+  marrim një \textbf{IndexError}.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{station\_names[}\DecValTok{4}\NormalTok{]  }\CommentTok{\# Kthen "IndexError: list index out of range"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Ilustrim}
+\protect\hypertarget{ilustrim}{}
+\includegraphics{./Figs/index.png}
+\end{frame}
+
+\begin{frame}{Ilustrim}
+\protect\hypertarget{ilustrim-1}{}
+\begin{itemize}
+\item
+  Makina automatike që përmban 6 artikuj.
+\item
+  Si Python, makina automatike përdor indekse për të zgjedhur artikujt.
+\item
+  Indeksi i parë është gjithmonë 0, dhe numri rritet me njësi.
+\item
+  Për të marrë një artikull nga makina automatike, duhet të përdorim
+  indeksin e duhur.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull me Makinë Automatike}
+\protect\hypertarget{shembull-me-makinuxeb-automatike}{}
+\begin{itemize}
+\item
+  Për të marrë një taco, do të zgjidhnit butonin 3.
+\item
+  Në Python, për të marrë një artikull nga një listë, përdorim indeksin
+  përkatës:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  Bill[}\DecValTok{3}\NormalTok{]  }\CommentTok{\# Kthen "Taco"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Gjetja e Gjatësisë së Një Liste}
+\protect\hypertarget{gjetja-e-gjatuxebsisuxeb-suxeb-njuxeb-liste}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të marrë gjatësinë e një liste, përdorim funksionin
+  \texttt{len()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+  \BuiltInTok{len}\NormalTok{(qytete)  }\CommentTok{\# Kthen 4}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i len() për të gjetur vlerën e fundit
+të një liste}
+\protect\hypertarget{puxebrdorimi-i-len-puxebr-tuxeb-gjetur-vleruxebn-e-fundit-tuxeb-njuxeb-liste}{}
+\begin{itemize}
+\item
+  Duke përdorur \textbf{len()}, mund të gjejmë indeksin e fundit të një
+  liste.
+\item
+  Indeksi i fundit është gjithmonë \textbf{len(qytete) - 1}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\BuiltInTok{len}\NormalTok{(qytete) }\OperatorTok{{-}} \DecValTok{1}\NormalTok{]  }\CommentTok{\# Kthen "Vlorë"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i len() për të gjetur vlerën e fundit
+të një liste}
+\protect\hypertarget{puxebrdorimi-i-len-puxebr-tuxeb-gjetur-vleruxebn-e-fundit-tuxeb-njuxeb-liste-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të marrë vlerën e fundit, përdorim indeksin -1:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]  }\CommentTok{\# Kthen "Vlorë"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kujdes me Indekset Jashtë Kufijve}
+\protect\hypertarget{kujdes-me-indekset-jashtuxeb-kufijve-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Nëse përdorim një indeks që është jashtë kufijve të listës, do të
+  merrni një IndexError.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\DecValTok{4}\NormalTok{]  }\CommentTok{\# Kthen "IndexError: list index out of range"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Indeksimit Negativ}
+\protect\hypertarget{puxebrdorimi-i-indeksimit-negativ}{}
+\begin{itemize}
+\item
+  Indeksimi negativ na lejon të marrim elementë nga fundi i një liste.
+\item
+  Indeksi \texttt{-1} jep vlerën e fundit, ndërsa indekset me vlera më
+  të mëdha negative shkojnë drejt fillimit të listës:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\NormalTok{  qytete[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]  }\CommentTok{\# Kthen "Vlorë"}
+\NormalTok{  qytete[}\OperatorTok{{-}}\DecValTok{2}\NormalTok{]  }\CommentTok{\# Kthen "Shkodër"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kujdes me Indekset Negativë}
+\protect\hypertarget{kujdes-me-indekset-negativuxeb}{}
+Edhe pse indeksimi negativ është i dobishëm, përdorimi i një indeksi
+jashtë kufijve shkakton \textbf{IndexError}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\OperatorTok{{-}}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Kthen "IndexError: list index out of range"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shembuj të Tjerë të Indeksimit Negativ}
+\protect\hypertarget{shembuj-tuxeb-tjeruxeb-tuxeb-indeksimit-negativ}{}
+\begin{itemize}
+\tightlist
+\item
+  Indeksi \textbf{-len(qytete)} jep vlerën e parë në listë:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\OperatorTok{{-}}\BuiltInTok{len}\NormalTok{(qytete)]  }\CommentTok{\# Kthen "Tiranë"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Listat janë të Ndryshueshme}
+\protect\hypertarget{listat-januxeb-tuxeb-ndryshueshme}{}
+\begin{itemize}
+\item
+  Një nga avantazhet e listave është se ato mund të ndryshohen pasi të
+  krijohen.
+\item
+  Për të ndryshuar një vlerë në një listë, përdorim indeksin për të
+  përcaktuar pozicionin e vlerës që duam të ndryshojmë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Listë e Qyteteve Shqiptare}
+\protect\hypertarget{shembull-listuxeb-e-qyteteve-shqiptare}{}
+\begin{itemize}
+\tightlist
+\item
+  Le të krijojmë një listë që përfshin qytetet kryesore shqiptare:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Listë e Qyteteve Shqiptare}
+\protect\hypertarget{shembull-listuxeb-e-qyteteve-shqiptare-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të ndryshuar qytetin e tretë në listë, përdorim indeksin përkatës:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\DecValTok{2}\NormalTok{] }\OperatorTok{=} \StringTok{"Elbasan"}  \CommentTok{\# Ndryshon Shkodrën në Elbasan}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Listë e Qyteteve Shqiptare}
+\protect\hypertarget{shembull-listuxeb-e-qyteteve-shqiptare-2}{}
+Pas modifikimit të vlerës, mund të printojmë listën për të parë
+ndryshimin:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen ["Tiranë", "Durrës", "Elbasan", "Vlorë"]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Indekseve për Modifikim}
+\protect\hypertarget{puxebrdorimi-i-indekseve-puxebr-modifikim}{}
+\begin{itemize}
+\tightlist
+\item
+  Indeksi i parë është gjithmonë 0, kështu që për të ndryshuar vlerën e
+  parë, përdorim indeksin 0:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\DecValTok{0}\NormalTok{] }\OperatorTok{=} \StringTok{"Korçë"}  \CommentTok{\# Ndryshon Tiranën në Korçë}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Indekseve për Modifikim}
+\protect\hypertarget{puxebrdorimi-i-indekseve-puxebr-modifikim-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të ndryshuar vlerën e fundit, përdorim indeksin -1:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{] }\OperatorTok{=} \StringTok{"Sarandë"}  \CommentTok{\# Ndryshon Vlorën në Sarandë}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Indekseve për Modifikim}
+\protect\hypertarget{puxebrdorimi-i-indekseve-puxebr-modifikim-2}{}
+Pas modifikimit, printoni listën për të verifikuar ndryshimin:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen ["Korçë", "Durrës", "Elbasan", "Sarandë"]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Kujdes me Indekset Jashtë Kufijve}
+\protect\hypertarget{kujdes-me-indekset-jashtuxeb-kufijve-2}{}
+Nëse përdorni një indeks që është jashtë kufijve të listës, do të marrim
+një \textbf{IndexError}.
+\end{frame}
+
+\begin{frame}[fragile]{Shembuj të Tjerë të Modifikimit}
+\protect\hypertarget{shembuj-tuxeb-tjeruxeb-tuxeb-modifikimit}{}
+Për të ndryshuar vlerat e mesme, përdorim indeksin përkatës:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete[}\DecValTok{1}\NormalTok{] }\OperatorTok{=} \StringTok{"Fier"}  \CommentTok{\# Ndryshon Durrësin në Fier}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i Indekseve për Modifikim}
+\protect\hypertarget{puxebrdorimi-i-indekseve-puxebr-modifikim-3}{}
+Pas modifikimit, printoni listën për të verifikuar ndryshimin:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen ["Korçë", "Fier", "Elbasan", "Sarandë"]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Lista që Përmban Tipa të Ndryshëm të Dhënave}
+\protect\hypertarget{lista-quxeb-puxebrmban-tipa-tuxeb-ndryshuxebm-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\item
+  Një nga përfitimet e një liste është se ajo mund të përmbajë lloje të
+  ndryshme të dhënash në të njëjtin koleksion.
+\item
+  Për shembull, le të krijojmë një listë që përmban emrin e një qyteti
+  shqiptar, kodin e postës, koordinatat gjeografike, dhe një atribut
+  tjetër.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  city\_name }\OperatorTok{=} \StringTok{"Tiranë"}
+\NormalTok{  postal\_code }\OperatorTok{=} \DecValTok{1001}
+\NormalTok{  city\_lat }\OperatorTok{=} \FloatTok{41.3275}
+\NormalTok{  city\_lon }\OperatorTok{=} \FloatTok{19.8189}
+\NormalTok{  major\_landmark }\OperatorTok{=} \StringTok{"Sheshi Skënderbej"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Lista që Përmban Tipa të Ndryshëm të Dhënave}
+\protect\hypertarget{lista-quxeb-puxebrmban-tipa-tuxeb-ndryshuxebm-tuxeb-dhuxebnave-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Kombinojmë këto variabla në një listë që përmban lloje të ndryshme të
+  dhënash:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{city\_info }\OperatorTok{=}\NormalTok{ [city\_name, postal\_code, city\_lat, city\_lon, major\_landmark]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Llojit të Listës}
+\protect\hypertarget{kontrollimi-i-llojit-tuxeb-listuxebs}{}
+\begin{itemize}
+\tightlist
+\item
+  Përdorim \textbf{type()} për të konfirmuar se është një listë:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{type}\NormalTok{(city\_info)  }\CommentTok{\# Kthen "list"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Llojit të Listës}
+\protect\hypertarget{kontrollimi-i-llojit-tuxeb-listuxebs-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kontrolluar llojet e të dhënave brenda listës, përdorim indekse
+  të ndryshme:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{type}\NormalTok{(city\_info[}\DecValTok{0}\NormalTok{])  }\CommentTok{\# Kthen "str"}
+\BuiltInTok{type}\NormalTok{(city\_info[}\DecValTok{1}\NormalTok{])  }\CommentTok{\# Kthen "int"}
+\BuiltInTok{type}\NormalTok{(city\_info[}\DecValTok{2}\NormalTok{])  }\CommentTok{\# Kthen "float"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Kujdes me Përzierjen e Llojeve të Dhënave}
+\protect\hypertarget{kujdes-me-puxebrzierjen-e-llojeve-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\item
+  Edhe pse një listë mund të përmbajë lloje të ndryshme, mund të jetë
+  problematike në disa raste.
+\item
+  Rekomandohet që listat të kenë lloje të ngjashme për të shmangur
+  probleme në analizat e të dhënave.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shtimi dhe Heqja e Vlerave nga Listat}
+\protect\hypertarget{shtimi-dhe-heqja-e-vlerave-nga-listat}{}
+\begin{itemize}
+\tightlist
+\item
+  Le të kemi një listë me emrat e disa qyteteve kryesore në Shqipëri:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Heqja e Vlerave}
+\protect\hypertarget{heqja-e-vlerave}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të hequr vlerën e parë nga lista, përdorni del me indeksin e
+  duhur:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{del}\NormalTok{ qytete[}\DecValTok{0}\NormalTok{]  }\CommentTok{\# Heq "Tiranë"}
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen [\textquotesingle{}Durrës\textquotesingle{}, \textquotesingle{}Vlorë\textquotesingle{}, \textquotesingle{}Shkodër\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Heqja e Vlerave}
+\protect\hypertarget{heqja-e-vlerave-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Metoda \textbf{remove()} mund të përdoret për të hequr një element
+  specifik nga lista pa përdorur indeksin:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete.remove(}\StringTok{"Durrës"}\NormalTok{)  }\CommentTok{\# Heq "Durrës"}
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen [\textquotesingle{}Vlorë\textquotesingle{}, \textquotesingle{}Shkodër\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shtimi i Vlerave}
+\protect\hypertarget{shtimi-i-vlerave}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të shtuar vlera në fund të listës, përdorni append():
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete.append(}\StringTok{"Elbasan"}\NormalTok{)}
+\NormalTok{qytete.append(}\StringTok{"Korçë"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen [\textquotesingle{}Vlorë\textquotesingle{}, \textquotesingle{}Shkodër\textquotesingle{}, \textquotesingle{}Elbasan\textquotesingle{}, \textquotesingle{}Korçë\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kufizimet e Metodës append në Python}
+\protect\hypertarget{kufizimet-e-metoduxebs-append-nuxeb-python}{}
+\begin{itemize}
+\item
+  Metoda \texttt{append()} është projektuar për listat, duke shtuar
+  elementë në fund të një liste.
+\item
+  Nuk ka kuptim ta përdorim për lloje të tjera të dhënash si
+  \texttt{int}, sepse një numër i plotë nuk është një koleksion.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull me Indeksimin e Një Liste}
+\protect\hypertarget{shembull-me-indeksimin-e-njuxeb-liste}{}
+\begin{itemize}
+\tightlist
+\item
+  Le të kemi një listë me emrat e disa qyteteve shqiptare:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kur gjatësia e listës llogaritet, rezultati është
+një int:}
+\protect\hypertarget{kur-gjatuxebsia-e-listuxebs-llogaritet-rezultati-uxebshtuxeb-njuxeb-int}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_length }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(qytete)  }\CommentTok{\# Kthen 4}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Çfarë ndodh kur përdorim append me int?}
+\protect\hypertarget{uxe7faruxeb-ndodh-kur-puxebrdorim-append-me-int}{}
+\begin{itemize}
+\item
+  Duke qenë se int është një lloj i dhënash që përfaqëson vlera të
+  plota, nuk mund të shtojmë vlera në mënyrë sekuenciale si te një
+  listë.
+\item
+  Përpjekja për të përdorur \textbf{append()} me një int shkakton një
+  \textbf{AttributeError}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_length.append(}\DecValTok{1}\NormalTok{)  }\CommentTok{\# Kthen "AttributeError: \textquotesingle{}int\textquotesingle{} object has no attribute \textquotesingle{}append\textquotesingle{}"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje për Shtimin e Vlerave të Tipit int}
+\protect\hypertarget{zgjidhje-puxebr-shtimin-e-vlerave-tuxeb-tipit-int}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të rritur një int, përdorim operacionet aritmetike të zakonshme:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_length }\OperatorTok{+=} \DecValTok{1}  \CommentTok{\# Rrit vlerën me 1}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Numërimi i Një Vlere në Listë}
+\protect\hypertarget{numuxebrimi-i-njuxeb-vlere-nuxeb-listuxeb}{}
+\begin{itemize}
+\item
+  Përdorim metodën \texttt{count()} për të parë sa herë një vlerë
+  shfaqet në një listë.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  qytete }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Tiranë"}\NormalTok{]}
+\NormalTok{  qytete.count(}\StringTok{"Tiranë"}\NormalTok{)  }\CommentTok{\# Kthen 2}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Gjetja e Indeksit të Një Vlere}
+\protect\hypertarget{gjetja-e-indeksit-tuxeb-njuxeb-vlere}{}
+\begin{itemize}
+\item
+  Metoda \emph{index()} na lejon të gjejmë indeksin e parë ku shfaqet
+  një vlerë.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete.index(}\StringTok{"Vlorë"}\NormalTok{)  }\CommentTok{\# Kthen 2}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kthimi i Renditjes së Një Liste}
+\protect\hypertarget{kthimi-i-renditjes-suxeb-njuxeb-liste}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kthyer renditjen e listës, përdorim metodën \emph{reverse()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete.reverse()}
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen [\textquotesingle{}Shkodër\textquotesingle{}, \textquotesingle{}Vlorë\textquotesingle{}, \textquotesingle{}Durrës\textquotesingle{}, \textquotesingle{}Tiranë\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kthimi i Renditjes së Një Liste}
+\protect\hypertarget{kthimi-i-renditjes-suxeb-njuxeb-liste-1}{}
+Kujdes kur përdorni \emph{reverse()} dhe mos caktoni rezultatin në të
+njëjtën listë, pasi kjo do të shkaktojë një None:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete }\OperatorTok{=}\NormalTok{ qytete.reverse()  }\CommentTok{\# Gabim! Kthen None dhe fshin përmbajtjen e listës}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja e Një Liste Alfabetikisht}
+\protect\hypertarget{renditja-e-njuxeb-liste-alfabetikisht}{}
+\begin{itemize}
+\tightlist
+\item
+  Metoda \emph{sort()} mund të përdoret për të renditur listën në mënyrë
+  alfabetike:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete.sort()}
+\BuiltInTok{print}\NormalTok{(qytete)  }\CommentTok{\# Kthen [\textquotesingle{}Durrës\textquotesingle{}, \textquotesingle{}Shkodër\textquotesingle{}, \textquotesingle{}Tiranë\textquotesingle{}, \textquotesingle{}Vlorë\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja e Një Liste Alfabetikisht}
+\protect\hypertarget{renditja-e-njuxeb-liste-alfabetikisht-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të shmangur gabimet, mos caktoni rezultatin e \emph{sort()} në
+  listën e njëjtë, pasi kjo do të shkaktojë një None:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete }\OperatorTok{=}\NormalTok{ qytete.sort()  }\CommentTok{\# Gabim! Kthen None dhe fshin përmbajtjen e listës}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Definimi i Variablave me Tipa të Ndryshëm}
+\protect\hypertarget{definimi-i-variablave-me-tipa-tuxeb-ndryshuxebm}{}
+\begin{itemize}
+\tightlist
+\item
+  Në këtë shembull, kemi pesë variabla që përfaqësojnë të dhëna të
+  ndryshme për një qytet ose një stacion:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  station\_name }\OperatorTok{=} \StringTok{"Tiranë"}
+\NormalTok{  station\_id }\OperatorTok{=} \DecValTok{1001}
+\NormalTok{  station\_lat }\OperatorTok{=} \FloatTok{41.3275}
+\NormalTok{  station\_lon }\OperatorTok{=} \FloatTok{19.8189}
+\NormalTok{  station\_type }\OperatorTok{=} \StringTok{"Kryeqytet"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Llojeve të Të Dhënave}
+\protect\hypertarget{kontrollimi-i-llojeve-tuxeb-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\tightlist
+\item
+  Përdorim funksionin \emph{type()} për të kontrolluar llojin e një
+  variabli:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{type}\NormalTok{(station\_name)  }\CommentTok{\# Kthen "str"}
+\BuiltInTok{type}\NormalTok{(station\_id)  }\CommentTok{\# Kthen "int"}
+\BuiltInTok{type}\NormalTok{(station\_lat)  }\CommentTok{\# Kthen "float"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Gabime të Zakonshme me Llojet e Të Dhënave}
+\protect\hypertarget{gabime-tuxeb-zakonshme-me-llojet-e-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\tightlist
+\item
+  Nëse përpiqeni të bashkoni një varg me një numër të plotë, do të
+  shkaktoni një TypeError:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{station\_name }\OperatorTok{+}\NormalTok{ station\_id  }\CommentTok{\# Kthen "TypeError: can only concatenate str (not \textquotesingle{}int\textquotesingle{}) to str"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Konvertimi i Të Dhënave për Përputhshmëri}
+\protect\hypertarget{konvertimi-i-tuxeb-dhuxebnave-puxebr-puxebrputhshmuxebri}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kombinuar një varg me një numër të plotë, duhet të konvertojmë
+  numrin në një varg duke përdorur funksionin \textbf{str()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{station\_id\_str }\OperatorTok{=} \BuiltInTok{str}\NormalTok{(station\_id)}
+\NormalTok{station\_name }\OperatorTok{+}\NormalTok{ station\_id\_str  }\CommentTok{\# Kthen "Tiranë1001"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Konvertimi i Të Dhënave për Përputhshmëri}
+\protect\hypertarget{konvertimi-i-tuxeb-dhuxebnave-puxebr-puxebrputhshmuxebri-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Në mënyrë të ngjashme, mund të konvertojmë një varg ose një numër
+  dhjetor në një numër të plotë duke përdorur \emph{int()}, ose në një
+  numër dhjetor duke përdorur \emph{float()}: python
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{float}\NormalTok{(}\StringTok{"3.14"}\NormalTok{)  }\CommentTok{\# Kthen 3.14 (numër dhjetor)}
+\BuiltInTok{int}\NormalTok{(}\StringTok{"1001"}\NormalTok{)  }\CommentTok{\# Kthen 1001 (numër i plotë)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\hypertarget{manipulimi-i-tekstit}{%
+\section*{Manipulimi i tekstit}\label{manipulimi-i-tekstit}}
+\addcontentsline{toc}{section}{Manipulimi i tekstit}
+
+\begin{frame}[fragile]{Kombinimi i Tekstit dhe Numrave në Python}
+\protect\hypertarget{kombinimi-i-tekstit-dhe-numrave-nuxeb-python}{}
+\begin{itemize}
+\item
+  Një mënyrë e zakonshme për të kombinuar vargje dhe numra është
+  përdorimi i operatorit të shtimit \texttt{+}.
+\item
+  Në këtë shembull, ne kombinojmë një emër qyteti dhe një kod postar për
+  të krijuar një varg të ri:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  city\_name }\OperatorTok{=} \StringTok{"Tiranë"}
+\NormalTok{  postal\_code }\OperatorTok{=} \DecValTok{1001}
+\NormalTok{  city\_info }\OperatorTok{=}\NormalTok{ city\_name }\OperatorTok{+} \StringTok{" {-} "} \OperatorTok{+} \BuiltInTok{str}\NormalTok{(postal\_code)}
+\NormalTok{  city\_info  }\CommentTok{\# Kthen "Tiranë {-} 1001"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i F-Strings për Manipulimin e Tekstit}
+\protect\hypertarget{puxebrdorimi-i-f-strings-puxebr-manipulimin-e-tekstit}{}
+\begin{itemize}
+\item
+  Një metodë më e avancuar për të bashkuar vargjet dhe numrat është
+  përdorimi i f-strings.
+\item
+  F-strings lejojnë futjen e variablave brenda vargjeve në mënyrë
+  dinamike.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp }\OperatorTok{=} \FloatTok{18.56789876}
+\NormalTok{f\_string\_example }\OperatorTok{=} \SpecialStringTok{f"Temperatura në }\SpecialCharTok{\{}\NormalTok{city\_name}\SpecialCharTok{\}}\SpecialStringTok{ është }\SpecialCharTok{\{}\NormalTok{temp}\SpecialCharTok{:.2f\}}\SpecialStringTok{ gradë Celsius"}
+\NormalTok{f\_string\_example  }\CommentTok{\# Kthen "Temperatura në Tiranë është 18.57 gradë Celsius"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shpjegimi i F-Strings}
+\protect\hypertarget{shpjegimi-i-f-strings}{}
+\begin{itemize}
+\item
+  Përdorni shkronjën f para vargut për të krijuar një f-string.
+\item
+  Variablat mund të futen brenda vargut duke përdorur kllapat \{\}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shpjegimi i F-Strings}
+\protect\hypertarget{shpjegimi-i-f-strings-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Është gjithashtu e mundur të përdorni formatime për të rregulluar
+  precizionin e numrave:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f\_string\_example }\OperatorTok{=} \SpecialStringTok{f"Temperatura është }\SpecialCharTok{\{}\NormalTok{temp}\SpecialCharTok{:.2f\}}\SpecialStringTok{ gradë Celsius"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Teknikat e Tjera për Manipulimin e Tekstit}
+\protect\hypertarget{teknikat-e-tjera-puxebr-manipulimin-e-tekstit}{}
+\begin{itemize}
+\item
+  Përveç f-strings, ekzistojnë edhe metodat \textbf{.format()} dhe
+  \textbf{\%} për manipulimin e tekstit.
+\item
+  Megjithatë, f-strings janë metoda e rekomanduar për shkak të
+  thjeshtësisë dhe fleksibilitetit.
+\item
+  Shembull me \textbf{.format()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{format\_example }\OperatorTok{=} \StringTok{"Temperatura në }\SpecialCharTok{\{\}}\StringTok{ është }\SpecialCharTok{\{:.2f\}}\StringTok{ gradë"}\NormalTok{.}\BuiltInTok{format}\NormalTok{(city\_name, temp)}
+\NormalTok{format\_example  }\CommentTok{\# Kthen "Temperatura në Tiranë është 18.57 gradë"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull me \% (më pak i rekomanduar):}
+\protect\hypertarget{shembull-me-muxeb-pak-i-rekomanduar}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percent\_example }\OperatorTok{=} \StringTok{"Temperatura në }\SpecialCharTok{\%s}\StringTok{ është }\SpecialCharTok{\%.2f}\StringTok{ gradë"} \OperatorTok{\%}\NormalTok{ (city\_name, temp)}
+\NormalTok{percent\_example  }\CommentTok{\# Kthen "Temperatura në Tiranë është 18.57 gradë"}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ndarja e Një Vargu me .split()}
+\protect\hypertarget{ndarja-e-njuxeb-vargu-me-.split}{}
+\begin{itemize}
+\item
+  Metoda \texttt{.split()} lejon ndarjen e një vargu bazuar në një
+  karakter të caktuar.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  tekst }\OperatorTok{=} \StringTok{"Qytete: Tiranë, Durrës, Shkodër"}
+\NormalTok{  pjese\_te\_ndara }\OperatorTok{=}\NormalTok{ tekst.split(}\StringTok{":"}\NormalTok{)}
+\NormalTok{  pjese\_te\_ndara  }\CommentTok{\# Kthen [\textquotesingle{}Qytete\textquotesingle{}, \textquotesingle{} Tiranë, Durrës, Shkodër\textquotesingle{}]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zëvendësimi i Një Fjale me .replace()}
+\protect\hypertarget{zuxebvenduxebsimi-i-njuxeb-fjale-me-.replace}{}
+\begin{itemize}
+\item
+  Metoda \emph{.replace()} lejon zëvendësimin e një fjale ose grupi
+  karakteresh me një tjetër.
+\item
+  Shembull:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tekst\_ndryshuar }\OperatorTok{=}\NormalTok{ pjese\_te\_ndaura[}\DecValTok{1}\NormalTok{].replace(}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Elbasan"}\NormalTok{)}
+\NormalTok{tekst\_ndryshuar  }\CommentTok{\# Kthen \textquotesingle{} Elbasan, Durrës, Shkodër\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Prerja e Një Vargu për të Hequr Hapësirat e
+Panevojshme}
+\protect\hypertarget{prerja-e-njuxeb-vargu-puxebr-tuxeb-hequr-hapuxebsirat-e-panevojshme}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të prerë karakteret e panevojshme nga fillimi ose fundi i një
+  vargu, mund të përdorim metodën \emph{.strip()} ose të përdorim
+  prerjen:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tekst\_prere }\OperatorTok{=}\NormalTok{ pjese\_te\_ndaura[}\DecValTok{1}\NormalTok{][}\DecValTok{1}\NormalTok{:]  }\CommentTok{\# Hiq hapësirën në fillim}
+\NormalTok{tekst\_prere.strip()  }\CommentTok{\# Hiq hapësirat nga fillimi dhe fundi}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ndryshimi i Shkronjave me .upper() dhe .lower()}
+\protect\hypertarget{ndryshimi-i-shkronjave-me-.upper-dhe-.lower}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të ndryshuar të gjitha shkronjat në shkronja të mëdha, përdorni
+  metodën \textbf{.upper()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tekst\_prere.upper()  }\CommentTok{\# Kthen \textquotesingle{}ELBASAN, DURRËS, SHKODËR\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ndryshimi i Shkronjave me .upper() dhe .lower()}
+\protect\hypertarget{ndryshimi-i-shkronjave-me-.upper-dhe-.lower-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kthyer të gjitha shkronjat në të vogla, përdorni metodën
+  \textbf{.lower()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tekst\_prere.lower()  }\CommentTok{\# Kthen \textquotesingle{}elbasan, durrës, shkodër\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ndryshimi i Shkronjave}
+\protect\hypertarget{ndryshimi-i-shkronjave}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të kapitalizuar vetëm shkronjën e parë, përdorni metodën
+  \textbf{.capitalize()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tekst\_prere.capitalize()  }\CommentTok{\# Kthen \textquotesingle{}Elbasan, durrës, shkodër\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\hypertarget{ciklet-for}{%
+\section*{Ciklet ``For''}\label{ciklet-for}}
+\addcontentsline{toc}{section}{Ciklet ``For''}
+
+\begin{frame}{Ciklet ``For''}
+\protect\hypertarget{ciklet-for-1}{}
+\begin{itemize}
+\item
+  Ciklet ``for'' na lejojnë të përsërisim një bllok kodi disa herë, si
+  iterimi mbi një listë dhe kryerja e një veprimi për çdo element.
+\item
+  Ato janë të dobishme për të automatizuar veprimet që përsëriten, për
+  të shmangur gabimet dhe për të përmirësuar shkallëzueshmërinë e kodit.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull i keq}
+\protect\hypertarget{shembull-i-keq}{}
+Si shembull, le të përpiqemi të marrim qytetet shqiptare me indeksim
+manual:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_shqiptare }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\NormalTok{qytete\_shqiptare[}\DecValTok{0}\NormalTok{]  }\CommentTok{\# \textquotesingle{}Tiranë\textquotesingle{}}
+\NormalTok{qytete\_shqiptare[}\DecValTok{1}\NormalTok{]  }\CommentTok{\# \textquotesingle{}Durrës\textquotesingle{}}
+\NormalTok{qytete\_shqiptare[}\DecValTok{2}\NormalTok{]  }\CommentTok{\# \textquotesingle{}Shkodër\textquotesingle{}}
+\NormalTok{qytete\_shqiptare[}\DecValTok{3}\NormalTok{]  }\CommentTok{\# \textquotesingle{}Vlorë\textquotesingle{}}
+\NormalTok{qytete\_shqiptare[}\DecValTok{4}\NormalTok{]  }\CommentTok{\# Kjo do të shkaktojë IndexError}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shembulli i Keq}
+\protect\hypertarget{shembulli-i-keq}{}
+\begin{itemize}
+\item
+  Shembulli i përdorimit të indeksimit manual në listë
+\item
+  Mund të shkaktojë gabime IndexError dhe nuk është i shkallëzueshëm për
+  lista të gjata.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përdorimi i ciklit ``for'' për të iteruar mbi një listë}
+\protect\hypertarget{puxebrdorimi-i-ciklit-for-puxebr-tuxeb-iteruar-mbi-njuxeb-listuxeb}{}
+\begin{itemize}
+\item
+  Kjo metodë është më fleksibël dhe e shkallëzueshme.
+\item
+  Shembulli i përdorimit të ciklit ``for'' për të iteruar mbi listën e
+  qyteteve shqiptare
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i ciklit ``for'' për të iteruar mbi një
+listë}
+\protect\hypertarget{puxebrdorimi-i-ciklit-for-puxebr-tuxeb-iteruar-mbi-njuxeb-listuxeb-1}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qytete\_shqiptare }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\ControlFlowTok{for}\NormalTok{ qytet në qytete\_shqiptare:}
+    \BuiltInTok{print}\NormalTok{(qytet)}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
