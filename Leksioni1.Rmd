@@ -156,3 +156,60 @@ fig.path='Figs/')
   conda install mamba -n base -c conda-forge
 ```
 
+## Shkarkimi i Skedarit të Mjedisit Python
+
+  - Do përdorim skedarin **environment.yml** që përmban listën e librarive të nevojshme
+  
+  - Hapim Terminalin dhe shkoni te direktoria ku keni shkarkuar "environment.yml".
+
+## Mjedisi Python
+
+  - Krijojmë mjedisin Python duke ekzekutuar:
+
+```shell
+mamba env create -f environment.yml
+```
+## Mjedisi Python
+
+Për të aktivizuar mjedisin e ri:
+
+```shell
+conda activate pythongis
+```
+
+## Ekzekutimi i JupyterLab
+
+  - Për të filluar **JupyterLab**, ekzekutojmë komandën në **Terminal** ose **Command Prompt**:
+
+```shell
+jupyter lab
+```
+
+## Ekzekutimi i JupyterLab
+
+  - JupyterLab duhet të hapet automatikisht në një faqe browser
+  
+  
+## Instalimi i Librarive Shtesë
+
+Për të instaluar paketa të reja, përdorim komandën:
+
+```shell
+mamba install -c conda-forge package-name
+```
+
+## Instalimi i Librarive Shtesë
+
+  - Një shembull për instalimin e librarisë pandas nga kanali conda-forge:
+
+```shell
+mamba install -c conda-forge pandas
+```
+
+## Instalimi i Librarive Shtesë
+
+   - Në rast se shfaqet ndonjë gabim, kontrollojmë versionet dhe kanalet e librarive ekzistuese me komandën:
+
+```shell
+mamba list
+```

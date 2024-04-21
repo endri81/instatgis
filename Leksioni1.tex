@@ -362,4 +362,109 @@
 \end{Shaded}
 \end{frame}
 
+\begin{frame}{Shkarkimi i Skedarit të Mjedisit Python}
+\protect\hypertarget{shkarkimi-i-skedarit-tuxeb-mjedisit-python}{}
+\begin{itemize}
+\item
+  Do përdorim skedarin \textbf{environment.yml} që përmban listën e
+  librarive të nevojshme
+\item
+  Hapim Terminalin dhe shkoni te direktoria ku keni shkarkuar
+  ``environment.yml''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Mjedisi Python}
+\protect\hypertarget{mjedisi-python}{}
+\begin{itemize}
+\tightlist
+\item
+  Krijojmë mjedisin Python duke ekzekutuar:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mamba env create {-}f environment.yml}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Mjedisi Python}
+\protect\hypertarget{mjedisi-python-1}{}
+Për të aktivizuar mjedisin e ri:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conda activate pythongis}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ekzekutimi i JupyterLab}
+\protect\hypertarget{ekzekutimi-i-jupyterlab}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të filluar \textbf{JupyterLab}, ekzekutojmë komandën në
+  \textbf{Terminal} ose \textbf{Command Prompt}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{jupyter lab}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Ekzekutimi i JupyterLab}
+\protect\hypertarget{ekzekutimi-i-jupyterlab-1}{}
+\begin{itemize}
+\tightlist
+\item
+  JupyterLab duhet të hapet automatikisht në një faqe browser
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Instalimi i Librarive Shtesë}
+\protect\hypertarget{instalimi-i-librarive-shtesuxeb}{}
+Për të instaluar paketa të reja, përdorim komandën:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mamba install {-}c conda{-}forge package{-}name}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Instalimi i Librarive Shtesë}
+\protect\hypertarget{instalimi-i-librarive-shtesuxeb-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Një shembull për instalimin e librarisë pandas nga kanali conda-forge:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mamba install {-}c conda{-}forge pandas}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Instalimi i Librarive Shtesë}
+\protect\hypertarget{instalimi-i-librarive-shtesuxeb-2}{}
+\begin{itemize}
+\tightlist
+\item
+  Në rast se shfaqet ndonjë gabim, kontrollojmë versionet dhe kanalet e
+  librarive ekzistuese me komandën:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mamba list}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
 \end{document}
