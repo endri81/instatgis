@@ -1,0 +1,39 @@
+---
+title: "Leksioni 2"
+author: "Endri Raco"
+output:
+  beamer_presentation:
+    includes:
+      in_header: mystyle.tex
+      fig_width: 7
+    fig_height: 6
+    number_sections: false
+    keep_tex: yes
+    theme: Madrid
+    toc: yes
+    highlight: tango
+date: "`r format(Sys.Date(), '%d %B, %Y')`"  
+---
+
+```{r setup, include=FALSE}
+    library(knitr)
+    library(tidyverse)
+knitr::opts_chunk$set(
+comment=NA,
+error=T, 
+warning=T,
+tidy=TRUE, 
+fig.align = 'center',
+message=F, 
+warning=F,
+tidy.opts=list(width.cutoff=60),
+fig.width=4, 
+fig.height=4, 
+fig.path='Figs/')
+```
+
+# Hyrje {.unnumbered}
+
+## Organizimi i kursit - Python
+
+-   Instalimi i Python

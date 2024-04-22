@@ -156,7 +156,7 @@
 
 \title{Leksioni 1}
 \author{Endri Raco}
-\date{21 April, 2024}
+\date{22 April, 2024}
 
 \begin{document}
 \frame{\titlepage}
@@ -2046,6 +2046,419 @@ listë}
     \BuiltInTok{print}\NormalTok{(qytet)}
 \end{Highlighting}
 \end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Formati i For Loop në Python}
+\protect\hypertarget{formati-i-for-loop-nuxeb-python}{}
+\begin{itemize}
+\tightlist
+\item
+  Struktura e përgjithshme e një ``for loop'' në Python është si më
+  poshtë:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ variabli në koleksion:}
+\NormalTok{    bëj diçka me variablin}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Aspektet Kyçe}
+\protect\hypertarget{aspektet-kyuxe7e}{}
+\begin{itemize}
+\item
+  Variabli:
+
+  Mund të jetë çfarëdo emër që dëshirojmë.
+\end{itemize}
+
+Përdoret për të ruajtur vlerën aktuale nga koleksioni gjatë çdo iterimi.
+\end{frame}
+
+\begin{frame}{Përfundimi i Deklaratës For:}
+\protect\hypertarget{puxebrfundimi-i-deklaratuxebs-for}{}
+\begin{itemize}
+\item
+  Duhet të mbarojë me një ``:''.
+\item
+  Ky simbol tregon që pjesa e kodit që pason është pjesë e ``loop''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Indentimi}
+\protect\hypertarget{indentimi}{}
+\begin{itemize}
+\item
+  Kodi që duhet të ekzekutohet si pjesë e ``for loop'' duhet të jetë i
+  vendosur me 4 hapësira nën deklaratën ``for''.
+\item
+  Ky indentim përcakton që ky kod është pjesë e ``loop''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përfundimi i For Loop}
+\protect\hypertarget{puxebrfundimi-i-for-loop}{}
+\begin{itemize}
+\item
+  Nuk ka ndonjë fjalë speciale për të përfunduar ``loop''.
+\item
+  Mjafton të kthehesh tek indentimi normal për të treguar që ``loop'' ka
+  përfunduar.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull 1: Iterimi përmes një liste}
+\protect\hypertarget{shembull-1-iterimi-puxebrmes-njuxeb-liste}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fruta }\OperatorTok{=}\NormalTok{ [}\StringTok{"mollë"}\NormalTok{, }\StringTok{"banane"}\NormalTok{, }\StringTok{"portokall"}\NormalTok{]}
+\ControlFlowTok{for}\NormalTok{ frutë në fruta:}
+    \BuiltInTok{print}\NormalTok{(frutë)}
+\end{Highlighting}
+\end{Shaded}
+
+Ky ``loop'' iteron përmes një liste frutash dhe printon secilën.
+\end{frame}
+
+\begin{frame}[fragile]{Shembull 2: Përdorimi i range() për të
+përsëritur}
+\protect\hypertarget{shembull-2-puxebrdorimi-i-range-puxebr-tuxeb-puxebrsuxebritur}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{për numër në }\BuiltInTok{range}\NormalTok{(}\DecValTok{5}\NormalTok{):}
+    \BuiltInTok{print}\NormalTok{(numër)}
+\end{Highlighting}
+\end{Shaded}
+
+Ky ``loop'' iteron nga 0 në 4, duke printuar secilin numër.
+\end{frame}
+
+\begin{frame}{Variabli For Loop në Python}
+\protect\hypertarget{variabli-for-loop-nuxeb-python}{}
+\begin{itemize}
+\item
+  Në Python, variabli që përdoret në një ``for loop'' është një variabël
+  i zakonshëm.
+\item
+  Ai vazhdon të ekzistojë edhe pasi ``loop'' përfundon, duke marrë
+  vlerën e fundit nga koleksioni i iteruar.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull}
+\protect\hypertarget{shembull-2}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kushte\_moti }\OperatorTok{=}\NormalTok{ [}
+    \StringTok{"shi"}\NormalTok{,}
+    \StringTok{"dëborë"}\NormalTok{,}
+    \StringTok{"mjegull"}\NormalTok{,}
+    \StringTok{"diell"}\NormalTok{,}
+    \StringTok{"re"}\NormalTok{,}
+    \StringTok{"breshër"}\NormalTok{,}
+\NormalTok{]}
+
+\NormalTok{për mot në kushte\_moti:}
+    \BuiltInTok{print}\NormalTok{(mot)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shembull}
+\protect\hypertarget{shembull-3}{}
+\begin{itemize}
+\item
+  Ky ``for loop'' iteron mbi një listë të kushteve të motit dhe printon
+  secilën.
+\item
+  Vlera e fundit që merr \textbf{moti} pas përfundimit të ``loop'' është
+  ``breshër''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollimi i Vlerës së Variablit pas Loop}
+\protect\hypertarget{kontrollimi-i-vleruxebs-suxeb-variablit-pas-loop}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Pas loop{-}it, moti është"}\NormalTok{, mot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  Ky kod tregon se çfarë vlerë ka variabli pas përfundimit të ``loop''.
+\item
+  Në këtë rast, pasi ``loop'' ka përfunduar, vlera e variablit mot është
+  ``breshër''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{For Loops Duke Përdorur Funksionin range() në Python}
+\protect\hypertarget{for-loops-duke-puxebrdorur-funksionin-range-nuxeb-python}{}
+\begin{itemize}
+\item
+  For loops në Python mund të përdoren për të iteruar mbi çdo listë
+  vlerash.
+\item
+  Funksioni \textbf{range()} krijon një seri numrash për të përcaktuar
+  sa herë duhet të përsëritet një ``for loop''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sintaksa e range()}
+\protect\hypertarget{sintaksa-e-range}{}
+Sintaksa bazë për \textbf{range()} është:
+
+\begin{itemize}
+\item
+  \textbf{range(stop):} Krijon një listë nga 0 deri në numrin ``stop -
+  1''.
+\item
+  \textbf{range(start, stop, step):} Krijon një listë nga ``start'' deri
+  në ``stop - 1'' me hapin e përcaktuar nga ``step''.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: For Loop me range(5)}
+\protect\hypertarget{shembull-for-loop-me-range5}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{për vlerë në }\BuiltInTok{range}\NormalTok{(}\DecValTok{5}\NormalTok{):}
+    \BuiltInTok{print}\NormalTok{(vlerë)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  Ky ``for loop'' iteron 5 herë, duke printuar numrat nga 0 deri në 4.
+\item
+  Funksioni \textbf{range(5)} krijon një seri numrash nga 0 deri në 4.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Përdorimi i range() me Argumente të Përshtatura}
+\protect\hypertarget{puxebrdorimi-i-range-me-argumente-tuxeb-puxebrshtatura}{}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{range(start, stop, step)} lejon krijimin e serive të numrave
+  me korniza dhe hapa të ndryshme.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{për vlerë në }\BuiltInTok{range}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{2}\NormalTok{):}
+    \BuiltInTok{print}\NormalTok{(vlerë)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Ky ``for loop'' iteron nga 1 deri në 9 me hap 2, duke printuar: 1, 3,
+  5, 7, 9.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Looping Mbi Listat Duke Përdorur Vlerat e Indeksit në
+Python}
+\protect\hypertarget{looping-mbi-listat-duke-puxebrdorur-vlerat-e-indeksit-nuxeb-python}{}
+\begin{itemize}
+\item
+  Përdorimi i funksionit \textbf{len()} për të marrë gjatësinë e një
+  liste lejon ``for loops'' më fleksibël.
+\item
+  Duke përdorur funksionin \textbf{range()}, mund të iteroni mbi
+  indeksat e një liste për të modifikuar vlerat e saj.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Loop mbi Indeksat}
+\protect\hypertarget{shembull-loop-mbi-indeksat}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{numra }\OperatorTok{=}\NormalTok{ [}\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{]}
+\NormalTok{për i në }\BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(numra)):}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Vlera e i:"}\NormalTok{, i)}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Vlera e numra[i] para shtimit:"}\NormalTok{, numra[i])}
+\NormalTok{    numra[i] }\OperatorTok{=}\NormalTok{ numra[i] }\OperatorTok{+}\NormalTok{ i}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Vlera e numra[i] pas shtimit:"}\NormalTok{, numra[i])}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shembull: Loop mbi Indeksat}
+\protect\hypertarget{shembull-loop-mbi-indeksat-1}{}
+\begin{itemize}
+\item
+  Ky ``for loop'' iteron mbi indeksat e listës numra.
+\item
+  Shton vlerën e variablit i në secilin element të listës.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Rezultatet}
+\protect\hypertarget{rezultatet}{}
+\begin{itemize}
+\item
+  Në iterimin e parë, i është 0, dhe lista mbetet e pandryshuar: {[}5,
+  6, 7, 8{]}.
+\item
+  Në iterimin e dytë, i është 1, dhe numra{[}1{]} bëhet 7.
+\item
+  Në iterimin e tretë, i është 2, dhe numra{[}2{]} bëhet 9.
+\item
+  Në iterimin e katërt, i është 3, dhe numra{[}3{]} bëhet 11.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Shohim se:}
+\protect\hypertarget{shohim-se}{}
+Indeksi në rritje:
+
+\begin{itemize}
+\tightlist
+\item
+  Pasi përdorim funksionin \textbf{range()}, vlera e variablit i fillon
+  nga 0 dhe rritet me 1 në çdo iterim.
+\end{itemize}
+
+Modifikimi i Listës:
+
+\begin{itemize}
+\item
+  Vlera e re që ndryshohet në listë për çdo iterim është vlera në
+  indeksin i.
+\item
+  Ky ndryshim ndodh sepse po vendosim një vlerë të re në numra{[}i{]}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Shohim se:}
+\protect\hypertarget{shohim-se-1}{}
+Vlera e ``vjetër'' e Indeksit:
+
+\begin{itemize}
+\tightlist
+\item
+  Vlera e ``vjetër'' në të djathtë të ekuacionit është e shtuar me i,
+  pastaj ruhet si vlera e re në numra{[}i{]}.
+\end{itemize}
+
+Emërtimi i Variablit i
+
+\begin{itemize}
+\item
+  Variabli i përdoret zakonisht për të treguar variablin e indeksit në
+  loops.
+\item
+  Në loops të ngulitur (nested loops), mund të përdoren variabla të
+  tjerë si j ose k.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pse të Përdorësh Vlerën e Indeksit për të Iteruar mbi një
+Listë në Python?}
+\protect\hypertarget{pse-tuxeb-puxebrdoruxebsh-vleruxebn-e-indeksit-puxebr-tuxeb-iteruar-mbi-njuxeb-listuxeb-nuxeb-python}{}
+\begin{itemize}
+\item
+  Përdorimi i indeksit për të iteruar mbi një listë lejon modifikimin e
+  vlerave individuale të listës.
+\item
+  Indekset janë gjithashtu të dobishme kur iteroni mbi disa lista të
+  lidhura me njëra-tjetrën.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Përdorimi i Indeksit për të Modifikuar
+Vlerat}
+\protect\hypertarget{shembull-puxebrdorimi-i-indeksit-puxebr-tuxeb-modifikuar-vlerat}{}
+\begin{itemize}
+\tightlist
+\item
+  Për të modifikuar vlerat e një liste, shpeshherë duhet të përdorni
+  indeksin:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lista me pikët e studentëve}
+\NormalTok{piket }\OperatorTok{=}\NormalTok{ [}\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{]}
+
+\CommentTok{\# Rritja e çdo pike me 5}
+\NormalTok{për i në }\BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(piket)):}
+\NormalTok{    piket[i] }\OperatorTok{=}\NormalTok{ piket[i] }\OperatorTok{+} \DecValTok{5}
+
+\CommentTok{\# Pikët pas përditësimit}
+\BuiltInTok{print}\NormalTok{(piket)  }\CommentTok{\# Output: [15, 20, 25, 30]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shembull: Iterimi mbi Lista të Lidhura}
+\protect\hypertarget{shembull-iterimi-mbi-lista-tuxeb-lidhura}{}
+\begin{itemize}
+\tightlist
+\item
+  Kur keni disa lista të lidhura, përdorimi i indeksit ju lejon të
+  qaseni në vendet përkatëse në secilën listë:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lista me emra qytetesh dhe temperaturat përkatëse}
+\NormalTok{qytetet }\OperatorTok{=}\NormalTok{ [}\StringTok{"Tiranë"}\NormalTok{, }\StringTok{"Durrës"}\NormalTok{, }\StringTok{"Shkodër"}\NormalTok{, }\StringTok{"Vlorë"}\NormalTok{]}
+\NormalTok{temperaturat }\OperatorTok{=}\NormalTok{ [}\DecValTok{30}\NormalTok{, }\DecValTok{28}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{27}\NormalTok{]}
+
+\CommentTok{\# Printimi i qyteteve me temperaturat përkatëse}
+\NormalTok{për i në }\BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(qytetet)):}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Temperatura në"}\NormalTok{, qytetet[i], }\StringTok{"është"}\NormalTok{, temperaturat[i], }\StringTok{"gradë"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Iterimi mbi Lista me Indeks}
+\protect\hypertarget{iterimi-mbi-lista-me-indeks}{}
+\begin{itemize}
+\tightlist
+\item
+  Përdorimi i indeksit për të kryer operacione të caktuara në çdo
+  element të listës:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lista me çmimet e produkteve në treg}
+\NormalTok{cmimet }\OperatorTok{=}\NormalTok{ [}\DecValTok{100}\NormalTok{, }\DecValTok{200}\NormalTok{, }\DecValTok{300}\NormalTok{, }\DecValTok{400}\NormalTok{]}
+
+\CommentTok{\# Ulja e çmimit me 10\% për çdo produkt}
+\NormalTok{për i në }\BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(cmimet)):}
+\NormalTok{    cmimet[i] }\OperatorTok{=}\NormalTok{ cmimet[i] }\OperatorTok{*} \FloatTok{0.9}
+
+\CommentTok{\# Çmimet pas uljes}
+\BuiltInTok{print}\NormalTok{(cmimet)  }\CommentTok{\# Output: [90, 180, 270, 360]}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Përfitimet e Përdorimit të Indeksit}
+\protect\hypertarget{puxebrfitimet-e-puxebrdorimit-tuxeb-indeksit}{}
+\begin{itemize}
+\item
+  Fleksibiliteti: Indeksi ju lejon të qaseni dhe modifikoni vlerat e
+  caktuara në listë.
+\item
+  Lidhjet ndërmjet Listave: Kur keni lista të shumëfishta me të njëjtën
+  gjatësi, indeksat ju lejojnë të iteroni mbi to në mënyrë të
+  sinkronizuar.
+\item
+  Përdorimi i të Gjitha Listave: Në shembullin e mësipërm, mund të
+  përdorni ose gjatësinë e listës qytetet ose vendet për të përcaktuar
+  kufijtë e ``for loop'', duke marrë të njëjtin rezultat.
+\end{itemize}
 \end{frame}
 
 \end{document}

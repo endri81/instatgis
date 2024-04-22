@@ -32,247 +32,236 @@ fig.height=4,
 fig.path='Figs/')
 ```
 
-# Hyrje {-}
+# Hyrje {.unnumbered}
 
 ## Organizimi i kursit - Python
 
-  - Instalimi i Python
-  
-  - Konceptet bazë të programimit në Python
-  
-  - Analizimi i të dhënave me Python
-  
-  - Vizualizimi i të dhënave në Python
-  
-  
+-   Instalimi i Python
+
+-   Konceptet bazë të programimit në Python
+
+-   Analizimi i të dhënave me Python
+
+-   Vizualizimi i të dhënave në Python
+
 ## Organizimi i kursit - Python dhe GIS
 
-  - Procesimi i të dhënave vektor
-  
-  - Procesimi i të dhënave raster
-  
-  - Vizualizimi i të dhënave gjeografike
-  
-  - Lidhja me burimet gjeografike online
-  
-  
+-   Procesimi i të dhënave vektor
+
+-   Procesimi i të dhënave raster
+
+-   Vizualizimi i të dhënave gjeografike
+
+-   Lidhja me burimet gjeografike online
+
 ## Organizimi i kursit - Python dhe GIS
 
-  - Interpolimi hapësinor
-  
-  - Analiza e rrjetit hapësinor
-  
-  - Analiza e terrenit
-  
-  
-# Instalimi {-}
+-   Interpolimi hapësinor
+
+-   Analiza e rrjetit hapësinor
+
+-   Analiza e terrenit
+
+# Instalimi {.unnumbered}
 
 ## Instalimi i Python-it
 
-  - Python dhe libraritë e tij mund të instalohen lehtësisht duke përdorur paketa të ndryshme.
+-   Python dhe libraritë e tij mund të instalohen lehtësisht duke përdorur paketa të ndryshme.
 
-  - Për të instaluar Python-in, **Miniconda** është një zgjedhje e mirë sepse ofron një mjedis të qëndrueshëm dhe mënjanon konfliktin e librarive.
+-   Për të instaluar Python-in, **Miniconda** është një zgjedhje e mirë sepse ofron një mjedis të qëndrueshëm dhe mënjanon konfliktin e librarive.
 
 
 ## Menaxhimi i Varësive midis librarive (dependency)
 
-  - Python ka një numër të madh librarish të disponueshme që mund të kenë varësi të ndërsjella.
-  
-  - Është e rëndësishme që libraritë dhe versionet e tyre të punojnë mirë së bashku.
+-   Python ka një numër të madh librarish të disponueshme që mund të kenë varësi të ndërsjella.
 
-  - Menaxhimi i librarive (package managers)
+-   Është e rëndësishme që libraritë dhe versionet e tyre të punojnë mirë së bashku.
+
+-   Menaxhimi i librarive (package managers)
 
 ## Pluset e përdorimit të Miniconda
 
-   - Miniconda përfshin një menaxher librarish që lehtëson instalimin dhe përditësimin.
+-   Miniconda përfshin një menaxher librarish që lehtëson instalimin dhe përditësimin.
 
-  - Ka support shumë të mirë
-  
-   - Falas
+-   Ka support shumë të mirë
 
-  - Ofron ndërfaqe grafike për lehtësi përdorimi
-  
+-   Falas
+
+-   Ofron ndërfaqe grafike për lehtësi përdorimi
 
 ## Mjediset Virtuale (Virtual environments)
 
-  - Mjediset virtuale krijojnë një hapësirë të izoluar për projektet tona Python.
-  
-  - Krijimi i mjediseve virtuale ndihmon për të shmangur konfliktet midis librarive dhe instalimeve të ndryshme.
+-   Mjediset virtuale krijojnë një hapësirë të izoluar për projektet tona Python.
 
-  - Mund të krijojmë mjedise të shumta dhe të kalojmë lehtësisht mes tyre.
+-   Krijimi i mjediseve virtuale ndihmon për të shmangur konfliktet midis librarive dhe instalimeve të ndryshme.
+
+-   Mund të krijojmë mjedise të shumta dhe të kalojmë lehtësisht mes tyre.
 
 ## Konfigurimi dhe Dokumentimi i Mjediseve
 
-  - Përdorim skedarët **YAML** për të dokumentuar konfigurimet e mjediseve që krijojmë.
-  
-  - Në skedarët YAML, mund të përcaktojmë specifikat e mjedisit, përfshirë versionin e Python-it dhe libraritë që do përdorim.
-  
-  
-## Konfigurimi dhe Dokumentimi i Mjediseve  
-  
-  - Formati tipik për mjediset Conda/Mamba është **environment.yaml**
-  
-[](./Figs/enviroment.png)  
+-   Përdorim skedarët **YAML** për të dokumentuar konfigurimet e mjediseve që krijojmë.
+
+-   Në skedarët YAML, mund të përcaktojmë specifikat e mjedisit, përfshirë versionin e Python-it dhe libraritë që do përdorim.
+
+## Konfigurimi dhe Dokumentimi i Mjediseve
+
+-   Formati tipik për mjediset Conda/Mamba është **environment.yaml**
+
+[ ](./Figs/enviroment.png)
 
 ## Praktika të Mira
 
-  - Është një praktikë e mirë të instalojmë të gjitha libraritë (kur është e mundur) nga i njëjti kanal Conda, si p.sh., **conda-forge**, dhe të     mos përziejmë **Conda** dhe **Pip** për instalime nëse nuk është e domosdoshme.
+-   Është një praktikë e mirë të instalojmë të gjitha libraritë (kur është e mundur) nga i njëjti kanal Conda, si p.sh., **conda-forge**, dhe të mos përziejmë **Conda** dhe **Pip** për instalime nëse nuk është e domosdoshme.
 
 ## Çfarë është një Kanal Conda
 
-  - Një kanal Conda është një vendndodhje/server me një adresë të dedikuar në internet, ku ruhen libraritë.
+-   Një kanal Conda është një vendndodhje/server me një adresë të dedikuar në internet, ku ruhen libraritë.
 
-  - Kanali shërben si bazë për strehimin(repository) e librarive, dhe menaxherët e paketave (si Conda/Mamba) kërkojnë dhe shkarkojnë libraritë nga këto kanale.
-  
-  
-##  Instalimi i Python dhe i librarive të rekomanduara
+-   Kanali shërben si bazë për strehimin(repository) e librarive, dhe menaxherët e paketave (si Conda/Mamba) kërkojnë dhe shkarkojnë libraritë nga këto kanale.
+
+## Instalimi i Python dhe i librarive të rekomanduara
 
 **Windows:**
 
-  - Shkarkojmë versionin Miniconda të bazuar në Python 3 që është i përshtatshëm për sistemin operativ ku do punojmë.
+-   Shkarkojmë versionin Miniconda të bazuar në Python 3 që është i përshtatshëm për sistemin operativ ku do punojmë.
 
-[https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links](https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links)
+<https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links>
 
-  
-  - Ndjekim udhëzimet e instalimit nga faqja e Miniconda.
-
+-   Ndjekim udhëzimet e instalimit nga faqja e Miniconda.
 
 ## Kontrolli i instalimit
 
-  - Hapim **Terminalin** ose **Anaconda Prompt**
-  
-  
+-   Hapim **Terminalin** ose **Anaconda Prompt**
+
 ![](./Figs/anac_prompt.png)
 
 ## Kontrolli i instalimit
 
-  - Për të siguruar që conda është instaluar siç duhet, ekzekutojmë komandën:
-  
-  
+-   Për të siguruar që conda është instaluar siç duhet, ekzekutojmë komandën:
+
 ![](./Figs/conda_ver.png)
 
 ## Instalimi i Mamba
 
-  - Mamba është një menaxher librarish për Miniconda.
+-   Mamba është një menaxher librarish për Miniconda.
 
-  - Për të instaluar **mamba**, hapim **Terminalin** ose **Command Prompt** në Windows si administrator.
+-   Për të instaluar **mamba**, hapim **Terminalin** ose **Command Prompt** në Windows si administrator.
 
-  - Ekzekutojmë komandën:
-  
-```shell
+-   Ekzekutojmë komandën:
+
+``` shell
   conda install mamba -n base -c conda-forge
 ```
 
 ## Shkarkimi i Skedarit të Mjedisit Python
 
-  - Do përdorim skedarin **environment.yml** që përmban listën e librarive të nevojshme
-  
-  - Hapim Terminalin dhe shkoni te direktoria ku keni shkarkuar [environment.yml](https://github.com/endri81/instatgis/blob/master/environment.yml)
+-   Do përdorim skedarin **environment.yml** që përmban listën e librarive të nevojshme
+
+-   Hapim Terminalin dhe shkoni te direktoria ku keni shkarkuar [environment.yml](https://github.com/endri81/instatgis/blob/master/environment.yml)
 
 ## Mjedisi Python
 
-  - Krijojmë mjedisin Python duke ekzekutuar:
+-   Krijojmë mjedisin Python duke ekzekutuar:
 
-```shell
+``` shell
 mamba env create -f environment.yml
 ```
+
 ## Mjedisi Python
 
 Për të aktivizuar mjedisin e ri:
 
-```shell
+``` shell
 conda activate pythongis
 ```
 
 ## Ekzekutimi i JupyterLab
 
-  - Për të filluar **JupyterLab**, ekzekutojmë komandën në **Terminal** ose **Command Prompt**:
+-   Për të filluar **JupyterLab**, ekzekutojmë komandën në **Terminal** ose **Command Prompt**:
 
-```shell
+``` shell
 jupyter lab
 ```
 
 ## Ekzekutimi i JupyterLab
 
-  - JupyterLab duhet të hapet automatikisht në një faqe browser
-  
-  
+-   JupyterLab duhet të hapet automatikisht në një faqe browser
+
 ## Instalimi i Librarive Shtesë
 
 Për të instaluar paketa të reja, përdorim komandën:
 
-```shell
+``` shell
 mamba install -c conda-forge package-name
 ```
 
 ## Instalimi i Librarive Shtesë
 
-  - Një shembull për instalimin e librarisë pandas nga kanali conda-forge:
+-   Një shembull për instalimin e librarisë pandas nga kanali conda-forge:
 
-```shell
+``` shell
 mamba install -c conda-forge pandas
 ```
 
 ## Instalimi i Librarive Shtesë
 
-   - Në rast se shfaqet ndonjë gabim, kontrollojmë versionet dhe kanalet e librarive ekzistuese me komandën:
+-   Në rast se shfaqet ndonjë gabim, kontrollojmë versionet dhe kanalet e librarive ekzistuese me komandën:
 
-```shell
+``` shell
 mamba list
 ```
 
 ## Çfarë është JupyterLab?
 
-  - JupyterLab është një mjet programimi i bazuar në shfletues (browser) për programim dhe data science.
+-   JupyterLab është një mjet programimi i bazuar në shfletues (browser) për programim dhe data science.
 
-  - Ofron një mjedis të integruar që përfshin interpretues Python, redaktor teksti, terminal, dhe shumë më tepër.
+-   Ofron një mjedis të integruar që përfshin interpretues Python, redaktor teksti, terminal, dhe shumë më tepër.
 
 ## Përbërësit Kryesorë të JupyterLab
 
-- **File Browser (Paneli i Navigimit)**:
+-   **File Browser (Paneli i Navigimit)**:
+
+![](./Figs/jupyter1.png) \## Përbërësit Kryesorë të JupyterLab
+
+-   I vendosur në anën e majtë të ndërfaqes.
+
+-   Përdoret për të naviguar në sistemin e skedarëve, për të krijuar skedarë të rinj ose dosje (folder).
+
+-   Mund të hapim një skedar duke double-klikuar mbi të.
+
+-   Për opsione të tjera, siç janë riemërtimi, kopjimi, ose fshirja e skedarëve, klikojmë me butonin e djathtë.
+
+## Përbërësit Kryesorë të JupyterLab
 
 ![](./Figs/jupyter1.png)
-## Përbërësit Kryesorë të JupyterLab
-
-  - I vendosur në anën e majtë të ndërfaqes.
-  
-  - Përdoret për të naviguar në sistemin e skedarëve, për të krijuar skedarë të rinj ose dosje (folder).
-  
-  - Mund të hapim një skedar duke double-klikuar mbi të.
-  
-  - Për opsione të tjera, siç janë riemërtimi, kopjimi, ose fshirja e skedarëve, klikojmë me butonin e djathtë.
 
 ## Përbërësit Kryesorë të JupyterLab
 
-![](./Figs/jupyter1.png)
+-   **Launcher Panel (Paneli i Nisjes)**:
 
-## Përbërësit Kryesorë të JupyterLab
+    -   I vendosur në të djathtë të ndërfaqes.
 
-- **Launcher Panel (Paneli i Nisjes)**:
+    -   Përdoret për të krijuar elemente të rinj, si Jupyter Notebooks, skedarë të rinj teksti, ose terminale të reja.
 
-  - I vendosur në të djathtë të ndërfaqes.
-
-  - Përdoret për të krijuar elemente të rinj, si Jupyter Notebooks, skedarë të rinj teksti, ose terminale të reja.
-
-  - Mund të krijojmë dokumente të reja ose sesione të reja për programim nga ky panel.
+    -   Mund të krijojmë dokumente të reja ose sesione të reja për programim nga ky panel.
 
 ## Përbërësit Kryesorë të JupyterLab
 
 ![](./Figs/jupyter2.png)
 
-# Programimi bazik në Python {-}
+# Programimi bazik në Python {.unnumbered}
 
-# Matematika e Thjeshtë në Python {-}
-
-## Veprimet Bazë Matematike
-
-  - Python mund të përdoret për të kryer operacione të thjeshta matematikore.
-
-  - Shembuj: `1 + 1`, `5 * 7`, `10 / 2`, `2 ** 3`.
+# Matematika e Thjeshtë në Python {.unnumbered}
 
 ## Veprimet Bazë Matematike
 
-  - Në Jupyter Notebook, shtypim **Shift-Enter** për të ekzekutuar kodin.
+-   Python mund të përdoret për të kryer operacione të thjeshta matematikore.
+
+-   Shembuj: `1 + 1`, `5 * 7`, `10 / 2`, `2 ** 3`.
+
+## Veprimet Bazë Matematike
+
+-   Në Jupyter Notebook, shtypim **Shift-Enter** për të ekzekutuar kodin.
 
 ![](./Figs/math1.png)
 
@@ -282,27 +271,27 @@ mamba list
 
 ## Çfarë është Një Funksion?
 
-  - Funksionet janë pjesë të kodit që kryejnë një veprim të vetëm, si p.sh., printimi i informacionit në ekran.
+-   Funksionet janë pjesë të kodit që kryejnë një veprim të vetëm, si p.sh., printimi i informacionit në ekran.
 
-  - Python ka një shumëllojshmëri të madhe funksionesh për operacione të ndryshme.
+-   Python ka një shumëllojshmëri të madhe funksionesh për operacione të ndryshme.
 
 ## Shembuj të Funksioneve Bazë
 
-  - Funksioni **print()** përdoret për të shfaqur tekst në ekran.
+-   Funksioni **print()** përdoret për të shfaqur tekst në ekran.
 
-  - Funksioni **len()** kthen gjatësinë e një liste ose vargu.
+-   Funksioni **len()** kthen gjatësinë e një liste ose vargu.
 
-  - Funksioni **sum()** llogarit shumën e elementeve në një listë.
+-   Funksioni **sum()** llogarit shumën e elementeve në një listë.
 
 ## Më shumë Veprime
 
-  - Për të bërë veprime më komplekse, përdorim module të tilla si `math`.
-  
-  - Importojmë modulin `math` për të përdorur funksione si `math.sin()`, `math.sqrt()`, etj.
+-   Për të bërë veprime më komplekse, përdorim module të tilla si `math`.
 
-## Shembull 
-  
-```python
+-   Importojmë modulin `math` për të përdorur funksione si `math.sin()`, `math.sqrt()`, etj.
+
+## Shembull
+
+``` python
   import math
   math.sin(3)
   math.sqrt(4)
@@ -316,150 +305,143 @@ mamba list
 
 Ja përmbledhja e asaj që pamë:
 
-  - Çfarë Është Një Modul?
+-   Çfarë Është Një Modul?
 
-    - Një modul është një grup pjesësh kodi, si p.sh funksione, që janë të lidhura me njëri-tjetrin.
+    -   Një modul është një grup pjesësh kodi, si p.sh funksione, që janë të lidhura me njëri-tjetrin.
 
-    - Modulet individuale shpesh përfshihen në një grup të quajtur bibliotekë.
-
-## Përmbledhje
-
-  - Si Të Ngarkoni Një Modul?
-
-    - Për të ngarkuar një modul, përdorni deklaratën **import**.
-    
-    - Funksionet që janë pjesë e një moduli mund të përdoren duke shkruar **modulename.functionname()**
-    
-    - Për shembull, **sin()** është një funksion i modulit **math**, dhe përdoret duke shkruar **math.sin()** me një numër brenda kllapave.
+    -   Modulet individuale shpesh përfshihen në një grup të quajtur bibliotekë.
 
 ## Përmbledhje
 
-  - Përdorimi i Moduleve në Jupyter Notebook
+-   Si Të Ngarkoni Një Modul?
 
-    - Në Jupyter Notebook, variablat që përcaktohen në qelizat e mëparshme janë të disponueshme për përdorim në qelizat që pasojnë, për sa kohë që ato janë ekzekutuar më parë.
+    -   Për të ngarkuar një modul, përdorni deklaratën **import**.
 
-    - Kjo lejon ruajtjen e variablave për përdorim të mëtejshëm gjatë ekzekutimit të kodit.
-Konstantet në Module
+    -   Funksionet që janë pjesë e një moduli mund të përdoren duke shkruar **modulename.functionname()**
 
-    - Modulet gjithashtu mund të përmbajnë konstante si **math.pi**
-    
+    -   Për shembull, **sin()** është një funksion i modulit **math**, dhe përdoret duke shkruar **math.sin()** me një numër brenda kllapave.
+
+## Përmbledhje
+
+-   Përdorimi i Moduleve në Jupyter Notebook
+
+    -   Në Jupyter Notebook, variablat që përcaktohen në qelizat e mëparshme janë të disponueshme për përdorim në qelizat që pasojnë, për sa kohë që ato janë ekzekutuar më parë.
+
+    -   Kjo lejon ruajtjen e variablave për përdorim të mëtejshëm gjatë ekzekutimit të kodit. Konstantet në Module
+
+    -   Modulet gjithashtu mund të përmbajnë konstante si **math.pi**
+
 *Për të thirrur konstante, nuk përdoren kllapa; thjesht shkruajmë emrin e konstantes*
 
-
-# Kombinimi i Funksioneve në Python {-}
+# Kombinimi i Funksioneve në Python {.unnumbered}
 
 ## Kombinimi i Funksioneve me print()
 
-  - Funksioni `print()` shfaq tekstin në ekran.
+-   Funksioni `print()` shfaq tekstin në ekran.
 
-  - Për të printuar rezultatin e një funksioni tjetër, përdorim `print()` brenda kodit:
+-   Për të printuar rezultatin e një funksioni tjetër, përdorim `print()` brenda kodit:
 
-```python
+``` python
   import math
   print(math.sqrt(4))  # Shfaq 2.0
 ```
 
 ## Kombinimi i Tekstit me Vlerat e Llogaritura
 
-  - Përdorim **print()** për të shfaqur tekst dhe vlera të llogaritura së bashku.
+-   Përdorim **print()** për të shfaqur tekst dhe vlera të llogaritura së bashku.
 
 Shembull:
 
-```python
+``` python
 print("Dy plus dy është", 2 + 2)  # Shfaq "Dy plus dy është 4"
 ```
 
+## Kombinimi i Funksioneve
 
-## Kombinimi i Funksioneve 
-
-  - Kombinojmë funksione të ndryshme për të prodhuar rezultat më të avancuar:
+-   Kombinojmë funksione të ndryshme për të prodhuar rezultat më të avancuar:
 
 Shembull:
 
-```python
+``` python
 print("Rrënja katrore e 4 është", math.sqrt(4))
 ```
 
-
 ## Përdorimi i Variablave në Python
 
-  - Për të caktuar vlerën e një variabli, përdorni `=`:
-  
-```python
+-   Për të caktuar vlerën e një variabli, përdorni `=`:
+
+``` python
   temp_celsius = 10.0
 ```
 
 ## Përdorimi i Variablave në Python
 
-  - Për të parë vlerën e një variabli, përdorim **print()** ose thjesht emrin e variablit në një qelizë Jupyter Notebook:
-  
-```python
+-   Për të parë vlerën e një variabli, përdorim **print()** ose thjesht emrin e variablit në një qelizë Jupyter Notebook:
+
+``` python
 temp_celsius  # Kthen 10.0
-```  
+```
 
 ## Kombinimi i Variablave me Tekst
 
-  - Për të kombinuar tekst dhe vlera të llogaritura, përdorim **print()**
-  
+-   Për të kombinuar tekst dhe vlera të llogaritura, përdorim **print()**
+
 Shembull:
 
-```python
+``` python
 print("Temperatura në Fahrenheit:", 9 / 5 * temp_celsius + 32)  # Shfaq "Temperatura në Fahrenheit: 50.0"
 ```
 
-
 ## Përditësimi i Variablave
 
-  - Variablat mund të përditësohen me vlera të reja:
+-   Variablat mund të përditësohen me vlera të reja:
 
 Shembull:
 
-```python
+``` python
 temp_celsius = 15.0
 print("Temperatura në Celsius është tani:", temp_celsius)
 ```
 
 ## Kujdes me Gabimet
 
-  - Nëse përpiqeni të përdorni një variabël që nuk është definuar, do të merrni një  **NameError**
-
-
+-   Nëse përpiqeni të përdorni një variabël që nuk është definuar, do të merrni një **NameError**
 
 ## Trajtimi i Gabimeve të Zakonshme në Python
 
 Gabimi **NameError**
 
-  - Ky gabim ndodh kur një variabël ose funksion nuk është definuar.
-  
-```python
+-   Ky gabim ndodh kur një variabël ose funksion nuk është definuar.
+
+``` python
 print("Temperature in Celsius:", 5 / 9 * (tempFahrenheit - 32))
-```  
-  
+```
+
 ## Trajtimi i Gabimeve të Zakonshme në Python
 
-  - Për të zgjidhur këtë gabim, sigurohemi që të gjitha variablat dhe funksionet të jenë të definuara dhe të importuara siç duhet.
+-   Për të zgjidhur këtë gabim, sigurohemi që të gjitha variablat dhe funksionet të jenë të definuara dhe të importuara siç duhet.
 
-```python
+``` python
 tempFahrenheit = 9 / 5 * temp_celsius + 32
-```  
+```
 
-# Llojet e të Dhënave në Python {-}
+# Llojet e të Dhënave në Python {.unnumbered}
 
 ## Llojet e të Dhënave në Python
 
-  - Lloji i të dhënave përcakton karakteristikat e të dhënave në një program.
+-   Lloji i të dhënave përcakton karakteristikat e të dhënave në një program.
 
-  - Python ka katër lloje bazë të të dhënave: *int, float, str* dhe *bool*.
+-   Python ka katër lloje bazë të të dhënave: *int, float, str* dhe *bool*.
 
 ## Llojet Bazë të të Dhënave
 
-  - **int:** vlera të plota të numrave të plotë.
+-   **int:** vlera të plota të numrave të plotë.
 
-  - **float:** vlera dhjetore.
+-   **float:** vlera dhjetore.
 
-  - **str:** vargje karakteresh (tekste).
+-   **str:** vargje karakteresh (tekste).
 
-  - **bool:** vlera të tipit të vërtetë/false.
+-   **bool:** vlera të tipit të vërtetë/false.
 
 ## Shembuj të Llojeve të të Dhënave
 
@@ -473,85 +455,84 @@ bool: True
 
 ## Kontrollimi i Llojit të të Dhënave
 
-  - Përdorim funksionin **type()** për të marrë llojin e të dhënave të një variabli.
+-   Përdorim funksionin **type()** për të marrë llojin e të dhënave të një variabli.
 
 Shembull:
 
-```python
+``` python
 weatherForecast = "Hot"
 type(weatherForecast)  # Kthen "str"
 ```
+
 ## Kujdes me Llojet e Dhënave
 
-  - Llojet e të dhënave janë të rëndësishme sepse disa prej tyre nuk janë kompatibël me njëri-tjetrin.
-  
-  - Për shembull, nuk mund të mbledhim një int me një str.
+-   Llojet e të dhënave janë të rëndësishme sepse disa prej tyre nuk janë kompatibël me njëri-tjetrin.
 
+-   Për shembull, nuk mund të mbledhim një int me një str.
 
 ## Trajtimi i Gabimeve të Zakonshme në Python
 
 Gabimi **TypeError**
 
-  - Ky gabim ndodh kur përpiqeni të kryejmë operacione me tipe të ndryshme të dhënave që nuk janë kompatibël.
+-   Ky gabim ndodh kur përpiqeni të kryejmë operacione me tipe të ndryshme të dhënave që nuk janë kompatibël.
 
 Shembull:
-  
-```python
+
+``` python
   tempFahrenheit + 5.0 * "Hot"  # Kthen TypeError
 ```
-  - Për të shmangur këtë gabim, sigurohemi që të gjitha llojet e dhënave të jenë të kompatibël përpara se të kryejmë veprime.
-  
-  
+
+-   Për të shmangur këtë gabim, sigurohemi që të gjitha llojet e dhënave të jenë të kompatibël përpara se të kryejmë veprime.
+
 ## Çfarë Është Një Listë?
 
-  - Një listë është një koleksion vlerash të lidhura së bashku me një variabël të vetme.
+-   Një listë është një koleksion vlerash të lidhura së bashku me një variabël të vetme.
 
-  - Listat mund të përmbajnë lloje të ndryshme të dhënash, si numra, vargje, ose madje edhe lista të tjera.
+-   Listat mund të përmbajnë lloje të ndryshme të dhënash, si numra, vargje, ose madje edhe lista të tjera.
 
 ## Krijimi i Një Liste
 
-  - Për të krijuar një listë, përdorim kllapat katrore `[]` dhe ndajmë elementët me presje.
+-   Për të krijuar një listë, përdorim kllapat katrore `[]` dhe ndajmë elementët me presje.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
   station_names = ["Tirane", "Durrës", "Elbasan", "Sarandë"]  
-```  
-  
+```
+
 ## Kontrollimi i Llojit të Një Liste
 
-  - Përdorim funksionin **type()** për të kontrolluar nëse një variabël është një listë.
+-   Përdorim funksionin **type()** për të kontrolluar nëse një variabël është një listë.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 type(station_names)  # Kthen "list"
-```  
-  
+```
+
 ## Përdorimi i Listave
 
-  - Listat mund të përdoren për të ruajtur shumë vlera të lidhura.
+-   Listat mund të përdoren për të ruajtur shumë vlera të lidhura.
 
-  - Në Python, listat janë një nga llojet më të zakonshme të koleksioneve.  
-  
+-   Në Python, listat janë një nga llojet më të zakonshme të koleksioneve.
 
 ## Indeksimi në Python
 
-  - Një indeks është një numër që tregon një pozicion në listë.
+-   Një indeks është një numër që tregon një pozicion në listë.
 
-  - Indeksi i parë është gjithmonë 0, prandaj për të marrë elementin e parë të një liste, përdorim indeksin 0.
-  
-```python
+-   Indeksi i parë është gjithmonë 0, prandaj për të marrë elementin e parë të një liste, përdorim indeksin 0.
+
+``` python
   station_names[0]  # Kthen "Tirane"
-```  
-  
+```
+
 ## Marrja e Një Vlere nga Një Listë
 
-  - Për të marrë një vlerë nga një listë, përdorim indeksin e duhur.
+-   Për të marrë një vlerë nga një listë, përdorim indeksin e duhur.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 station_names[1]  # Kthen "Durres"
 ```
 
@@ -559,19 +540,19 @@ station_names[1]  # Kthen "Durres"
 
 Për të marrë elementë nga fundi i një liste, përdorim indekse negativë.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
   station_names[-1]  # Kthen "Sarande"
 ```
 
 ## Kujdes me Indekset Jashtë Kufijve
 
-  - Nëse përdorim një indeks që është jashtë kufijve të listës, do të marrim një **IndexError**.
+-   Nëse përdorim një indeks që është jashtë kufijve të listës, do të marrim një **IndexError**.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 station_names[4]  # Kthen "IndexError: list index out of range"
 ```
 
@@ -581,72 +562,66 @@ station_names[4]  # Kthen "IndexError: list index out of range"
 
 ## Ilustrim
 
-  - Makina automatike që përmban 6 artikuj.
+-   Makina automatike që përmban 6 artikuj.
 
-  - Si Python, makina automatike përdor indekse për të zgjedhur artikujt.
+-   Si Python, makina automatike përdor indekse për të zgjedhur artikujt.
 
-  - Indeksi i parë është gjithmonë 0, dhe numri rritet me njësi.
+-   Indeksi i parë është gjithmonë 0, dhe numri rritet me njësi.
 
-  - Për të marrë një artikull nga makina automatike, duhet të përdorim indeksin e duhur.
+-   Për të marrë një artikull nga makina automatike, duhet të përdorim indeksin e duhur.
 
 ## Shembull me Makinë Automatike
 
-  - Për të marrë një taco, do të zgjidhnit butonin 3.
+-   Për të marrë një taco, do të zgjidhnit butonin 3.
 
-  - Në Python, për të marrë një artikull nga një listë, përdorim indeksin përkatës:
-  
-```python
+-   Në Python, për të marrë një artikull nga një listë, përdorim indeksin përkatës:
+
+``` python
   Bill[3]  # Kthen "Taco"
 ```
 
-
-
-
 ## Gjetja e Gjatësisë së Një Liste
 
-  - Për të marrë gjatësinë e një liste, përdorim funksionin `len()`:
+-   Për të marrë gjatësinë e një liste, përdorim funksionin `len()`:
 
-```python
+``` python
   qytete = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
   len(qytete)  # Kthen 4
 ```
 
-
 ## Përdorimi i len() për të gjetur vlerën e fundit të një liste
 
-  - Duke përdorur **len()**, mund të gjejmë indeksin e fundit të një liste.
+-   Duke përdorur **len()**, mund të gjejmë indeksin e fundit të një liste.
 
-  - Indeksi i fundit është gjithmonë **len(qytete) - 1**:
-  
-```python
+-   Indeksi i fundit është gjithmonë **len(qytete) - 1**:
+
+``` python
 qytete[len(qytete) - 1]  # Kthen "Vlorë"
 ```
 
 ## Përdorimi i len() për të gjetur vlerën e fundit të një liste
 
-  - Për të marrë vlerën e fundit, përdorim indeksin -1:
+-   Për të marrë vlerën e fundit, përdorim indeksin -1:
 
-```python
+``` python
 qytete[-1]  # Kthen "Vlorë"
 ```
 
-
 ## Kujdes me Indekset Jashtë Kufijve
 
-  - Nëse përdorim një indeks që është jashtë kufijve të listës, do të merrni një IndexError.
+-   Nëse përdorim një indeks që është jashtë kufijve të listës, do të merrni një IndexError.
 
-```python
+``` python
 qytete[4]  # Kthen "IndexError: list index out of range"
 ```
 
-
 ## Përdorimi i Indeksimit Negativ
 
-  - Indeksimi negativ na lejon të marrim elementë nga fundi i një liste.
-  
-  - Indeksi `-1` jep vlerën e fundit, ndërsa indekset me vlera më të mëdha negative shkojnë drejt fillimit të listës:
-  
-```python
+-   Indeksimi negativ na lejon të marrim elementë nga fundi i një liste.
+
+-   Indeksi `-1` jep vlerën e fundit, ndërsa indekset me vlera më të mëdha negative shkojnë drejt fillimit të listës:
+
+``` python
   qytete = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
   qytete[-1]  # Kthen "Vlorë"
   qytete[-2]  # Kthen "Shkodër"
@@ -654,40 +629,39 @@ qytete[4]  # Kthen "IndexError: list index out of range"
 
 ## Kujdes me Indekset Negativë
 
-  Edhe pse indeksimi negativ është i dobishëm, përdorimi i një indeksi jashtë kufijve shkakton **IndexError**:
+Edhe pse indeksimi negativ është i dobishëm, përdorimi i një indeksi jashtë kufijve shkakton **IndexError**:
 
-```python
+``` python
 qytete[-5]  # Kthen "IndexError: list index out of range"
 ```
 
 ## Shembuj të Tjerë të Indeksimit Negativ
 
-  - Indeksi **-len(qytete)** jep vlerën e parë në listë:
+-   Indeksi **-len(qytete)** jep vlerën e parë në listë:
 
-```python
+``` python
 qytete[-len(qytete)]  # Kthen "Tiranë"
 ```
 
-
 ## Listat janë të Ndryshueshme
 
-  - Një nga avantazhet e listave është se ato mund të ndryshohen pasi të krijohen.
+-   Një nga avantazhet e listave është se ato mund të ndryshohen pasi të krijohen.
 
-  - Për të ndryshuar një vlerë në një listë, përdorim indeksin për të përcaktuar pozicionin e vlerës që duam të ndryshojmë.
+-   Për të ndryshuar një vlerë në një listë, përdorim indeksin për të përcaktuar pozicionin e vlerës që duam të ndryshojmë.
 
 ## Shembull: Listë e Qyteteve Shqiptare
 
-  - Le të krijojmë një listë që përfshin qytetet kryesore shqiptare:
-  
-```python
+-   Le të krijojmë një listë që përfshin qytetet kryesore shqiptare:
+
+``` python
   qytete = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
 ```
 
 ## Shembull: Listë e Qyteteve Shqiptare
 
-  - Për të ndryshuar qytetin e tretë në listë, përdorim indeksin përkatës:
+-   Për të ndryshuar qytetin e tretë në listë, përdorim indeksin përkatës:
 
-```python
+``` python
 qytete[2] = "Elbasan"  # Ndryshon Shkodrën në Elbasan
 ```
 
@@ -695,23 +669,23 @@ qytete[2] = "Elbasan"  # Ndryshon Shkodrën në Elbasan
 
 Pas modifikimit të vlerës, mund të printojmë listën për të parë ndryshimin:
 
-```python
+``` python
 print(qytete)  # Kthen ["Tiranë", "Durrës", "Elbasan", "Vlorë"]
 ```
 
 ## Përdorimi i Indekseve për Modifikim
 
-  - Indeksi i parë është gjithmonë 0, kështu që për të ndryshuar vlerën e parë, përdorim indeksin 0:
+-   Indeksi i parë është gjithmonë 0, kështu që për të ndryshuar vlerën e parë, përdorim indeksin 0:
 
-```python
+``` python
 qytete[0] = "Korçë"  # Ndryshon Tiranën në Korçë
 ```
 
 ## Përdorimi i Indekseve për Modifikim
 
-  - Për të ndryshuar vlerën e fundit, përdorim indeksin -1:
+-   Për të ndryshuar vlerën e fundit, përdorim indeksin -1:
 
-```python
+``` python
 qytete[-1] = "Sarandë"  # Ndryshon Vlorën në Sarandë
 ```
 
@@ -719,20 +693,19 @@ qytete[-1] = "Sarandë"  # Ndryshon Vlorën në Sarandë
 
 Pas modifikimit, printoni listën për të verifikuar ndryshimin:
 
-```python
+``` python
 print(qytete)  # Kthen ["Korçë", "Durrës", "Elbasan", "Sarandë"]
 ```
 
 ## Kujdes me Indekset Jashtë Kufijve
 
-  Nëse përdorni një indeks që është jashtë kufijve të listës, do të marrim një **IndexError**.
-
+Nëse përdorni një indeks që është jashtë kufijve të listës, do të marrim një **IndexError**.
 
 ## Shembuj të Tjerë të Modifikimit
 
-  Për të ndryshuar vlerat e mesme, përdorim indeksin përkatës:
+Për të ndryshuar vlerat e mesme, përdorim indeksin përkatës:
 
-```python
+``` python
 qytete[1] = "Fier"  # Ndryshon Durrësin në Fier
 ```
 
@@ -740,18 +713,17 @@ qytete[1] = "Fier"  # Ndryshon Durrësin në Fier
 
 Pas modifikimit, printoni listën për të verifikuar ndryshimin:
 
-```python
+``` python
 print(qytete)  # Kthen ["Korçë", "Fier", "Elbasan", "Sarandë"]
 ```
 
-
 ## Lista që Përmban Tipa të Ndryshëm të Dhënave
 
-  - Një nga përfitimet e një liste është se ajo mund të përmbajë lloje të ndryshme të dhënash në të njëjtin koleksion.
+-   Një nga përfitimet e një liste është se ajo mund të përmbajë lloje të ndryshme të dhënash në të njëjtin koleksion.
 
-  - Për shembull, le të krijojmë një listë që përmban emrin e një qyteti shqiptar, kodin e postës, koordinatat gjeografike, dhe një atribut tjetër.
-  
-```python
+-   Për shembull, le të krijojmë një listë që përmban emrin e një qyteti shqiptar, kodin e postës, koordinatat gjeografike, dhe një atribut tjetër.
+
+``` python
   city_name = "Tiranë"
   postal_code = 1001
   city_lat = 41.3275
@@ -761,25 +733,25 @@ print(qytete)  # Kthen ["Korçë", "Fier", "Elbasan", "Sarandë"]
 
 ## Lista që Përmban Tipa të Ndryshëm të Dhënave
 
-  - Kombinojmë këto variabla në një listë që përmban lloje të ndryshme të dhënash:
+-   Kombinojmë këto variabla në një listë që përmban lloje të ndryshme të dhënash:
 
-```python
+``` python
 city_info = [city_name, postal_code, city_lat, city_lon, major_landmark]
 ```
 
 ## Kontrollimi i Llojit të Listës
 
-  - Përdorim **type()** për të konfirmuar se është një listë:
+-   Përdorim **type()** për të konfirmuar se është një listë:
 
-```python
+``` python
 type(city_info)  # Kthen "list"
 ```
 
 ## Kontrollimi i Llojit të Listës
 
-  - Për të kontrolluar llojet e të dhënave brenda listës, përdorim indekse të ndryshme:
+-   Për të kontrolluar llojet e të dhënave brenda listës, përdorim indekse të ndryshme:
 
-```python
+``` python
 type(city_info[0])  # Kthen "str"
 type(city_info[1])  # Kthen "int"
 type(city_info[2])  # Kthen "float"
@@ -787,43 +759,41 @@ type(city_info[2])  # Kthen "float"
 
 ## Kujdes me Përzierjen e Llojeve të Dhënave
 
-  - Edhe pse një listë mund të përmbajë lloje të ndryshme, mund të jetë problematike në disa raste.
+-   Edhe pse një listë mund të përmbajë lloje të ndryshme, mund të jetë problematike në disa raste.
 
-  - Rekomandohet që listat të kenë lloje të ngjashme për të shmangur probleme në analizat e të dhënave.
-
-
+-   Rekomandohet që listat të kenë lloje të ngjashme për të shmangur probleme në analizat e të dhënave.
 
 ## Shtimi dhe Heqja e Vlerave nga Listat
 
-  - Le të kemi një listë me emrat e disa qyteteve kryesore në Shqipëri:
+-   Le të kemi një listë me emrat e disa qyteteve kryesore në Shqipëri:
 
-```python
+``` python
   qytete = ["Tiranë", "Durrës", "Vlorë", "Shkodër"]
 ```
 
 ## Heqja e Vlerave
 
-  - Për të hequr vlerën e parë nga lista, përdorni del me indeksin e duhur:
+-   Për të hequr vlerën e parë nga lista, përdorni del me indeksin e duhur:
 
-```python
+``` python
 del qytete[0]  # Heq "Tiranë"
 print(qytete)  # Kthen ['Durrës', 'Vlorë', 'Shkodër']
 ```
 
 ## Heqja e Vlerave
-  
-  - Metoda **remove()** mund të përdoret për të hequr një element specifik nga lista pa përdorur indeksin:
 
-```python
+-   Metoda **remove()** mund të përdoret për të hequr një element specifik nga lista pa përdorur indeksin:
+
+``` python
 qytete.remove("Durrës")  # Heq "Durrës"
 print(qytete)  # Kthen ['Vlorë', 'Shkodër']
 ```
 
 ## Shtimi i Vlerave
 
-  - Për të shtuar vlera në fund të listës, përdorni append():
+-   Për të shtuar vlera në fund të listës, përdorni append():
 
-```python
+``` python
 qytete.append("Elbasan")
 qytete.append("Korçë")
 print(qytete)  # Kthen ['Vlorë', 'Shkodër', 'Elbasan', 'Korçë']
@@ -831,69 +801,68 @@ print(qytete)  # Kthen ['Vlorë', 'Shkodër', 'Elbasan', 'Korçë']
 
 ## Kufizimet e Metodës append në Python
 
-  - Metoda `append()` është projektuar për listat, duke shtuar elementë në fund të një liste.
+-   Metoda `append()` është projektuar për listat, duke shtuar elementë në fund të një liste.
 
-  - Nuk ka kuptim ta përdorim për lloje të tjera të dhënash si `int`, sepse një numër i plotë nuk është një koleksion.
+-   Nuk ka kuptim ta përdorim për lloje të tjera të dhënash si `int`, sepse një numër i plotë nuk është një koleksion.
 
 ## Shembull me Indeksimin e Një Liste
 
-  - Le të kemi një listë me emrat e disa qyteteve shqiptare:
-  
-```python
+-   Le të kemi një listë me emrat e disa qyteteve shqiptare:
+
+``` python
   qytete = ["Tiranë", "Durrës", "Vlorë", "Shkodër"]
 ```
 
 ## Kur gjatësia e listës llogaritet, rezultati është një int:
 
-```python
+``` python
 qytete_length = len(qytete)  # Kthen 4
 ```
 
 ## Çfarë ndodh kur përdorim append me int?
 
-  - Duke qenë se int është një lloj i dhënash që përfaqëson vlera të plota, nuk mund të shtojmë vlera në mënyrë sekuenciale si te një listë.
+-   Duke qenë se int është një lloj i dhënash që përfaqëson vlera të plota, nuk mund të shtojmë vlera në mënyrë sekuenciale si te një listë.
 
-  - Përpjekja për të përdorur **append()** me një int shkakton një **AttributeError**:
+-   Përpjekja për të përdorur **append()** me një int shkakton një **AttributeError**:
 
-```python
+``` python
 qytete_length.append(1)  # Kthen "AttributeError: 'int' object has no attribute 'append'"
 ```
 
 ## Zgjidhje për Shtimin e Vlerave të Tipit int
 
-  - Për të rritur një int, përdorim operacionet aritmetike të zakonshme:
+-   Për të rritur një int, përdorim operacionet aritmetike të zakonshme:
 
-```python
+``` python
 qytete_length += 1  # Rrit vlerën me 1
 ```
 
-
 ## Numërimi i Një Vlere në Listë
 
-  - Përdorim metodën `count()` për të parë sa herë një vlerë shfaqet në një listë.
+-   Përdorim metodën `count()` për të parë sa herë një vlerë shfaqet në një listë.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
   qytete = ["Tiranë", "Durrës", "Vlorë", "Shkodër", "Tiranë"]
   qytete.count("Tiranë")  # Kthen 2
 ```
 
 ## Gjetja e Indeksit të Një Vlere
 
-  - Metoda *index()* na lejon të gjejmë indeksin e parë ku shfaqet një vlerë.
+-   Metoda *index()* na lejon të gjejmë indeksin e parë ku shfaqet një vlerë.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 qytete.index("Vlorë")  # Kthen 2
 ```
 
 ## Kthimi i Renditjes së Një Liste
 
-  - Për të kthyer renditjen e listës, përdorim metodën *reverse()*:
+-   Për të kthyer renditjen e listës, përdorim metodën *reverse()*:
 
-```python
+``` python
 qytete.reverse()
 print(qytete)  # Kthen ['Shkodër', 'Vlorë', 'Durrës', 'Tiranë']
 ```
@@ -902,32 +871,32 @@ print(qytete)  # Kthen ['Shkodër', 'Vlorë', 'Durrës', 'Tiranë']
 
 Kujdes kur përdorni *reverse()* dhe mos caktoni rezultatin në të njëjtën listë, pasi kjo do të shkaktojë një None:
 
-```python
+``` python
 qytete = qytete.reverse()  # Gabim! Kthen None dhe fshin përmbajtjen e listës
 ```
 
 ## Renditja e Një Liste Alfabetikisht
 
-  - Metoda *sort()* mund të përdoret për të renditur listën në mënyrë alfabetike:
+-   Metoda *sort()* mund të përdoret për të renditur listën në mënyrë alfabetike:
 
-```python
+``` python
 qytete.sort()
 print(qytete)  # Kthen ['Durrës', 'Shkodër', 'Tiranë', 'Vlorë']
 ```
+
 ## Renditja e Një Liste Alfabetikisht
 
-  - Për të shmangur gabimet, mos caktoni rezultatin e *sort()* në listën e njëjtë, pasi kjo do të shkaktojë një None:
+-   Për të shmangur gabimet, mos caktoni rezultatin e *sort()* në listën e njëjtë, pasi kjo do të shkaktojë një None:
 
-```python
+``` python
 qytete = qytete.sort()  # Gabim! Kthen None dhe fshin përmbajtjen e listës
 ```
 
-
 ## Definimi i Variablave me Tipa të Ndryshëm
 
-  - Në këtë shembull, kemi pesë variabla që përfaqësojnë të dhëna të ndryshme për një qytet ose një stacion:
-  
-```python
+-   Në këtë shembull, kemi pesë variabla që përfaqësojnë të dhëna të ndryshme për një qytet ose një stacion:
+
+``` python
   station_name = "Tiranë"
   station_id = 1001
   station_lat = 41.3275
@@ -937,9 +906,9 @@ qytete = qytete.sort()  # Gabim! Kthen None dhe fshin përmbajtjen e listës
 
 ## Kontrollimi i Llojeve të Të Dhënave
 
-  - Përdorim funksionin *type()* për të kontrolluar llojin e një variabli:
+-   Përdorim funksionin *type()* për të kontrolluar llojin e një variabli:
 
-```python
+``` python
 type(station_name)  # Kthen "str"
 type(station_id)  # Kthen "int"
 type(station_lat)  # Kthen "float"
@@ -947,39 +916,39 @@ type(station_lat)  # Kthen "float"
 
 ## Gabime të Zakonshme me Llojet e Të Dhënave
 
-  - Nëse përpiqeni të bashkoni një varg me një numër të plotë, do të shkaktoni një TypeError:
+-   Nëse përpiqeni të bashkoni një varg me një numër të plotë, do të shkaktoni një TypeError:
 
-```python
+``` python
 station_name + station_id  # Kthen "TypeError: can only concatenate str (not 'int') to str"
 ```
+
 ## Konvertimi i Të Dhënave për Përputhshmëri
 
-  - Për të kombinuar një varg me një numër të plotë, duhet të konvertojmë numrin në një varg duke përdorur funksionin **str()**:
+-   Për të kombinuar një varg me një numër të plotë, duhet të konvertojmë numrin në një varg duke përdorur funksionin **str()**:
 
-```python
+``` python
 station_id_str = str(station_id)
 station_name + station_id_str  # Kthen "Tiranë1001"
 ```
 
 ## Konvertimi i Të Dhënave për Përputhshmëri
 
-  - Në mënyrë të ngjashme, mund të konvertojmë një varg ose një numër dhjetor në një numër të plotë duke përdorur *int()*, ose në një numër dhjetor duke përdorur *float()*:
-python
+-   Në mënyrë të ngjashme, mund të konvertojmë një varg ose një numër dhjetor në një numër të plotë duke përdorur *int()*, ose në një numër dhjetor duke përdorur *float()*: python
 
-```python
+``` python
 float("3.14")  # Kthen 3.14 (numër dhjetor)
 int("1001")  # Kthen 1001 (numër i plotë)
 ```
 
-# Manipulimi i tekstit {-}
+# Manipulimi i tekstit {.unnumbered}
 
 ## Kombinimi i Tekstit dhe Numrave në Python
 
-  - Një mënyrë e zakonshme për të kombinuar vargje dhe numra është përdorimi i operatorit të shtimit `+`.
+-   Një mënyrë e zakonshme për të kombinuar vargje dhe numra është përdorimi i operatorit të shtimit `+`.
 
-  - Në këtë shembull, ne kombinojmë një emër qyteti dhe një kod postar për të krijuar një varg të ri:
-  
-```python
+-   Në këtë shembull, ne kombinojmë një emër qyteti dhe një kod postar për të krijuar një varg të ri:
+
+``` python
   city_name = "Tiranë"
   postal_code = 1001
   city_info = city_name + " - " + str(postal_code)
@@ -988,123 +957,121 @@ int("1001")  # Kthen 1001 (numër i plotë)
 
 ## Përdorimi i F-Strings për Manipulimin e Tekstit
 
-  - Një metodë më e avancuar për të bashkuar vargjet dhe numrat është përdorimi i f-strings.
+-   Një metodë më e avancuar për të bashkuar vargjet dhe numrat është përdorimi i f-strings.
 
-  - F-strings lejojnë futjen e variablave brenda vargjeve në mënyrë dinamike.
+-   F-strings lejojnë futjen e variablave brenda vargjeve në mënyrë dinamike.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 temp = 18.56789876
 f_string_example = f"Temperatura në {city_name} është {temp:.2f} gradë Celsius"
 f_string_example  # Kthen "Temperatura në Tiranë është 18.57 gradë Celsius"
 ```
 
 ## Shpjegimi i F-Strings
-  
-  - Përdorni shkronjën f para vargut për të krijuar një f-string.
 
-  - Variablat mund të futen brenda vargut duke përdorur kllapat {}.
+-   Përdorni shkronjën f para vargut për të krijuar një f-string.
+
+-   Variablat mund të futen brenda vargut duke përdorur kllapat {}.
 
 ## Shpjegimi i F-Strings
 
-  - Është gjithashtu e mundur të përdorni formatime për të rregulluar precizionin e numrave:
+-   Është gjithashtu e mundur të përdorni formatime për të rregulluar precizionin e numrave:
 
-```python
+``` python
 f_string_example = f"Temperatura është {temp:.2f} gradë Celsius"
 ```
 
 ## Teknikat e Tjera për Manipulimin e Tekstit
 
-  - Përveç f-strings, ekzistojnë edhe metodat **.format()** dhe **%** për manipulimin e tekstit.
+-   Përveç f-strings, ekzistojnë edhe metodat **.format()** dhe **%** për manipulimin e tekstit.
 
-  - Megjithatë, f-strings janë metoda e rekomanduar për shkak të thjeshtësisë dhe fleksibilitetit.
+-   Megjithatë, f-strings janë metoda e rekomanduar për shkak të thjeshtësisë dhe fleksibilitetit.
 
-  - Shembull me **.format()**:
+-   Shembull me **.format()**:
 
-```python
+``` python
 format_example = "Temperatura në {} është {:.2f} gradë".format(city_name, temp)
 format_example  # Kthen "Temperatura në Tiranë është 18.57 gradë"
 ```
 
 ## Shembull me % (më pak i rekomanduar):
 
-```python
+``` python
 percent_example = "Temperatura në %s është %.2f gradë" % (city_name, temp)
 percent_example  # Kthen "Temperatura në Tiranë është 18.57 gradë"
 ```
 
-
 ## Ndarja e Një Vargu me .split()
 
-  - Metoda `.split()` lejon ndarjen e një vargu bazuar në një karakter të caktuar.
+-   Metoda `.split()` lejon ndarjen e një vargu bazuar në një karakter të caktuar.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
   tekst = "Qytete: Tiranë, Durrës, Shkodër"
   pjese_te_ndara = tekst.split(":")
   pjese_te_ndara  # Kthen ['Qytete', ' Tiranë, Durrës, Shkodër']
 ```
 
-
 ## Zëvendësimi i Një Fjale me .replace()
 
-  - Metoda *.replace()* lejon zëvendësimin e një fjale ose grupi karakteresh me një tjetër.
+-   Metoda *.replace()* lejon zëvendësimin e një fjale ose grupi karakteresh me një tjetër.
 
-  - Shembull:
+-   Shembull:
 
-```python
+``` python
 tekst_ndryshuar = pjese_te_ndaura[1].replace("Tiranë", "Elbasan")
 tekst_ndryshuar  # Kthen ' Elbasan, Durrës, Shkodër'
 ```
 
 ## Prerja e Një Vargu për të Hequr Hapësirat e Panevojshme
 
-  - Për të prerë karakteret e panevojshme nga fillimi ose fundi i një vargu, mund të përdorim metodën *.strip()* ose të përdorim prerjen:
+-   Për të prerë karakteret e panevojshme nga fillimi ose fundi i një vargu, mund të përdorim metodën *.strip()* ose të përdorim prerjen:
 
-```python
+``` python
 tekst_prere = pjese_te_ndaura[1][1:]  # Hiq hapësirën në fillim
 tekst_prere.strip()  # Hiq hapësirat nga fillimi dhe fundi
 ```
 
 ## Ndryshimi i Shkronjave me .upper() dhe .lower()
 
-  - Për të ndryshuar të gjitha shkronjat në shkronja të mëdha, përdorni metodën **.upper()**:
+-   Për të ndryshuar të gjitha shkronjat në shkronja të mëdha, përdorni metodën **.upper()**:
 
-```python
+``` python
 tekst_prere.upper()  # Kthen 'ELBASAN, DURRËS, SHKODËR'
 ```
 
 ## Ndryshimi i Shkronjave me .upper() dhe .lower()
 
-  - Për të kthyer të gjitha shkronjat në të vogla, përdorni metodën **.lower()**:
+-   Për të kthyer të gjitha shkronjat në të vogla, përdorni metodën **.lower()**:
 
-```python
+``` python
 tekst_prere.lower()  # Kthen 'elbasan, durrës, shkodër'
 ```
+
 ## Ndryshimi i Shkronjave
 
-  - Për të kapitalizuar vetëm shkronjën e parë, përdorni metodën **.capitalize()**:
+-   Për të kapitalizuar vetëm shkronjën e parë, përdorni metodën **.capitalize()**:
 
-```python
+``` python
 tekst_prere.capitalize()  # Kthen 'Elbasan, durrës, shkodër'
 ```
 
-# Ciklet "For" {-}
+# Ciklet "For" {.unnumbered}
 
 ## Ciklet "For"
 
-  - Ciklet "for" na lejojnë të përsërisim një bllok kodi disa herë, si iterimi mbi një listë dhe kryerja e një veprimi për çdo element.
+-   Ciklet "for" na lejojnë të përsërisim një bllok kodi disa herë, si iterimi mbi një listë dhe kryerja e një veprimi për çdo element.
 
-  - Ato janë të dobishme për të automatizuar veprimet që përsëriten, për të shmangur gabimet dhe për të përmirësuar shkallëzueshmërinë e kodit.
-
+-   Ato janë të dobishme për të automatizuar veprimet që përsëriten, për të shmangur gabimet dhe për të përmirësuar shkallëzueshmërinë e kodit.
 
 ## Shembull i keq
 
 Si shembull, le të përpiqemi të marrim qytetet shqiptare me indeksim manual:
 
-```python
+``` python
 qytete_shqiptare = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
 qytete_shqiptare[0]  # 'Tiranë'
 qytete_shqiptare[1]  # 'Durrës'
@@ -1115,22 +1082,285 @@ qytete_shqiptare[4]  # Kjo do të shkaktojë IndexError
 
 ## Shembulli i Keq
 
-  - Shembulli i përdorimit të indeksimit manual në listë
+-   Shembulli i përdorimit të indeksimit manual në listë
 
-  - Mund të shkaktojë gabime IndexError dhe nuk është i shkallëzueshëm për lista të gjata.
-  
-## Përdorimi i ciklit "for" për të iteruar mbi një listë
-
-  - Kjo metodë është më fleksibël dhe e shkallëzueshme.
-
-  - Shembulli i përdorimit të ciklit "for" për të iteruar mbi listën e qyteteve shqiptare
-
+-   Mund të shkaktojë gabime IndexError dhe nuk është i shkallëzueshëm për lista të gjata.
 
 ## Përdorimi i ciklit "for" për të iteruar mbi një listë
 
-```python
+-   Kjo metodë është më fleksibël dhe e shkallëzueshme.
+
+-   Shembulli i përdorimit të ciklit "for" për të iteruar mbi listën e qyteteve shqiptare
+
+## Përdorimi i ciklit "for" për të iteruar mbi një listë
+
+``` python
 qytete_shqiptare = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
 for qytet në qytete_shqiptare:
     print(qytet)
 ```
+
+## Formati i For Loop në Python
+
+  - Struktura e përgjithshme e një "for loop" në Python është si më poshtë:
+
+``` python
+for variabli në koleksion:
+    bëj diçka me variablin
+``` 
+
+## Aspektet Kyçe
+
+  - Variabli:
+
+      Mund të jetë çfarëdo emër që dëshirojmë.
+
+Përdoret për të ruajtur vlerën aktuale nga koleksioni gjatë çdo iterimi.
+
+## Përfundimi i Deklaratës For:
+
+  - Duhet të mbarojë me një ":".
+
+  - Ky simbol tregon që pjesa e kodit që pason është pjesë e "loop".
+
+## Indentimi
+
+  - Kodi që duhet të ekzekutohet si pjesë e "for loop" duhet të jetë i vendosur me 4 hapësira nën         deklaratën "for".
+
+  - Ky indentim përcakton që ky kod është pjesë e "loop".
+
+## Përfundimi i For Loop
+
+  - Nuk ka ndonjë fjalë speciale për të përfunduar "loop".
+
+  - Mjafton të kthehesh tek indentimi normal për të treguar që "loop" ka përfunduar.
+
+## Shembull 1: Iterimi përmes një liste
+
+
+``` python
+fruta = ["mollë", "banane", "portokall"]
+for frutë në fruta:
+    print(frutë)
+``` 
+
+Ky "loop" iteron përmes një liste frutash dhe printon secilën.
+
+## Shembull 2: Përdorimi i range() për të përsëritur
+
+``` python
+për numër në range(5):
+    print(numër)
+```
+
+Ky "loop" iteron nga 0 në 4, duke printuar secilin numër.
+
+
+## Variabli For Loop në Python
+
+  - Në Python, variabli që përdoret në një "for loop" është një variabël i zakonshëm.
+
+  - Ai vazhdon të ekzistojë edhe pasi "loop" përfundon, duke marrë vlerën e fundit nga koleksioni i iteruar.
+
+## Shembull
+
+``` python
+kushte_moti = [
+    "shi",
+    "dëborë",
+    "mjegull",
+    "diell",
+    "re",
+    "breshër",
+]
+
+për mot në kushte_moti:
+    print(mot)
+```
+
+## Shembull
+
+  - Ky "for loop" iteron mbi një listë të kushteve të motit dhe printon secilën.
+
+  - Vlera e fundit që merr **moti** pas përfundimit të "loop" është "breshër".
+  
+  
+## Kontrollimi i Vlerës së Variablit pas Loop
+
+``` python
+print("Pas loop-it, moti është", mot)
+``` 
+
+  - Ky kod tregon se çfarë vlerë ka variabli pas përfundimit të "loop".
+
+  - Në këtë rast, pasi "loop" ka përfunduar, vlera e variablit mot është "breshër".
+
+
+## For Loops Duke Përdorur Funksionin range() në Python
+
+  - For loops në Python mund të përdoren për të iteruar mbi çdo listë vlerash.
+
+  - Funksioni **range()** krijon një seri numrash për të përcaktuar sa herë duhet të përsëritet një "for loop".
+
+## Sintaksa e range()
+
+Sintaksa bazë për **range()** është:
+
+  - **range(stop):** Krijon një listë nga 0 deri në numrin "stop - 1".
+
+  - **range(start, stop, step):** Krijon një listë nga "start" deri në "stop - 1" me hapin e përcaktuar nga "step".
+
+
+## Shembull: For Loop me range(5)
+
+``` python
+për vlerë në range(5):
+    print(vlerë)
+```    
+
+  - Ky "for loop" iteron 5 herë, duke printuar numrat nga 0 deri në 4.
+
+  - Funksioni **range(5)** krijon një seri numrash nga 0 deri në 4.
+
+
+## Përdorimi i range() me Argumente të Përshtatura
+
+  - **range(start, stop, step)** lejon krijimin e serive të numrave me korniza dhe hapa të ndryshme.
+
+``` python
+për vlerë në range(1, 10, 2):
+    print(vlerë)
+```
+
+  - Ky "for loop" iteron nga 1 deri në 9 me hap 2, duke printuar: 1, 3, 5, 7, 9.
+
+
+## Looping Mbi Listat Duke Përdorur Vlerat e Indeksit në Python
+
+
+  - Përdorimi i funksionit **len()** për të marrë gjatësinë e një liste lejon "for loops" më fleksibël.
+
+  - Duke përdorur funksionin **range()**, mund të iteroni mbi indeksat e një liste për të modifikuar vlerat e saj.
+  
+## Shembull: Loop mbi Indeksat
+
+``` python
+numra = [5, 6, 7, 8]
+për i në range(len(numra)):
+    print("Vlera e i:", i)
+    print("Vlera e numra[i] para shtimit:", numra[i])
+    numra[i] = numra[i] + i
+    print("Vlera e numra[i] pas shtimit:", numra[i])
+    print("")
+```
+
+## Shembull: Loop mbi Indeksat
+
+  - Ky "for loop" iteron mbi indeksat e listës numra.
+
+  - Shton vlerën e variablit i në secilin element të listës.
+
+
+## Rezultatet
+
+  - Në iterimin e parë, i është 0, dhe lista mbetet e pandryshuar: [5, 6, 7, 8].
+
+  - Në iterimin e dytë, i është 1, dhe numra[1] bëhet 7.
+
+  - Në iterimin e tretë, i është 2, dhe numra[2] bëhet 9.
+
+  - Në iterimin e katërt, i është 3, dhe numra[3] bëhet 11.
+
+## Shohim se:
+
+Indeksi në rritje:
+
+  - Pasi përdorim funksionin **range()**, vlera e variablit i fillon nga 0 dhe rritet me 1 në çdo iterim.
+  
+Modifikimi i Listës:
+
+  - Vlera e re që ndryshohet në listë për çdo iterim është vlera në indeksin i.
+  
+  - Ky ndryshim ndodh sepse po vendosim një vlerë të re në numra[i].
+
+## Shohim se:
+
+Vlera e "vjetër" e Indeksit:
+
+  - Vlera e "vjetër" në të djathtë të ekuacionit është e shtuar me i, pastaj ruhet si vlera e re në numra[i].
+
+Emërtimi i Variablit i
+
+  - Variabli i përdoret zakonisht për të treguar variablin e indeksit në loops.
+
+  - Në loops të ngulitur (nested loops), mund të përdoren variabla të tjerë si j ose k.
+
+
+## Pse të Përdorësh Vlerën e Indeksit për të Iteruar mbi një Listë në Python?
+
+  - Përdorimi i indeksit për të iteruar mbi një listë lejon modifikimin e vlerave individuale të listës.
+
+  - Indekset janë gjithashtu të dobishme kur iteroni mbi disa lista të lidhura me njëra-tjetrën.
+
+## Shembull: Përdorimi i Indeksit për të Modifikuar Vlerat
+
+  - Për të modifikuar vlerat e një liste, shpeshherë duhet të përdorni indeksin:
+
+``` python
+# Lista me pikët e studentëve
+piket = [10, 15, 20, 25]
+
+# Rritja e çdo pike me 5
+për i në range(len(piket)):
+    piket[i] = piket[i] + 5
+
+# Pikët pas përditësimit
+print(piket)  # Output: [15, 20, 25, 30]
+
+```
+
+## Shembull: Iterimi mbi Lista të Lidhura
+
+  - Kur keni disa lista të lidhura, përdorimi i indeksit ju lejon të qaseni në vendet përkatëse në secilën listë:
+
+``` python
+# Lista me emra qytetesh dhe temperaturat përkatëse
+qytetet = ["Tiranë", "Durrës", "Shkodër", "Vlorë"]
+temperaturat = [30, 28, 25, 27]
+
+# Printimi i qyteteve me temperaturat përkatëse
+për i në range(len(qytetet)):
+    print("Temperatura në", qytetet[i], "është", temperaturat[i], "gradë")
+``` 
+
+
+
+## Iterimi mbi Lista me Indeks
+
+  - Përdorimi i indeksit për të kryer operacione të caktuara në çdo element të listës:
+
+``` python
+# Lista me çmimet e produkteve në treg
+cmimet = [100, 200, 300, 400]
+
+# Ulja e çmimit me 10% për çdo produkt
+për i në range(len(cmimet)):
+    cmimet[i] = cmimet[i] * 0.9
+
+# Çmimet pas uljes
+print(cmimet)  # Output: [90, 180, 270, 360]
+``` 
+
+## Përfitimet e Përdorimit të Indeksit
+
+  - Fleksibiliteti: Indeksi ju lejon të qaseni dhe modifikoni vlerat e caktuara në listë.
+
+  - Lidhjet ndërmjet Listave: Kur keni lista të shumëfishta me të njëjtën gjatësi, indeksat ju lejojnë të iteroni mbi to në mënyrë të sinkronizuar.
+
+  - Përdorimi i të Gjitha Listave: Në shembullin e mësipërm, mund të përdorni ose gjatësinë e listës qytetet ose vendet për të përcaktuar kufijtë e "for loop", duke marrë të njëjtin rezultat.
+
+
+
+
+
 
