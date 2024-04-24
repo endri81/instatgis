@@ -111,6 +111,16 @@ mamba install -c conda-forge pandas
 
 ## Leximi i të Dhënave Tabulare
 
+  - Krijojmë një folder **data** në folderin tonë të punës
+  
+   - Shkarkojmë në folderin data skedarin nga linku:
+   
+[https://github.com/endri81/instatgis/blob/master/data/albania-Meteo-metadata.txt](https://github.com/endri81/instatgis/blob/master/data/albania-Meteo-metadata.txt)
+
+
+## Leximi i të Dhënave Tabulare
+
+
   - Për të lexuar të dhënat nga një skedar CSV, përdorim funksionin `read_csv()` nga pandas.
 
   - Shembull: Leximi i të dhënave nga një skedar CSV me të dhënat e motit nga Kumpula, Helsinki:
@@ -934,14 +944,17 @@ temp_ngroht.to_csv(output_fp2, sep=",", index=False, float_format="%.1f")
 
 ## Shkarkojmë të dhënat
 
-  - Shkarkojmë dosjen **rar** nga linku:
+  - Shkarkojmë skedarin **rar** nga linku:
+  
+  [https://github.com/endri81/instatgis/blob/master/data/029440.rar](https://github.com/endri81/instatgis/blob/master/data/029440.rar)
 
-
+  
+Ekstraktojmë përmbajtjen në folderin tonë **data**
 
 
 ## Analiza e avancuar me Python
 
-  - Në këtë fazë duhet të keni një dosje të re quajtur data që përmban të dhënat. 
+  - Në këtë fazë duhet të keni një dosje të re quajtur data që përmban të dhënat me skedarin **029440.txt** në të. 
   
   - Mund ta konfirmoni këtë duke shfaqur përmbajtjen e dosjes data:
 
@@ -949,31 +962,6 @@ temp_ngroht.to_csv(output_fp2, sep=",", index=False, float_format="%.1f")
 ls data
 ```
 
-## Analiza e avancuar me Python
-
-Duhet të shihni diçka si më poshtë:
-
-```bash
-028360.txt           029070.txt           029440.txt           029740.txt  6367598020644inv.txt
-028690.txt           029110.txt           029500.txt           029810.txt  6367598020644stn.txt
-028750.txt           029170.txt           029700.txt           029820.txt
-028970.txt           029350.txt           029720.txt           3505doc.txt
-```
-
-
-Tani jeni gati për të vazhduar me mësimin!
-
-## Rreth të dhënave
-  
-Skedarë që përshkruajnë të dhënat e motit. 
-  
-  - Këto dosje metadata përfshijnë:
-  
-  - Një listë e stacioneve: 6367598020644stn.txt
-  
-  - Detaje rreth vëzhgimeve të motit në çdo stacion: 6367598020644inv.txt
-
-  - Një përshkrim të të dhënave (dmth, emrat e kolonave): 3505doc.txt
 
 
 ## Rreth të dhënave
@@ -1017,7 +1005,7 @@ import pandas as pd
 import pandas as pd
 
 # Definoni rrugën relative të skedarit
-file_path = "data/Albania-weather-data-full/029440.txt"
+file_path = "data/029440.txt"
 
 # Lexoni skedarin duke përdorur Pandas
 data = pd.read_csv(
@@ -1029,24 +1017,180 @@ data = pd.read_csv(
 
 
 
+## Lexojmë të dhënat edhe njëherë
+
+  - Do lexojmë përsëri të dhënat duke mbajtur vetëm disa shtylla
+  
+  -   Duke përdorur `usecols`, ne lexojmë vetëm kolonat që janë të nevojshme për analizën tonë. 
+
+```python
+# Lexoni skedarin duke përdorur Pandas
+data = pd.read_csv(
+    file_path,
+    sep='\s+',
+    usecols=["USAF", "YR--MODAHRMN", "DIR", "SPD", "GUS", "TEMP", "MAX", "MIN"],
+    na_values=["*", "**", "***", "****", "*****", "******"]
+)
+
+# Kontrolli i pjesës së parë të të dhënave të lexuara
+data.head()
+  
+```
+
+## Riemërtimi i Kolonave
+
+  - Disa nga emrat e kolonave janë të vështirë për t'u interpretuar. 
+  
+  - Me funksionin **rename**, mund të ndryshojmë emrat e kolonave që të jenë më të kuptueshme.
+
+
+## Riemërtimi i Kolonave
+
+```python
+# Krijo një fjalor për emrat e rinj të kolonave
+new_names = {"YR--MODAHRMN": "TIME", "SPD": "SPEED", "GUS": "GUST", "TEMP": "TEMP_F", "USAF": "STATION_NUMBER"}
+
+# Riemërto kolonat duke përdorur dictionary-n e krijuar
+data = data.rename(columns=new_names)
+```
 
 
 
+## Kontrollo emrat e rinj të kolonave
+
+```python
+data.columns
+```
+
+
+## Kontrollimi i Të Dhënave
+
+  - Pasi kemi lexuar të dhënat, është e rëndësishme të kontrollojmë formën e tyre dhe tipet e kolonave. 
+  
+  - Këtu, ne kontrollojmë rreshtat e parë dhe të fundit, si dhe disa statistika përshkruese.
+
+
+## Kontrollimi i Të Dhënave
+
+
+```python
+# Kontrollo formën e të dhënave
+data.shape
+```
 
 
 
+## Kontrollo rreshtat e parë dhe të fundit
+
+```python
+data.head()
+data.tail()
+```
 
 
 
+## Kontrollo tipet e kolonave
+
+```python
+data.dtypes
+```
+
+
+## Konvertimi i Temperaturave
+
+  - Temperaturat janë në Fahrenheit, por ne duam t'i konvertojmë ato në Celsius. 
+  
+  - Për ta bërë këtë, ne krijojmë një funksion dhe e aplikojmë atë në kolonën që përmban temperaturat në Fahrenheit.
 
 
 
+## Konvertimi i Temperaturave
+
+```python
+# Funksioni për konvertimin nga Fahrenheit në Celsius
+def fahr_to_celsius(temp_f):
+    return (temp_f - 32) / 1.8
+```
+
+
+## Krijo një kolonë të re për temperaturat në Celsius
+
+```python
+data["TEMP_C"] = data["TEMP_F"].apply(fahr_to_celsius)
+
+# Kontrollo rreshtat e parë pas konvertimit
+data.head()
+```
 
 
 
+## Testimi i funksionit
+
+
+```python
+# Testimi i funksionit
+fahr_to_celsius(32)  # Rezultati duhet të jetë 0.0
+```
 
 
 
+## Iterimi mbi rreshtat
+
+  - Për të iteruar mbi rreshtat, përdorim metodën **iterrows()**. 
+  
+  - Kjo metodë na lejon të kalojmë mbi çdo rresht të një DataFrame-i. 
+  
+  - Më poshtë, tregojmë një shembull të përdorimit të kësaj metode.
 
 
+## Iterimi mbi rreshtat
+
+```python
+# Për të iteruar mbi rreshtat
+for idx, row in data.iterrows():
+    # Printimi i vlerës së indeksit
+    print(f"Indeksi: {idx}")
+
+    # Printimi i temperaturës në Fahrenheit
+    print(f"Temp F: {row['TEMP_F']}")
+
+    break  # Thyerja e ciklit pas rreshtit të parë për testim
+```
+
+
+
+## Iterimi mbi rreshtat
+
+Krijojmë një kolonë të re për temperaturat në Celsius dhe përdorim funksionin e mëparshëm për të bërë konvertimin.
+
+```python
+# Krijimi i një kolone të re për Celsius
+data["TEMP_C"] = 0.0
+
+# Iterimi mbi rreshtat dhe konvertimi në Celsius
+for idx, row in data.iterrows():
+    # Konvertimi i Fahrenheit në Celsius
+    celsius = fahr_to_celsius(row["TEMP_F"])
+    
+    # Përditësimi i kolonës TEMP_C
+    data.at[idx, "TEMP_C"] = celsius
+```
+
+
+
+## Aplikimi i funksionit
+
+  - Metoda **apply()** në pandas lejon aplikimin e funksioneve në kolonat e caktuara. 
+  
+  - Këtu, do të përdorim apply() për të aplikuar funksionin e konvertimit nga Fahrenheit në Celsius.
+
+## Aplikimi i funksionit
+
+```python
+# Aplikimi i funksionit në TEMP_F
+data["TEMP_F"].apply(fahr_to_celsius)
+
+# Ruajtja e rezultateve në TEMP_C
+data["TEMP_C"] = data["TEMP_F"].apply(fahr_to_celsius)
+```
 
