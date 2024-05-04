@@ -1,0 +1,88 @@
+---
+title: "Leksioni 5"
+author: "Endri Raco"
+output:
+  beamer_presentation:
+    includes:
+      in_header: mystyle.tex
+      fig_width: 7
+    fig_height: 6
+    number_sections: false
+    keep_tex: yes
+    theme: Madrid
+    toc: yes
+    highlight: tango
+date: "`r format(Sys.Date(), '%d %B, %Y')`"  
+---
+
+```{r setup, include=FALSE}
+    library(knitr)
+    library(tidyverse)
+knitr::opts_chunk$set(
+comment=NA,
+error=F, 
+warning=F,
+tidy=TRUE, 
+fig.align = 'center',
+message=F, 
+warning=F,
+tidy.opts=list(width.cutoff=60),
+fig.width=4, 
+fig.height=4, 
+fig.path='Figs/')
+```
+
+# Të dhënat Raster (vazhdim)
+
+## Analiza e Pikave dhe Vlerësimi i Dendësisë së Kernelit (KDE)
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Shkarkimi i Të Dhënave
+
+import urllib.request
+
+# Shkarkoni skedarin e shpërndarjes së pikave dhe ruajeni lokalisht
+url = 'https://github.com/andrea-ballatore/open-geo-data-education/raw/main/datasets/darmc_historical_shipwrecks_500bce_1500ce/darmc_historical_shipwrecks_500bce_1500ce.geojson?raw=true'
+file_name = 'data/darmc_historical_shipwrecks_500bce_1500ce.geojson'
+urllib.request.urlretrieve(url, file_name)
+
+# Shkarkoni gjithashtu kufijtë e vendeve
+url = 'https://github.com/andrea-ballatore/open-geo-data-education/raw/main/datasets/world_country_boundaries_2018/natural_earth_world_boundaries_50m_2018.geojson?raw=true'
+file_name = 'data/natural_earth_world_boundaries_50m_2018.geojson'
+urllib.request.urlretrieve(url, file_name)
+```
+
+
+
+## Ngarkimi dhe Projekti i Dataset-eve
+
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import geopandas as gpd
+
+# Ngarkoni dataset-in dhe projektoni në 3035 (Lambert, i përshtatshëm për Evropën)
+ship_df = gpd.read_file('data/darmc_historical_shipwrecks_500bce_1500ce.geojson').to_crs(3035)
+countries_df = gpd.read_file('data/natural_earth_world_boundaries_50m_2018.geojson').to_crs(3035)
+```
+
+
+## Shfaqni një shembull të të dhënave
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+ship_df.sample(5)
+```
+
+
+## Vlerësimi i Dendësisë së Kernelit (KDE)
+

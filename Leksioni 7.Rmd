@@ -32,1060 +32,1055 @@ fig.height=4,
 fig.path='Figs/')
 ```
 
+# Të dhënat Raster
 
-# Përgatitja e GeoDataFrames nga të dhënat gjeografike
+## Të dhënat Raster
 
-## Përgatitja e GeoDataFrames nga të dhënat gjeografike
+  - Të dhënat raster përfaqësojnë samples nga fusha (**fields**) të vazhdueshme, të tilla si temperatura, dendësia e      gazit, dendësia e bimësisë, etj.
 
-  - Leximi i të dhënave në Python është zakonisht hapi i parë i analizës. 
+## Të dhënat Raster
+
+Një dataset raster zakonisht është një matricë me dy përmasa:
+
+
+![](./Figs/raster_matrix1.png)
+
+## Të dhënat Raster
+
+  - Një qelizë raster mund të referohet me një indeks dy-dimensional, duke treguar një çift <rresht, kolonë>. Këta        indekse fillojnë nga 0.
+
+  - Çdo vendndodhje e indeksit mund të shoqërohet me një vendndodhje gjeografike (për shembull, qeliza <12,796> mund     të korrespondojë me lon/lat <-0.34521,51.354656>).
+
+## Të dhënat Raster
+
+  - Kur punojmë me të dhëna raster, shpesh kalojmë nga indeksi raster te vendndodhjet gjeografike dhe anasjelltas.
+
+## Të dhënat Raster
+
+  - Nëse një dataset raster përmban më shumë se një matricë, ne i referohemi matricave të ndryshme si banda               (**bands**)
   
-  - Ekzistojnë formate të ndryshme të të dhënave GIS të disponueshme si **Shapefile, GeoJSON**, **KM** dhe **GeoPackage**. 
+  - Bandat numërohen nga 1. 
   
-  - **Geopandas** është në gjendje të lexojë të dhëna nga të gjitha këto formate (plus shumë të tjera).
-
-
-## Përgatitja e GeoDataFrames nga të dhënat gjeografike
-
-  - Do shohim fillimisht se si të lexoni (dhe shkruani) të dhëna nga burime të ndryshme. 
   
+## Të dhënat Raster
 
-## Leximi i të dhënave vektoriale
+  - Për shembull, një raster i prodhuar nga një satelit mund të përmbajë 3 banda që përfaqësojnë intensitetin e kuqes,     jeshiles dhe blusë.
 
-  - Në **geopandas**, ne mund të përdorim një funksion xhenerik **.from_file()** për lexim në formate të ndryshme të të dhënave vektoriale. 
+## Paketat Python për të dhënat raster
+
+  - Python nuk ka një paketë standarde të vetme që ofron të gjithë funksionalitetin për të punuar me të dhëna raster.
+
+  - Siç është shpesh rasti, në Python ne përdorim një kombinim të paketave shumë të specializuara për të arritur një      qëllim.
+
+## Të dhënat Raster
+
+  - **rasterio**: kjo paketë mund të lexojë dhe shkruajë të dhëna raster (https://rasterio.readthedocs.io).
+
+ - **rasterstats**: kjo paketë ofron funksionalitet për statistikat zonale (https://pythonhosted.org/rasterstats).
+
+ - **gdal**: shumë librari në Python (dhe gjuhë të tjera) mbështeten në këtë bibliotekë të vjetër, por të qëndrueshme,     që ofron qindra funksione gjeohapësinore, duke përfshirë përpunimin vektorial dhe raster (https://gdal.org).
+
+ - **numpy**: kjo paketë suporton operacionet e shpejta në matricat numerike që janë thelbi i përpunimit gjeohapësinor të rasterit.
+
+
+
+## Shkarkimi i skedarëve nga web-i
+
+  - Deri tani ne kemi punar me skedare lokalë, por gjithashtu të shkarkojmë skedarë nga web-i.
+
+## Shkarkimi i skedarëve nga web-i
+
+  - Shpesh, setet e mëdha të dhënave ndahen në copa më të vogla dhe shkarkimi i tyre manualisht mund të marrë shumë       kohë.
   
-  - Kur lexoni skedarë me gjeopanda, të dhënat kalohen në bibliotekën **fiona** në background. 
-  
-  - Kjo do të thotë që ju mund të lexoni dhe shkruani të gjitha formatet e të dhënave të mbështetura nga **fiona** me **geopandas**.
+ - Ky funksionalitet gjithashtu mund të përdoret në script dhe për të marrë rezultatet automatikisht.
+
+## Shkarkimi i skedarëve nga web-i
+
+Në këtë shembull, do të shkarkojmë skedarë nga një depo GitHub, duke shkarkuar një skedar raster me paketën. 
 
 
-
-## Leximi i të dhënave vektoriale
+## Shkarkimi i skedarëve nga web-i
 
 
 \AddToHookNext{env/Highlighting/begin}{\scriptsize}
 
 ```{python, eval = FALSE}
-import geopandas as gpd
-import fiona
+import urllib.request
+
+# URL to download from
+url = 'https://github.com/endri81/instatgis/blob/master/data/gis3/eu-2016-nox_avg.tif?raw=true'
+
+# Local file name where the file will be saved
+file_name = 'data/eu-2016-nox_avg.tif'
+
+# Download the file
+urllib.request.urlretrieve(url, file_name)
+
+print(f"Downloaded {file_name}")
 ```
 
+## Hapja dhe ndërtimi i rasterit
 
-## Leximi i të dhënave vektoriale
+  - Ky skedar përmban sasinë mesatare të Nitratit dhe Nitritit (NOx) në Bashkimin Evropian nga                            [https://airindex.eea.europa.eu](https://airindex.eea.europa.eu)
 
-  - Le të kontrollojmë se cilët drivera supportohen nga **fiona**.
+## Hapja dhe ndërtimi i rasterit
 
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-fiona.supported_drivers
-```
-
-
-![](./Figs/fiona1.png)
-
-
-
-## Leximi i të dhënave vektoriale
-
-
-  - Në listën e drivera-ve të supportuar,**r** është për formatet e skedarëve që mund të lexojë fiona dhe **w** është për formatet e skedarëve     që mund të shkruajë. 
+  - NOx është një element i rëndësishëm i ndotjes së ajrit. 
   
-  - Shkronja **a** shënon formatet për të cilat fiona mund të shtojë të dhëna të reja në skedarët ekzistues.
-
-
-
-## Leximi i të dhënave vektoriale
-
-  - Le të lexojmë në disa të dhëna shembuj për të parë sintaksën bazë.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Lexo nga Esri Shapefile
-fp = "data/gis2/Austin/austin_pop_2019.shp"
-data = gpd.read_file(fp)
-data.head()
-```
-
-
-## Leximi i të dhënave vektoriale
-
-![](./Figs/fiona1.png)
-
-
-## Leximi i të dhënave vektoriale
-
-  - E njëjta sintaksë funksionon për formate të tjera të të dhënave vektoriale të zakonshme.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Lexo nga Geopackage
-fp = "data/gis2/Austin/austin_pop_2019.gpkg"
-data = gpd.read_file(fp)
-
-# Lexo nga GeoJSON
-fp = "data/gis2/Austin/austin_pop_2019.geojson"
-data = gpd.read_file(fp)
-
-# Lexo nga MapInfo Tab
-fp = "data/gis2/Austin/austin_pop_2019.tab"
-data = gpd.read_file(fp)
-```
-
-
-## Leximi i të dhënave vektoriale
-
-
-  - Disa formate skedarësh si skedarët **GeoPackage** dhe **File Geodatabase** mund të përmbajnë shtresa të shumta me emra të ndryshëm, të         cilët mund të specifikohen duke përdorur parametrin **layer**. 
+  - Këto gazra kontribuojnë në smog dhe shi acid dhe mund të ndikojnë në ozonin troposferik.
   
-## Leximi i të dhënave vektoriale
+## Hapja dhe ndërtimi i rasterit
+
+  - Të dhënat janë në sistemin gjeografik *ETRS89 Lambert Azimuthal Equal Area*, të përdorura zakonisht për të dhënat     Evropiane
+  
+  -   Çdo qelizë mbulon afërsisht 2 km
+
+
+## Librari rasterio
+
+  - **rasterio** është një modul shumë i dobishëm për përpunimin raster, të cilin mund ta përdorni për të lexuar dhe        shkruar disa formate të ndryshme raster në Python. 
+  
+  - **rasterio** bazohet në GDAL dhe Python regjistron automatikisht të gjithë driverat e njohur GDAL për leximin e        formateve të suportuara gjatë importimit të modulit. 
+  
+  - Formatet më të zakonshme të skedarëve përfshijnë për shembull skedarët TIFF dhe GeoTIFF, ASCII Grid dhe Erdas         Imagine .img.
+
+  
+## Hapja dhe ndërtimi i rasterit
+
+Tani mund të përdorni **rasterio** për të eksploruar përmbajtjen e këtij grupi të të dhënave raster:
+
 
 \AddToHookNext{env/Highlighting/begin}{\scriptsize}
 
 ```{python, eval = FALSE}
-# Lexo nga GeoPackage 
-fp = "data/gis2/Austin/austin_pop_2019.gpkg"
-data = gpd.read_file(fp, layer="austin_pop_2019")
-```
-
-
-
-## Leximi i të dhënave vektoriale
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Aktivizo KML driver
-gpd.io.file.fiona.drvsupport.supported_drivers["KML"] = "rw"
-
-# Lexo nga KML
-fp = "data/gis2/Austin/austin_pop_2019.kml"
-# data = gpd.read_file(fp)
+import rasterio
+import rasterio.plot
+# Vini re se kur hapim një file, rasterio nuk e ngarkon atë në memorje.
+# Kjo është një qasje e mirë pasi file-at raster mund të jenë shumë të mëdhenj.
+nox_rast = rasterio.open('data/eu-2016-nox_avg.tif', mask=True)
 ```
 
 
 
-## Shkrimi i të dhënave vektoriale
-
-  - Ne mund të ruajmë të dhëna hapësinore në formate të ndryshme të të dhënave vektoriale duke përdorur funksionin **.to_file()** në               **geopandas**, i cili gjithashtu mbështetet në **fiona**. 
-  
-  
-  
-## Shkrimi i të dhënave vektoriale
-
-Krijoni folder **temp** brenda folderit **data**
+## Shfaq informacion rreth file-it
 
 \AddToHookNext{env/Highlighting/begin}{\scriptsize}
 
 ```{python, eval = FALSE}
-# Shkruaj Shapefile (bëj kopje)
-outfp = "data/temp/austin_pop_2019.shp"
-data.to_file(outfp)
+print("Numri i bandave:", nox_rast.count)
+print("Gjerësia:", nox_rast.width)
+print("Gjatësia:", nox_rast.height)
+```
 
-# Shkruaj Geopackage (bëj kopje)
-outfp = "data/temp/austin_pop_2019.gpkg"
-data.to_file(outfp, driver="GPKG")
+## Shfaq informacion rreth file-it
 
-# Shkruaj GeoJSON (bëj kopje)
-outfp = "data/temp/austin_pop_2019.geojson"
-data.to_file(outfp, driver="GeoJSON")
-
-#Shkruaj MapInfo Tab (bëj kopje)
-outfp = "data/temp/austin_pop_2019.tab"
-data.to_file(outfp)
-
-
-# Shkruaj KML (bëj kopje)
-outfp = "data/temp/austin_pop_2019.kml"
-data.to_file(outfp, driver="KML")  
-```  
-  
-  
-## Krijimi i një GeoDataFrame nga e para
-
-  - Është e mundur të krijohen të dhëna hapësinore nga e para duke përdorur objektet gjeometrike të **shapely** dhe **geopandas**. 
-  
-  - Kjo është e dobishme pasi e bën të lehtë konvertimin, për shembull, një skedar teksti që përmban koordinata të të dhënave                     hapësinore. 
-  
-## Krijimi i një GeoDataFrame nga e para
-
-  - Le të përpiqemi fillimisht të krijojmë një GeoDataFrame të thjeshtë bazuar në informacionin e koordinatave që përfaqësojnë skicat e sheshit     të Senatit në Helsinki, Finlandë. 
-  
-## Krijimi i një GeoDataFrame nga e para
-
-  - Këtu janë koordinatat në bazë të të cilave mund të krijojmë një objekt Polygon duke përdorur `shapely.  
-  
 \AddToHookNext{env/Highlighting/begin}{\scriptsize}
 
-```{python, eval = FALSE}  
-from shapely.geometry import Polygon
-# Koordinatat e sheshit të Senatit të Helsinkit
-coordinates = [
-    (24.950899, 60.169158),
-    (24.953492, 60.169158),
-    (24.953510, 60.170104),
-    (24.950958, 60.169990),
+```{python, eval = FALSE}
+# Të dhënat janë në sistemin koordinativ ETRS89 Lambert Azimuthal Equal Area (EPSG:3035)
+print("Sistemi koordinativ (CRS):", nox_rast.crs)
+print("Kufijtë:", nox_rast.bounds)
+print("Vlera për të dhënat që mungojnë:", nox_rast.nodata)
+```
+
+
+## Shfaq informacion rreth file-it
+
+\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+
+```{python, eval = FALSE}
+# Të gjitha metadatat
+print(nox_rast.meta)
+```
+
+
+## Funksioni për Vizualizimin e të Dhënave Raster
+
+
+  - Meqë funksionaliteti i rasterio për vizualizim është mjaft i komplikuar, ne krijojmë një funksion për të             vizualizuar një raster
+  
+  
+## Funksioni për Vizualizimin e të Dhënave Raster
+
+  - Vlerat e parazgjedhura janë (Blues, 10, 10)
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+```{python, eval = FALSE}
+def plot_raster(rast, val_matrix, plot_title, value_label, cmap='Blues', width=10, 
+height=10, diverge_zero=False):
+    """Vizualizon një raster
+        @ rast: file i rasterio (përdoret për të lexuar koordinatat gjeografike)
+        @ val_matrix: vlera të nxjerra (përdoren për të lexuar vlerat e rasterit)
+        @ plot_title: titulli i gjithë figurës
+        @ value_label: sasia që po shfaqet
+        @ cmap colormap zgjedh ngjyrat
+        @ diverge_zero: e vërtetë nëse përdoret një cmap i ndryshëm për të vendosur hartën e ngjyrave në zero
+    """
+    fig, ax = plt.subplots(figsize=(width,height))
+    # image_hidden është një hile për të treguar legjendën
+    if diverge_zero:
+        image_hidden = ax.imshow(val_matrix, cmap=cmap, norm=TwoSlopeNorm(0))
+    else:
+        image_hidden = ax.imshow(val_matrix, cmap=cmap)
+    ax.clear()
+```
+
+
+## Funksioni për Vizualizimin e të Dhënave Raster
+
+  - Vazhdimi i funksionit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+    # vizualizo rasterin: rast.transform lejon sistemin të tregojë koordinatat gjeografike
+    if diverge_zero:
+        rast_plot = rasterio.plot.show(val_matrix, cmap=cmap, ax=ax, transform=rast.transform, 
+        norm=TwoSlopeNorm(0))
+    else: 
+        rast_plot = rasterio.plot.show(val_matrix, cmap=cmap, ax=ax, transform=rast.transform)
+    # vendos titullin e figurës
+    ax.set_title(plot_title, fontsize=14)
+    # shfaq legjendën me etiketën
+    # hile për të rregulluar lartësinë
+    im_ratio = val_matrix.shape[0]/val_matrix.shape[1] 
+    cbar = fig.colorbar(image_hidden, ax=ax, fraction=0.046*im_ratio, pad=0.04)
+    cbar.ax.set_ylabel(value_label, rotation=270)
+    cbar.ax.get_yaxis().labelpad = 15
+    plt.show()
+```
+
+
+## Përdorim funksionin
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# lexoni brezin dhe vizualizoni atë me ngjyra të rreme.
+# Vini re se duhet të lexojmë brezin me .read(1) (sepse rasterio nuk e ngarkon atë).
+# Figura tregon numrin e qelizave dhe jo koordinatat gjeografike përkatëse.
+
+# masked=True është shumë e rëndësishme për t'i thënë rasterio-s të injorojë vlerat NULL (në këtë rast
+# qelizat për të cilat nuk kemi vlera të NOx).
+plot_raster(nox_rast, nox_rast.read(1, masked=True), 
+            'Përqendrimi mesatar i NOx (2 km katrorë qeliza, 2016)', 
+            'NOx mikrogram për m3', cmap='Reds', width=14, height=14)
+
+```
+
+
+## Përdorim funksionin
+
+
+![](./Figs/nox.png)
+
+
+## Të dhënat Raster
+
+  - Një operacion bazë me raster është të lexosh vlerën në një pikë të caktuar.
+
+  - Rasteri përfaqëson përqendrimin mesatar vjetor të NOx në 2016, matur në mikrogramë për çdo metër kub të ajrit (/m³).
+
+## Të dhënat Raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# një pikë në Paris (në projekcionin Lambert)
+paris_centroid_lamb = [3758948, 2889291]
+```
+
+
+## Të dhënat Raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Merrni rreshtin/kolonën në raster që korrespondon me vendndodhjen gjeografike paris_centroid_lamb
+loc_idx = nox_rast.index(paris_centroid_lamb[0], paris_centroid_lamb[1])
+print("Vendndodhja e qelizës në raster:", loc_idx)
+```
+
+
+## Të dhënat Raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# lexoni vlerën
+nox_val = nox_rast.read(1)[loc_idx]
+print("Vlera e NOx në Paris:", nox_val)
+```
+
+
+## Histogrami i Rasterit
+
+  - Si gjithmonë, është e rëndësishme të vëzhgoni shpërndarjen e vlerave me një histogram.
+
+  - Vini re se kufiri i rekomanduar NOx për BE është 40. 
+  
+  - Për fat të mirë, shumica e zonave shfaqen nën atë kufi, por është e mundur të vëzhgohen disa qeliza me vlera shumë të larta.
+
+
+## Histogrami i Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+from rasterio.plot import show_hist
+
+# Shfaq histogramin e vlerave të rasterit
+show_hist(nox_rast, bins=20, lw=0.0, stacked=False, alpha=0.3, label='Nr. i qelizave',
+    histtype='stepfilled', title="Vlerat e NOx në BE (2016)")
+```    
+
+
+## Riklasifikimi i Rasterit
+
+  - Në brendësi, një grup të dhënash raster në Python është një objekt i tipit **numpy.ndarray**, nga paketa              **numpy**.
+  
+## Riklasifikimi i Rasterit  
+
+  - Kemi të bëjmë me një **masiv** shumëdimensional, i cili është një mënyrë intuitive për të përfaqësuar grupet e të     dhënave raster me shumë banda.
+
+## Riklasifikimi i Rasterit
+
+  - Kjo strukturë e fuqishme e të dhënave përdoret shumë për llogaritje shkencore sepse supporton operacione të           shpejta në rreshta dhe kolona.
+
+  - Për shembull, ne mund të numërojmë dhe tregojmë zona me NOx > 40.
+
+## Riklasifikimi i Rasterit
+
+  - **Riklasifikimi** i një rasteri është një operacion i zakonshëm ku prodhohet një raster i ri bazuar në një            klasifikim:
+
+
+## Riklasifikimi i Rasterit
+
+![](./Figs/reclassify1.png)
+## Riklasifikimi i Rasterit
+
+Për NOx, po riklasifikojmë rasterin sipas kategorive:
+
+  - [0, 20): low (cat = 1)
+
+  - [20, 40): medium (cat = 2)
+
+  - [40, 60): high (cat = 3)
+
+- [60, ): critical (cat = 4)
+
+
+
+
+
+
+## Histogrami i Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Merr matricën me vlerat e rasterit
+vals = nox_rast.read(1, masked=True)
+print(type(vals))
+print("Madhësia e matricës:", vals.shape)  # x y
+```
+
+
+## Histogrami i Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Zgjidhni vetëm vlerat > 40
+high_vals = vals[vals > 40]
+print(len(high_vals), 'qeliza kanë vlera të larta të NOx (>40 mikrogram/m³).')
+print('% e totalit të qelizave:', (len(high_vals) / (vals.shape[0] * vals.shape[1])) * 100)
+```
+
+## Histogrami i Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Riklasifikimi:
+# Kopjoni matricën për të ruajtur të dhënat origjinale
+recl_vals = vals.copy()
+```
+
+
+## Histogrami i Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Zbato klasifikimin e ri (4 = vlera shumë të larta)
+# Vini re se renditja e këtyre veprimeve është e rëndësishme për të realizuar një
+# riklasifikim të saktë.
+recl_vals[vals > 0] = 4
+# nëse vals < 60 vendos vlerën në 3
+recl_vals[vals < 60] = 3
+# nëse vals < 40 vendos vlerën në 2
+recl_vals[vals < 40] = 2
+# nëse vals < 20 vendos vlerën në 1
+recl_vals[vals < 20] = 1
+
+# Shfaq rezultatin
+plot_raster(nox_rast, recl_vals, 'Përqendrimi mesatar i NOx (2 km² qeliza, 2016)', 
+    'Kategoritë e përqendrimit të NOx (4=max)', cmap='Blues', width=14, height=14)
+
+```
+
+
+
+## Libraria xarray
+
+
+  - **xarray** është një bibliotekë në Python e specializuar për analizën dhe manipulimin e të dhënave                    shumë-dimensionale (në stilin e Pandas), e përshtatshme për dataset-e të mëdha, si p.sh., të dhënat klimatike apo     ato të analizës së rastereve. 
+  
+   - Ofron support të plotë për struktura të avancuara të të dhënave dhe sisteme të ndryshme koordinative, duke lejuar     qasje të lehtë dhe efikase në analiza dhe vizualizim të avancuar.
+
+
+## Libraria xarray
+
+  - **rioxarray** është një bibliotekë Python që zgjeron funksionalitetin e **xarray** për të suportuar të dhëna          gjeohapësinore, duke lejuar leximin, manipulimin dhe analizimin e të dhënave raster me lehtësi. 
+  
+  - Ajo integron kapacitetet e **rasterio** në kornizën fleksibël të **xarray**, duke e bërë punën me të dhënat gjeohapësinore më të fuqishme dhe efikase.
+
+
+## Instalim
+
+```{python, eval = FALSE}
+conda install rioxarray
+```
+
+## Shembull
+
+  - Bandat **Landsat 8** ruhen si skedarë të veçantë GeoTIFF në paketën origjinale. 
+  
+  - Çdo brez përmban informacion të reflektimit të sipërfaqes nga diapazon të ndryshëm të spektrit elektromagnetik.
+
+
+
+
+## Shkarkimi i të Dhënave
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import rioxarray
+import matplotlib.pyplot as plt
+
+# Hapni skedarin raster duke përdorur rioxarray
+url = "https://a3s.fi/swift/v1/AUTH_0914d8aff9684df589041a759b549fc2/PythonGIS/elevation/kilimanjaro/ASTGTMV003_S03E036_dem.tif"
+data = rioxarray.open_rasterio(url, masked=True)
+```
+
+
+
+## Vizualizoni
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+data.plot()
+plt.title("Elevacioni i Kilimanjaros")
+plt.show()
+```
+
+
+## Vizualizoni
+
+![](./Figs/kilima.png)
+
+
+
+## Hapja e File-it Raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import rasterio
+import os
+import numpy as np
+
+# Direktoria e të dhënave
+data_dir = "data/gis3"
+fp = os.path.join(data_dir, "Helsinki_masked_p188r018_7t20020529_z34__LV-FIN.tif")
+
+# Hapni file-in
+raster = rasterio.open(fp)
+```
+
+
+## Kontrolloni llojin e variablit 'raster'
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+type(raster)
+```
+
+## Leximi i Karakteristikave të File-it Raster
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Projeksioni
+raster.crs
+```
+
+
+
+
+## Transformimi affine (si rregullohet, rrotullohet, apo zhvendoset rasteri)
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+raster.transform
+```
+
+
+## Dimensionet
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+print(raster.width)
+print(raster.height)
+```
+
+## Numri i bandave
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Numri i bandave
+raster.count
+```
+
+
+## Kufijtë e file-it
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+raster.bounds
+```
+
+
+
+## Driver-i (formati i të dhënave)
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+raster.driver
+```
+
+
+
+## Vlerat pa të dhëna për të gjitha kanalet
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+raster.nodatavals
+```
+
+
+
+## Të gjitha Meta të Dhënat për dataset-in e rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+raster.meta
+```
+
+## Marrja e Brezeve të Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+```{python, eval = FALSE}
+
+# Lexoni brezrin e rasterit si variabël të veçantë
+band1 = raster.read(1)
+```
+
+
+
+## Kontrolloni llojin e variablit 'band'
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+print(type(band1))
+
+# Lloji i të dhënave të vlerave
+print(band1.dtype)
+```
+
+
+## Statistikat e Brezit
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Lexoni të gjithë brezin
+array = raster.read()
+```
+
+
+
+## Llogarisni statistikat për çdo brez
+
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+stats = []
+for band in array:
+    stats.append(
+        {
+            "min": band.min(),
+            "mean": band.mean(),
+            "median": np.median(band),
+            "max": band.max(),
+        }
+    )
+```
+
+
+## Shfaqni statistikat për çdo kanal
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+stats
+```
+
+
+## Krijimi i një Mozaiku Raster
+
+  - Shumë shpesh ju duhet të bashkoni së bashku skedarë të shumtë raster dhe të krijoni një mozaik raster **raster        mosaic**. 
+  
+  
+  - Kjo mund të bëhet lehtësisht me funksionin **merge_datasets()** -në **rioxarray**. 
+  
+  - Këtu, ne do të krijojmë një mozaik bazuar në skedarët **DEM** (gjithsej 4 skedarë) që mbulojnë rajonin e              Kilimanjaros në Tanzani. 
+  
+## Krijimi i një Mozaiku Raster
+
+  Së pari do të lexojmë të dhënat e lartësisë nga një kovë S3 për rajonin e Kilimanxharos në Afrikë.
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import xarray as xr
+import os
+import rioxarray as rxr
+from rioxarray.merge import merge_datasets
+
+# S3 bucket që përmban të dhënat
+bucket = "https://a3s.fi/swift/v1/AUTH_0914d8aff9684df589041a759b549fc2/PythonGIS"
+
+# Gjeneroni URL-të për skedarët e lartësisë
+urls = [
+    os.path.join(bucket, "elevation/kilimanjaro/ASTGTMV003_S03E036_dem.tif"),
+    os.path.join(bucket, "elevation/kilimanjaro/ASTGTMV003_S03E037_dem.tif"),
+    os.path.join(bucket, "elevation/kilimanjaro/ASTGTMV003_S04E036_dem.tif"),
+    os.path.join(bucket, "elevation/kilimanjaro/ASTGTMV003_S04E037_dem.tif"),
 ]
-
-# Krijo një polygon Shapely nga lista e koordinatave-tuple
-poly = Polygon(coordinates)
-```
-
-## Krijimi i një GeoDataFrame nga e para
-
-  - Tani mund ta përdorim këtë poligon dhe **geopanda** për të krijuar një GeoDataFrame nga e para. 
-  
-  - Të dhënat mund të kalohen si një objekt i ngjashëm me listën. 
-  
-## Krijimi i një GeoDataFrame nga e para
-
-  - Në rastin tonë do të kemi vetëm një rresht dhe një kolonë të dhënash. 
-  
-  - Ne mund ta kalojmë poligonin brenda një liste dhe ta emërtojmë kolonën si **geometry** në mënyrë që **geopandas** të përdorin përmbajtjen e     kolonës. 
-  
-## Krijimi i një GeoDataFrame nga e para
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}   
-newdata = gpd.GeoDataFrame(data=[poly], columns=["geometry"])
-newdata
 ```
 
 
 
+## Krijimi i një Mozaiku Raster
 
-
-  
-## Krijimi i një GeoDataFrame nga e para
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-
-# Shto shtyllë dhe fut të dhëna
-newdata.at[0, "name"] = "Sheshi i Senatit"
-
-# Kontrollo
-newdata
-```
-
-
-## Krijimi i një GeoDataFrame nga e para
-
-  - Tani kemi dy kolona në të dhënat tona; njëra që përfaqëson gjeometrinë dhe tjetra me informacion shtesë për atributet. 
-  
-  - Nga këtu, mund të vazhdoni me shtimin e rreshtave shtesë të të dhënave ose printimin e të dhënave në një skedar.
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-  - Një rast i zakonshëm është që të ketë koordinata në një **delimited textfile** që duhet të konvertohet në të dhëna hapësinore. 
-  
-  - Për ta bërë këtë, ne mund të përdorim **pandas, geopandas** dhe **shapely**
-  
-  
-  
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-import pandas as pd
-airports = pd.read_csv(
-    "data/gis2/Airports/airports.txt",
-    usecols=["Airport ID", "Name", "City", "Country", "Latitude", "Longitude"],
-)
-airports.head()
-``` 
-
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-  - Të dhënat e shembullit përmbajnë koordinatat e pikave të aeroporteve që rrjedhin nga **openflights.org**. 
-  
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-len(airports)
-``` 
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-  - Ka mbi 7000 aeroporte në të dhënat dhe ne mund të përdorim informacionin e koordinatave të disponueshme në kolonat **Latitude** dhe            **Longitude** për t'i vizualizuar ato në një hartë. 
-  
-  - Koordinatat ruhen si gradë dhjetore, që do të thotë se sistemi i duhur i referencës së koordinatave për këto të dhëna është **WGS 84          (EPSG:4326)**.
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-  - Ekziston një metodë e dobishme në **geopandas** për gjenerimin e një grupi objektesh pikash bazuar në koordinatat x dhe y të quajtur             **.points_from_xy()**. 
-  
-  - Metoda supozon se koordinatat x përfaqësojnë gjatësinë dhe se koordinatat y përfaqësojnë gjerësinë gjeografike.
-
-
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-airports["geometry"] = gpd.points_from_xy(
-    x=airports["Longitude"], y=airports["Latitude"], crs="EPSG:4326"
-)
-
-airports = gpd.GeoDataFrame(airports)
-airports.head()
-``` 
-
-
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-  - Tani gjeometritë e pikave i kemi si **shapelyobjects** në kolonën **geometry** gati për t'u paraqitur në një hartë.
-  
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-airports.plot(markersize=0.1)
-```   
-
-
-## Krijimi i një GeoDataFrame nga një skedar teksti
-
-![](./Figs/airports.png)
-
-
-# Manipulimi i të dhënave gjeometrike
-
-## Manipulimi i të dhënave gjeometrike
-
-
-  - Do shohim disa nga funksionet më të zakonshme të manipulimit të gjeometrisë në **geopandas**. 
-  
-  - Do të eksplorojmë të dhënat e censusit nga Austin, Teksas. 
-  
-## Manipulimi i të dhënave gjeometrike  
-  
-  - Shpesh është e dobishme të bëhen manipulime gjeometrike në kufijtë administrativë për qëllime të mëtejshme analize dhe vizualizimi.
-  
-  
-  
-## Manipulimi i të dhënave gjeometrike
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from pathlib import Path
-``` 
-  
-
-
-## Manipulimi i të dhënave gjeometrike
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-fp = "data/gis2/Austin/austin_pop_2019.gpkg"
-
-data = gpd.read_file(fp)
-data.head()
-``` 
-  
-## Manipulimi i të dhënave gjeometrike
-
-  - Për manipulime gjeometrike, ne jemi të interesuar kryesisht në kolonën **geometry** e cila përmban gjeometritë e poligonit.
-  
-  - Lloji i të dhënave të kolonës-gjeometri është **GeoSeries**. 
-  
-  - Gjeometritë individuale janë objekte **shapely** dhe ne mund të përdorim të gjitha mjetet e **shapely** për manipulimin e gjeometrisë.
-  
-  
-  
-
-## Manipulimi i të dhënave gjeometrike
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-# Kontrollojmë kolonen geometry
-data["geometry"].head()
-``` 
-
-
-
-## Manipulimi i të dhënave gjeometrike
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-# Kontrollojmë përmbajtjen
-data["geometry"].head()
-``` 
-
-
-
-
-## Manipulimi i të dhënave gjeometrike
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-# Kontrollojmë tipin e te dhenave
-type(data["geometry"].values[0])
-``` 
-
-
-## Manipulimi i të dhënave gjeometrike
-
-
-  - Le të paraqesim së pari gjeometritë origjinale. 
-  
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-data.plot(facecolor="none", linewidth=0.2)
-
-plt.axis("off")
-plt.show()
-``` 
-
-
-## Centroidet
-
-  - Nxjerrja e centroidit të karakteristikave gjeometrike është e dobishme në shumë raste. 
-  
-  - Centroidi gjeometrik mund të përdoret, për shembull, për të vendosur etiketat e tekstit në vizualizime. 
-  
-  
-## Centroidet
-
-  - Ne mund të nxjerrim pikën qendrore të çdo poligoni nëpërmjet atributeve të centroidit në kolonën gjeometri. 
-  
-  - Të dhënat duhet të jenë në një sistem referencash të koordinatave të projektuar kur llogariten centroidet. 
-  
-  
-## Centroidet
-
-  - Nëse përpiqeni të llogaritni centroidet bazuar në informacionin e gjerësisë dhe gjatësisë, **geopandas** do të na paralajmërojë se             rezultatet ka shumë mundësi të jenë të pasakta. 
-  
-  
-## Centroidet
-
-  - Të dhënat tona janë në *WGS 84 / UTM zona 14N (EPSG:32614)*
-
-
-
-## Centroidet
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-data.crs.name
-``` 
-
-
-
-
-## Centroidet
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-data["geometry"].centroid.head()
-``` 
-
-
-
-
-## Centroidet
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-data.centroid.plot(markersize=1)
-
-plt.axis("off")
-plt.show()
-``` 
-
-
-
-
-## Bashkimi Unar (Unary Union)
-
-  - Ne mund të gjenerojmë një vijë të përbashkët të zonave administrative duke krijuar një bashkim gjeometrik midis të gjitha gjeometrive. 
-  
-  - Kjo mund të jetë e dobishme, për shembull, për të vizualizuar vijat e jashtme të një zone studimi. 
-  
-  - `unary_union` kthen një objekt të vetëm të tipit gjeometri, i cili vizualizohet automatikisht kur ekzekutoni kodin në një Jupyter Notebook.
-
-
-## Bashkimi Unar (Unary Union)
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE} 
-# Kryen bashkimin unar të të gjitha gjeometrive dhe kthen një objekt të vetëm të tipit gjeometri
-data.unary_union
-```
-
-
-
-
-## Thjeshtëzimi i Gjeometrive
-
-
-  - Simplifikimi i gjeometrisë është një proces i dobishëm sidomos kur vizualizoni të dhëna që kanë gjeometri shumë të detajuar. 
-  
-  - Me të dhënat tona të mostrës, ne mund të gjenerojmë një version të thjeshtuar të përmasave të jashtme. 
-  
-  - Parametri `tolerance` kontrollon nivelin e thjeshtimit.
-
-
-## Thjeshtëzimi i Gjeometrive
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-# Kryen thjeshtimin e gjeometrisë me një nivel tolerance prej 1000 njësi
-data.unary_union.simplify(tolerance = 1000)
-```
-
-
-
-## Poligoni Kufizues
-
-  - Poligonët kufizues janë të dobishëm në shumë raste për të përshkruar përmasat e përafërta të të dhënave gjeografike. 
-  
-  - Një drejtkëndësh minimal kufizues, i quajtur gjithashtu një kuti kufizuese ose zarf, është poligoni drejtkëndësh më i vogël që rrethon një     objekt gjeometrik. 
-
-## Poligoni Kufizues
-
-  Në një `GeoDataFrame`, atributi `envelope` kthen drejtkëndëshin kufizues për çdo gjeometri.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}  
-# Merr drejtkëndëshin kufizues për çdo gjeometri dhe shfaq vetëm pesë të parat
-data.envelope.head()
-```
-
-## Poligoni Kufizues
-
-  - Për të marrë drejtkëndëshin kufizues për të gjithë shtresën, ne së pari krijojmë një bashkim të të gjitha gjeometrive duke përdorur            **unary_union**, dhe më pas krijojmë drejtkëndëshin kufizues për atë poligon.
-
-## Poligoni Kufizues
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 ```{python, eval = FALSE}
-# Merr drejtkëndëshin kufizues për të gjitha gjeometrinë
-data.unary_union.envelope
+# Lexoni skedarët
+datasets = [
+    xr.open_dataset(url, engine="rasterio").squeeze("band", drop=True) for url in urls
+]
 ```
 
-## Poligoni Kufizues
+## Vizualizimi i Pllakave (Tiles)
 
-Koordinatat e qosheve të drejtkëndëshit kufizues për një GeoDataFrame mund të merren përmes atributit **total_bounds**.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+Shohim fillimisht si duken të dhënat:
 
 ```{python, eval = FALSE}
-# Shfaq koordinatat e kutisë kufizuese për të gjithë të dhënat
-data.total_bounds
+datasets[0]
 ```
 
-## Poligoni Kufizues
+## Vizualizimi i Pllakave (Tiles)
 
-Atributi bounds kthen koordinatat kufizuese të çdo veçorie.
+![](./Figs/tiless.png)
 
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+## Vizualizimi i Pllakave (Tiles)
 
-```{python, eval = FALSE}
-# Merr kufijtë e secilës veçori individuale dhe shfaq vetëm pesë të parat
-data.bounds.head()
-```
-
-## Pjesa Kufitare Konvekse (Convex Hull)
-
-  - Një përkufizim më i detajuar i përmasave të të dhënave mund të nxirret duke përdorur një kufizues konveks që përfaqëson poligonin më të        vogël të mundshëm që përmban të gjitha pikat në një objekt. 
-  
-## Pjesa Kufitare Konvekse (Convex Hull)
-
-  - Nëse zbatojmë metodën e kufizuesit konveks në të gjithë `GeoDataFrame`, ne do të marrim një `GeoSeries` që përmban një kufizues konveks për     çdo poligon veç e veç.
-
-
-## Pjesa Kufitare Konvekse (Convex Hull)
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Merr kufizuesin konveks për çdo gjeometri dhe shfaq vetëm pesë të parat
-data.convex_hull.head()
-```
-
-
-## Pjesa Kufitare Konvekse (Convex Hull)
-
-Për të krijuar një kufizues konveks për të gjitha përmasat, duhet së pari të krijojmë një bashkim të të gjitha poligoneve.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Krijon një kufizues konveks për të gjitha poligoneve
-data.unary_union.convex_hull
-```
-
-
-
-
-## Buffer
-
-  - Krijimi i një buferi është një operacion i zakonshëm hapësinor që ka një sërë përdorimesh në analizat hapësinore. 
-  
-  - Për shembull, në analizat e rrjetit të transportit, është mirë të plotësohet rrjeti i transportit edhe me data nga jashtë zonës së studimit     për të kapur rrugët që shkojnë përtej kufirit të zonës së studimit. 
-  
-  
-## Buffer
-
-  -  Parametri `distance` në funksionin `buffer` përcakton rrezen ose buferin (sipas sistemit të referencës së koordinatave të të dhënave). 
-  
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Krijo një bufer prej 1000 m për çdo poligon dhe vizualizoje atë
-data.buffer(1000).plot(edgecolor = "white")
-
-plt.axis("off")
-plt.show()
-```
-
-
-## Buffer
-
-Nëse duam një bufer për të gjithë zonën, fillimisht duhet të kombinojmë gjeometrinë në një objekt përpara analizës së buferit.
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Krijo një bufer prej 1000 m për të gjithë zonën e bashkuar
-data.unary_union.buffer(1000)
-```
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-
-  - Agregimi i të dhënave hapësinore i referohet kombinimit të gjeometrive në njësi më të ashpra hapësinore bazuar në disa atribute. 
-  
-  - Ky proces mund të përfshijë edhe llogaritjen e statistikave përmbledhëse.
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Në `pandas`, mësuam se si të grupojmë dhe të agregojmë të dhëna duke përdorur metodën `groupby`. 
-  
-  - Në `geopandas`, ekziston një funksion i quajtur `dissolve()` që grupon të dhënat bazuar në një kolonë atributi dhe bashkon gjeometrinë për     çdo grup në atë atribut. 
-  
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Në të njëjtën kohë, ne gjithashtu mund të marrim statistika përmbledhëse të atributeve. 
-  
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Për të ilustruar se si funksionon `dissolve` me të dhënat tona shembull, le të krijojmë një kolonë të re për të treguar traktet e             regjistrimit me dendësi popullsie mbi mesataren. 
-  
-  
-  - Ne mund ta bëjmë këtë duke shtuar një kolonë të re bosh `dense` dhe duke shtuar vlera që tregojnë dendësi popullsie mbi dhe nën mesataren     për çdo trakt regjistrimi.
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-
-```{python, eval = FALSE}
-fp = "data/gis2/Austin/austin_pop_2019.gpkg"
-
-data = gpd.read_file(fp)
-data.head()
-```
-
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-
-```{python, eval = FALSE}
-data["area_km2"] = data.area / 1000000
-
-# Llogarisim densitetin
-data["pop_density_km2"] = data["pop2019"] / data["area_km2"]
-
-# Print vlerat
-print("Mesatarja:", round(data["pop_density_km2"].mean()), "pop/km2")
-
-print("Maksimum:", round(data["pop_density_km2"].max()), "pop/km2")
-```
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Krijoni një kolonë të re dhe shtoni një vlerë konstante
-data["dense"] = 0
-# Filtroni rreshtat me dendësi popullsie mbi mesataren dhe përditësoni kolonën `dense`
-data.loc[data["pop_density_km2"] > data["pop_density_km2"].mean(), "dense"] = 1
-# Kontrolloni numrin e rreshtave për kategori
-data.dense.value_counts()
-```
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Tani kemi një kolonë të re me vlerën 1 që tregon dendësinë e popullsisë mbi mesataren, të cilën mund ta përdorim për të shkrirë të dhënat     në dy grupe duke përdorur funksionin **.dissolve()**. 
-  
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Në të njëjtën kohë, ne mund të përmbledhim kolonat e popullsisë dhe sipërfaqes duke përdorur parametrin **aggfunc**. 
-  
-  - Agregimi kërkon që të zgjedhim kolonat numerike që duam të përfshijmë në rezultat.
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Kryeni agregimin
-dissolved = data[["pop2019", "area_km2", "dense", "geometry"]].dissolve(
-    by = "dense", aggfunc = "sum"
-)
-# Kontrolloni rezultatin
-dissolved
-```
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Të dhënat e shkrira duhet të kenë po aq rreshta të dhënash sa kishte vlera unike në kolonë - një rresht për çdo vlerë unike. 
-  
-  - Të dhënat tona janë kompresuar në dy objekte gjeometrike dhe kolona e përdorur për shkrirjen e të dhënave tani mund të gjendet në indeks.
-  
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-  - Kolonat e atributeve përfaqësojnë shumën e vlerave për grup. 
-  
-  - Ne mund të rivendosim indeksin dhe të fusim informacionin kategorik në një kolonë të re, pas së cilës mund të bëjmë një vizualizim të        shpejtë të rezultatit.
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-dissolved = dissolved.reset_index()
-dissolved.plot(column = "dense")
-
-plt.axis("off")
-plt.show()
-```
-
-
-
-## Bashkimi dhe Shkrirja e Gjeometrive
-
-![](./Figs/dissolve.png)
-
-# Puna me Projeksionet e Hartave
-
-  
-## Puna me Projeksionet e Hartave
-
-  - Sistemi i Referencës së Koordinatave (CRS) është një përkufizim matematikor që përcakton mënyrën se si koordinatat e gjeometrive lidhën me     lokacionet e tyre reale në Tokë. 
-  
-## Puna me Projeksionet e Hartave  
-  
-  CRS përbëhet nga disa pjesë kyçe:
-
-    **Datum**:
-
-Një datum është një model matematik që përcakton formën e Tokës dhe përdoret për të përcaktuar origjinën dhe orientimin e një CRS.
-
-## Puna me Projeksionet e Hartave 
-
-Ekzistojnë dy lloje kryesore të datumeve:
-
-  **Horizontal:** Përcakton pozitën dhe formën e sipërfaqes së Tokës në dy dimensione (gjerësia dhe gjatësia).
-  
-  **Vertikal:** Përcakton nivelin bazë për lartësinë.
-
-## Puna me Projeksionet e Hartave 
-
-  **Sistemi i Koordinatave:**
-
-Ky sistem përcakton njësi matëse dhe boshtet (si latitudë dhe longitudë) që përdoren për të vendosur gjeometri.
-
-
-## Puna me Projeksionet e Hartave 
-
-Dy llojet kryesore të sistemeve të koordinatave janë:
-  
-  **Gjeografik (ellipsoidal):** Përdor një elipsoid për të përcaktuar pozitën në një sipërfaqe me koordinata gradësh (gjerësia dhe gjatësia).
-
-  **Projektuar (planiometrik):** Projekton sipërfaqen e Tokës në një plan të sheshtë duke përdorur një projeksion hartash dhe zakonisht përdor     njësi matëse lineare.
-  
-## Puna me Projeksionet e Hartave 
-
-**Projeksioni i hartave:**
-
-Një projeksion hartash është një transformim matematik që projekton gjeometri nga një sipërfaqe elipsoidale në një sipërfaqe të sheshtë.
-
-
-## Puna me Projeksionet e Hartave 
-
-Disa lloje projeksionesh të zakonshme përfshijnë:
-
-**Cilindrike:** Projekton globin në një formë cilindrike (si Mercator).
-
-**Koni:** Projekton globin në një kon.
-
-**Azimutha:** Projekton globin në një rreth.
-
-## Puna me Projeksionet e Hartave 
-
-**Kodi EPSG**
-
-Një kod EPSG është një numër unik që identifikon një CRS të caktuar. Organizata EPSG mirëmban një bazë të dhënash me këta kode.
-
-
-## Puna me Projeksionet e Hartave 
-
-**Zona e Përdorimit (Area of Use):**
-
-Përcakton rajonin gjeografik ku një CRS është i saktë dhe i përshtatshëm për t'u përdorur.  
-  
-  
-## Puna me Projeksionet e Hartave 
-
-  - Mjeti ynë kryesor për menaxhimin e sistemeve të referencës së koordinatave është biblioteka **PROJ**, e cila mund të përdoret nëpërmjet        bibliotekës **pyproj** të Python. 
-  
-  - **Pyproj** mund të përdoret për të hyrë në informacionin CRS të një grupi të caktuar të dhënash gjeografike dhe gjithashtu për të riprojektuar të dhënat nga një sistem koordinatash në një tjetër. 
-  
-
-## Puna me Projeksionet e Hartave
-
-  - Do shohim si të punojmë me sistemet e referencës së koordinatave në `geopandas` duke përdorur një grup të dhënash të kufijve të një vendi      nga Evropa. 
-  
-  - Do të riprojektojmë grupin e të dhënave nga sistemi origjinal WGS84 në një projeksion Lambert Azimuthal Equal Area, të cilin BE e             rekomandon për Evropën
-  
-  
-## Puna me Projeksionet e Hartave  
-
-  - Fillojmë duke lexuar të dhënat nga skedari `eu_countries_2022.gpkg`. 
-  
-  - Kur lexoni të dhënat në `GeoDataFrame` me `geopandas`, informacioni CRS lexohet automatikisht nga skedari dhe ruhet në atributin `.crs`:
-
-
-## Puna me Projeksionet e Hartave  
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-
-import geopandas as gpd
-
-# Lexo skedarin
-fp = "data/gis2/EU_countries/eu_countries_2022.gpkg"
-data = gpd.read_file(fp)
-```
-
-
-## Puna me Projeksionet e Hartave  
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Cili është lloji?
-print(type(data.crs))
-# Kontrollo informacionin e sistemit të referencës së koordinatave
-data.crs
-```
-
-
-## Puna me Projeksionet e Hartave  
-
-![](./Figs/crs.png)
-
-
-
-
-
-## Puna me Projeksionet e Hartave
-
-  - Ajo që kthen **geopandas** këtu është në fakt një objekt **CRS** nga biblioteka **pyproj**. 
-  
-  - Kodi **EPSG** i të dhënave tona është **4326** që i referohet sistemit të koordinatave **WGS84**. 
-  
-## Puna me Projeksionet e Hartave
-
-  - Ky kod EPSG është ndër më të përdorurit në botë për referencë gjeohapësinore. 
-  
-  - Duke parë vlerat e koordinatave në kolonën geometry, ato janë në gradë dhjetore që përputhen me këtë sistem:
-
-## Puna me Projeksionet e Hartave  
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-data["geometry"].head()
-```
-## Puna me Projeksionet e Hartave 
-
-  - Siç mund ta shohim, vlerat e koordinatave të Poligonit duken vërtet si shkallë dhjetore, kështu që gjithçka duket e saktë.
-  
-  - Megjithatë, **WGS84** nuk është një sistem koordinatash i mirë për të përfaqësuar kufijtë evropianë në një hartë, sepse sipërfaqet             shtrembërohen. 
-  
-## Puna me Projeksionet e Hartave 
-
-  - Prandaj, është një ide e mirë të konvertohen këto gjeometri në një projeksion **Lambert Azimuthal Equal Area [4] (EPSG:3035)**, i cili         është një opsion i mirë për krijimin e hartave me të dhëna në nivel shteti në Evropë.
-
-## Riprojektimi i një GeoDataFrame
-
-
-  - Ndryshimi nga një sistem koordinatash në një tjetër është një nga detyrat më të zakonshme kur punojmë me të dhëna gjeografike. 
-   
-  - Transformimi i koordinatave mund të bëhet shumë lehtë në `geopandas` duke përdorur metodën `.to_crs()` të një `GeoDataFrame` të caktuar. 
-   
-
-## Riprojektimi i një GeoDataFrame
-
-Metoda ka dy parametra alternative: 
-  
-   - `crs` i cili pranon informacionin CRS nga formate të ndryshme, si vargjet `proj` ose teksti `OGS WKT`;
-    
-   - `epgs` që pranon kodin EPSG të një sistemi të caktuar koordinatash si një numër. 
-      
-      
-## Riprojektimi i një GeoDataFrame
-
-  - Të dyja këto mund të përdoren për të bërë transformimin e koordinatave dhe për të riprojektuar të dhënat në një CRS të dëshiruar. 
-  
-  - Le të riprojiktojmë të dhënat tona në EPSG:3035 duke përdorur parametrin `epsg`:
-
-
-## Riprojektimi i një GeoDataFrame
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Le të bëjmë një kopje rezervë të të dhënave tona
-data_wgs84 = data.copy()
-
-# Riprojektimi i të dhënave
-data = data.to_crs(epsg=3035)
-
-# Kontrollo vlerat e reja të gjeometrisë
-data["geometry"].head()
-```
-
-
-## Riprojektimi i një GeoDataFrame
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
-
-```{python, eval = FALSE}
-# Cili është kodi i ri EPSG?
-data.crs.to_epsg()
-```
-
-## Riprojektimi i një GeoDataFrame
-
-  - Vlerat e koordinatave në gjeometri janë ndryshuar! 
-  
-  - Tani kemi ndryshuar me sukses CRS-në e shtresës sonë në një të re, dmth. në sistemin e koordinatave planar ETRS-LAEA (EPSG:3035). 
-  
-## Riprojektimi i një GeoDataFrame
-
-  - Për të kuptuar vërtet se çfarë po ndodh, është mirë të eksploroni të dhënat tona vizualisht. 
-  
-  - Le të krahasojmë grupet e të dhënave duke bërë harta prej tyre:
-
-
-## Riprojektimi i një GeoDataFrame
-
-
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 ```{python, eval = FALSE}
 import matplotlib.pyplot as plt
 
-# Krijo nën-dritare të vendosura pranë njëra-tjetrës
-fig, (ax1, ax2) = plt.subplots(nrows = 1, ncols = 2, figsize = (12, 12))
-
-# Vizualizo të dhënat në CRS WGS84
-data_wgs84.plot(ax = ax1, facecolor = "gray")
-
-# Shto titullin
-ax1.set_title("WGS84")
-
-# Vizualizo të dhënat me projeksion ETRS-LAEA
-data.plot(ax = ax2, facecolor = "blue")
-
-# Shto titullin
-ax2.set_title("ETRS Lambert Azimuthal Equal Area projection")
-
-# Vendos raportin si 1
-ax1.set_aspect(aspect = 1)
-ax2.set_aspect(aspect = 1)
-
-# Hiq hapësirën e bardhë të panevojshme rreth grafikut
-plt.tight_layout()
+# Vizualizoni dërrasat për të parë se si duken veç e veç
+fig, axes = plt.subplots(2, 2, figsize=(16, 16))
+datasets[0]["band_data"].plot(ax=axes[0][0], vmax=5900, add_colorbar=False)
+datasets[1]["band_data"].plot(ax=axes[0][1], vmax=5900, add_colorbar=False)
+datasets[2]["band_data"].plot(ax=axes[1][0], vmax=5900, add_colorbar=False)
+datasets[3]["band_data"].plot(ax=axes[1][1], vmax=5900, add_colorbar=False)
 ```
 
 
-
-## Harta e Evropës e paraqitur me dy sisteme të ndryshme të referencës së koordinatave
-
-![](./Figs/lambert.png)
+## Vizualizimi i Pllakave (Tiles)
 
 
-## Harta e Evropës e paraqitur me dy sisteme të ndryshme të referencës së koordinatave
+![](./Figs/tiles2.png)
 
-  - Siç mund të shohim nga figura, hartat duken shumë të ndryshme dhe ajo e riprojektuar duket dukshëm më mirë, veçanërisht në Veri, ku           gjeometria është më realiste dhe jo aq e shtrirë sa në WGS84. 
+
+
+## Krijimi i Mozaikut Raster
+
+  - Siç mund ta shohim ne kemi skedarë të shumtë raster të veçantë që ndodhen pranë njëri-tjetrit. 
   
+  - Prandaj, ne duam t'i bashkojmë ato në një skedar të vetëm raster që mund të bëhet duke krijuar një mozaik raster.
   
-## Harta e Evropës e paraqitur me dy sisteme të ndryshme të referencës së koordinatave
+  - Mund të krijojmë një mozaik raster duke bashkuar këto grupe të dhënash me funksionin **merge_datasets()**:
 
-  - Së fundi, le të ruajmë shtresën tonë të projektuar në një Shapefile, në mënyrë që ta përdorim më vonë. 
-  
-\AddToHookNext{env/Highlighting/begin}{\scriptsize}
+
+## Krijimi i Mozaikut Raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 ```{python, eval = FALSE}
-# Output
-outfp = "data/temp/Europe_borders_epsg3035.shp"
+# Krijoni një mozaik nga dërrasat
+mosaic = merge_datasets(datasets)
 
-# Ruaj në disk
-data.to_file(outfp)  
+# Shtoni një emër më intuitiv për variablin e të dhënave
+mosaic = mosaic.rename({"band_data": "elevation"})
 ```
 
+
+
+## Vizualizoni mozaikun
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+mosaic["elevation"].plot(figsize=(12, 12))
+```
+
+## Vizualizoni mozaikun
+
+![](./Figs/mosaic.png)
+
+## Prerja e Rasterit
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import geopandas as gpd
+from shapely.geometry import box
+
+# Koordinatat e kutisë kufizuese
+minx = 37.1
+miny = -3.3
+maxx = 37.6
+maxy = -2.85
+```
+
+
+## Prerja e Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Krijoni një GeoDataFrame që do të përdoret për të prerë rasterin
+geom = box(minx, miny, maxx, maxy)
+clipping_gdf = gpd.GeoDataFrame({"geometry": [geom]}, index=[0], crs="epsg:4326")
+```
+
+
+## Prerja e Rasterit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Eksploroni shtrirjen në hartë
+clipping_gdf.explore()
+```
+
+
+
+
+## Prerja e Rasterit
+
+![](./Figs/mosaic2.png)
+
+
+
+
+## Prerja e Mozaikut me GeoDataFrame
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Priteni mozaikun me GeoDataFrame dhe specifikoni CRS
+kilimanjaro = mosaic.rio.clip(clipping_gdf.geometry, crs=mosaic.elevation.rio.crs)
+kilimanjaro["elevation"].plot()
+```
+
+
+## Prerja e Mozaikut me GeoDataFrame
+
+
+![](./Figs/mosaic3.png)
+
+## Ruajtja e Rasterit në një GeoTIFF
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Ruani file-in në GeoTIFF
+kilimanjaro.rio.to_raster("data/kilimanjaro.tif", compress="LZMA", tiled=True)
+```
+
+
+
+
+# Analiza e Modeleve Dixhitale të Lartësisë (DEM)
+
+## Shkarkimi i Skedarit DEM
+
+  - **DEM** janë një lloj i zakonshëm i rasterit që përfaqëson lartësinë.
+
+  - Ky grup të dhënash përfaqëson lartësinë e Himalajeve në një rezolucion prej 1 km
+
+
+## Shkarkimi i Skedarit DEM
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import urllib.request
+
+# Shkarkoni file-in nga 'url' dhe ruajeni lokalisht nën 'file_name'
+url = 'https://github.com/andrea-ballatore/open-geo-data-education/blob/main/datasets/digital_elevation_models/dem_srtm_1km_himalayas_2009.tif?raw=true'
+rast_file_name = 'data/dem_srtm_1km_himalayas_2009.tif'
+urllib.request.urlretrieve(url, rast_file_name)
+```
+
+
+
+## Hapja dhe Vizualizimi i DEM
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import rasterio
+
+# Hapni file-in DEM duke përdorur rasterio
+him_rast = rasterio.open('data/dem_srtm_1km_himalayas_2009.tif')
+```
+
+
+## Hapja dhe Vizualizimi i DEM
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Shfaqni informacionin e file-it
+print(him_rast.meta)
+print(him_rast.bounds)
+```
+
+## Shfaqja e Vlerave të DEM
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Vini re se duhet të lexojmë një brez (sepse rasterio nuk e ngarkon atë)
+vals = him_rast.read(1, masked=True)
+```
+
+
+
+
+## Shfaqni statistika bazë
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+print("Vlera minimale (m):", vals.min())
+# vini re se për median përdorim np.median
+print("Vlera mesatare (m):", np.median(vals))
+print("Vlera maksimale (m):", vals.max())
+```
+
+
+
+## Ndërtojmë
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+plot_raster(him_rast, vals, 'Himalaya DEM (rezolucion 1km, 2009)', 'Elevation (m)')
+```
+
+
+## Ndërtojmë
+
+![](./Figs/himal3.png)
+
+# Operacione DEM me GDAL
+
+## Operacione DEM me GDAL
+
+- GDAL mund të përdoret për të kryer operacione të thjeshta në DEM pa i ngarkuar ato tërësisht në memorje.
+
+- `gdal.DEMProcessing(...)` mbështet operacione të zakonshme si aspekti, pjerrësia dhe hijezimi i kodrës.
+
+## Përgatitja e Mjedisit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Importoni paketën GDAL dhe rasterio
+from osgeo import gdal
+import rasterio
+import os
+
+# Sigurohuni që drejtoria e daljes ekziston
+os.makedirs('tmp', exist_ok=True)
+
+# Specifikoni skedarin hyrës të DEM
+input_raster = 'data/dem_srtm_1km_himalayas_2009.tif'
+```
+
+
+
+
+## Përgatitja e Mjedisit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Shfaqni ndihmën për funksionin DEMProcessing
+help(gdal.DEMProcessing)
+```
+
+
+## Llogaritja e Aspektit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Llogaritni aspektin duke përdorur GDAL
+out_raster = 'tmp/dem_srtm_1km_himalayas_2009_aspect.tif'
+out = gdal.DEMProcessing(out_raster, input_raster, 'aspect')
+```
+
+
+## Llogaritja e Aspektit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Sigurohuni që file-i të shkruhet
+out.FlushCache()
+aspect_rast = rasterio.open(out_raster).read(1, masked=True)
+print("Gama e aspektit: ", aspect_rast.min(), aspect_rast.max())
+```
+
+
+## Llogaritja e Aspektit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Vizualizoni aspektin e Himalajave
+plot_raster(rasterio.open(out_raster), aspect_rast, 
+            'Aspekti i Himalajave (rezolucion 1 km, 2009)', 
+            'Aspekti (gradë)', cmap="Spectral", width=3)
+```
+
+
+## Ndërtojmë
+
+![](./Figs/himal.png)
+
+
+
+
+
+## Ndërtojmë
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# llogarisim hillshade
+out_raster = 'tmp/dem_srtm_1km_himalayas_2009_hillshade.tif'
+out = gdal.DEMProcessing(out_raster, input_raster, 'hillshade')
+```
+
+## Ndërtojmë
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}  
+
+```{python, eval = FALSE}
+# sigurohemi që skedari u shkrua
+out.FlushCache()
+# out_raster duhet të ekzistojë
+hillshade_rast = rasterio.open(out_raster).read(1, masked=True)
+print("diapazoni i hillshade (në gradë):",hillshade_rast.min(),hillshade_rast.max())
+```
+
+
+
+## Ndërtojmë
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}  
+
+```{python, eval = FALSE}
+plot_raster(rasterio.open(out_raster), hillshade_rast, 
+            'Himalayas Hillshade (rezolucioni 1km, 2009)',
+            'Hillshade (degrees)', cmap="Greys", width=3)
+```
+
+
+## Ndërtojmë
+
+![](./Figs/himal2.png)
 
