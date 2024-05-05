@@ -40,19 +40,18 @@ fig.path='Figs/')
 
 
 ```{python, eval = FALSE}
-# Shkarkimi i Të Dhënave
-
 import urllib.request
 
-# Shkarkoni skedarin e shpërndarjes së pikave dhe ruajeni lokalisht
-url = 'https://github.com/andrea-ballatore/open-geo-data-education/raw/main/datasets/darmc_historical_shipwrecks_500bce_1500ce/darmc_historical_shipwrecks_500bce_1500ce.geojson?raw=true'
-file_name = 'data/darmc_historical_shipwrecks_500bce_1500ce.geojson'
-urllib.request.urlretrieve(url, file_name)
+# Shkarkoni të dhënat e anijeve të mbytura historike
+url_shipwrecks = 'https://github.com/endri81/instatgis/blob/master/data/gis4/darmc_historical_shipwrecks_500bce_1500ce.geojson?raw=true'
+file_name_shipwrecks = 'data/darmc_historical_shipwrecks_500bce_1500ce.geojson'
+urllib.request.urlretrieve(url_shipwrecks, file_name_shipwrecks)
 
 # Shkarkoni gjithashtu kufijtë e vendeve
-url = 'https://github.com/andrea-ballatore/open-geo-data-education/raw/main/datasets/world_country_boundaries_2018/natural_earth_world_boundaries_50m_2018.geojson?raw=true'
-file_name = 'data/natural_earth_world_boundaries_50m_2018.geojson'
-urllib.request.urlretrieve(url, file_name)
+url_boundaries = 'https://github.com/endri81/instatgis/blob/master/data/gis4/natural_earth_world_boundaries_50m_2018.geojson?raw=true'
+file_name_boundaries = 'data/natural_earth_world_boundaries_50m_2018.geojson'
+urllib.request.urlretrieve(url_boundaries, file_name_boundaries)
+
 ```
 
 
@@ -83,6 +82,39 @@ countries_df = gpd.read_file('data/natural_earth_world_boundaries_50m_2018.geojs
 ship_df.sample(5)
 ```
 
+## Shfaqni një shembull të të dhënave
 
-## Vlerësimi i Dendësisë së Kernelit (KDE)
+![](./Figs/ship.png)
 
+
+## Vizualizimi i Pikave
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import geoplot
+import matplotlib.pyplot as plt
+
+# Përkufizoni kanavacën
+f, ax = plt.subplots(figsize=(10,7))
+
+# Vizualizoni dy shtresa
+countries_df.plot(ax=ax, color='lightgray', edgecolor="none", linewidth=.5)
+geoplot.pointplot(ship_df, s=2, color='red', ax=ax, alpha=.1)
+
+# Vendosni kufijtë e hartës
+# Krijoni një buffer për të shtuar një margjinë
+buff = ship_df.buffer(1)
+xlim = ([buff.total_bounds[0], buff.total_bounds[2]])
+ylim = ([buff.total_bounds[1], buff.total_bounds[3]])
+ax.set_xlim(xlim)
+ax.set_ylim(ylim)
+
+# Vendosni titullin e hartës
+ax.set_title('Anije të Mbytura (500 p.e.s. - 1500 e.s.)')
+
+# Shfaqni rezultatet
+plt.show()
+```
