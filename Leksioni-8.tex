@@ -150,12 +150,12 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Leksioni 5},
+  pdftitle={Leksioni 8},
   pdfauthor={Endri Raco},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Leksioni 5}
+\title{Leksioni 8}
 \author{Endri Raco}
 \date{05 May, 2024}
 
@@ -1086,6 +1086,622 @@ Në dataframe pandas, mund të shkruajmë kushte në mënyra të ndryshme:
 \begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
 \protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-14}{}
 \includegraphics{./Figs/eunox4.png}
+\end{frame}
+
+\hypertarget{praktikuxeb}{%
+\section{Praktikë}\label{praktikuxeb}}
+
+\begin{frame}{Detyra 1}
+\protect\hypertarget{detyra-1}{}
+\begin{itemize}
+\item
+  Do ngarkojmë dataset që përmban raster me të dhëna globale të reshjeve
+  nga viti 1950 deri në vitin 2017 në milimetra nga url
+  \href{https://raw.githubusercontent.com/endri81/instatgis/master/data/global_precipitation_1950_2017/rasters/}{https://raw.githubusercontent.com/endri81/instatgis/master/data/global\_precipitation\_1950\_2017/
+  rasters/}
+\item
+  Duke përdorur cikle for, merrni raster-in e reshjeve çdo 5 vjet nga
+  viti 1980 deri në vitin 2015.
+\item
+  Për çdo raster, gjeneroni një grafik duke përdorur funksionin
+  \textbf{plot\_raster} (funksioni në 2 slidet e tjera) dhe printoni
+  vlerat minimale, mesatare dhe maksimale.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Funksioni plot\_raster}
+\protect\hypertarget{funksioni-plot_raster}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Duke qenë se funksionaliteti i vizualizimit të rasterio është mjaft i komplikuar,}
+\CommentTok{\# ne krijojmë një funksion për të vizualizuar një raster më lehtë.}
+\CommentTok{\# Vini re vlerat e paracaktuara (Blues, 10, 10).}
+\CommentTok{\# Sa i përket kompleksitetit, kjo është një funksion realist i përdorur në shkencën e të dhënave,}
+\CommentTok{\# me "hack"{-}e për t\textquotesingle{}i bërë gjërat të funksionojnë për shkak të kufizimeve të paketës.}
+
+\KeywordTok{def}\NormalTok{ plot\_raster(rast, val\_matrix, plot\_title, value\_label, cmap}\OperatorTok{=}\StringTok{\textquotesingle{}Blues\textquotesingle{}}\NormalTok{, width}\OperatorTok{=}\DecValTok{10}\NormalTok{, height}\OperatorTok{=}\DecValTok{10}\NormalTok{, diverge\_zero}\OperatorTok{=}\VariableTok{False}\NormalTok{):}
+    \CommentTok{"""Vizualizon një rasterio raster me cilësime të arsyeshme dhe me legjendë.}
+\CommentTok{        @ rast: skedari rasterio (përdoret për të lexuar koordinatat gjeografike)}
+\CommentTok{        @ val\_matrix: vlerat e nxjerra (përdoret për të lexuar vlerat e rasterit)}
+\CommentTok{        @ plot\_title: titulli i figurës së plotë}
+\CommentTok{        @ value\_label: sasia që shfaqet}
+\CommentTok{        @ diverge\_zero: e vërtetë nëse përdorni një cmap divergjent për të përqendruar hartën e ngjyrave në zero}
+\CommentTok{    """}
+\NormalTok{    fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{))}
+    \CommentTok{\# image\_hidden është një "hack" për të treguar legjendën}
+    \ControlFlowTok{if}\NormalTok{ diverge\_zero:}
+\NormalTok{        image\_hidden }\OperatorTok{=}\NormalTok{ ax.imshow(val\_matrix, cmap}\OperatorTok{=}\NormalTok{cmap, norm}\OperatorTok{=}\NormalTok{TwoSlopeNorm(}\DecValTok{0}\NormalTok{))}
+    \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{        image\_hidden }\OperatorTok{=}\NormalTok{ ax.imshow(val\_matrix, cmap}\OperatorTok{=}\NormalTok{cmap)}
+
+\NormalTok{    ax.clear()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Funksioni plot\_raster (vazhdim)}
+\protect\hypertarget{funksioni-plot_raster-vazhdim}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{\# vizualizoni raster: rast.transform lejon sistemin të tregojë koordinatat gjeografike}
+    \ControlFlowTok{if}\NormalTok{ diverge\_zero:}
+\NormalTok{        rast\_plot }\OperatorTok{=}\NormalTok{ rasterio.plot.show(val\_matrix, cmap}\OperatorTok{=}\NormalTok{cmap, ax}\OperatorTok{=}\NormalTok{ax, transform}\OperatorTok{=}\NormalTok{rast.transform, norm}\OperatorTok{=}\NormalTok{TwoSlopeNorm(}\DecValTok{0}\NormalTok{))}
+    \ControlFlowTok{else}\NormalTok{: }
+\NormalTok{        rast\_plot }\OperatorTok{=}\NormalTok{ rasterio.plot.show(val\_matrix, cmap}\OperatorTok{=}\NormalTok{cmap, ax}\OperatorTok{=}\NormalTok{ax, transform}\OperatorTok{=}\NormalTok{rast.transform)}
+    
+    \CommentTok{\# vendosni titullin e grafikut}
+\NormalTok{    ax.set\_title(plot\_title, fontsize}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
+    
+    \CommentTok{\# shfaqni legjendën me etiketën}
+    \CommentTok{\# "hack" për të rregulluar lartësinë}
+\NormalTok{    im\_ratio }\OperatorTok{=}\NormalTok{ val\_matrix.shape[}\DecValTok{0}\NormalTok{]}\OperatorTok{/}\NormalTok{val\_matrix.shape[}\DecValTok{1}\NormalTok{] }
+    \CommentTok{\#plt.colorbar(im,fraction=0.046*im\_ratio, pad=0.04)}
+\NormalTok{    cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(image\_hidden, ax}\OperatorTok{=}\NormalTok{ax, fraction}\OperatorTok{=}\FloatTok{0.046}\OperatorTok{*}\NormalTok{im\_ratio, pad}\OperatorTok{=}\FloatTok{0.04}\NormalTok{)}
+\NormalTok{    cbar.ax.set\_ylabel(value\_label, rotation}\OperatorTok{=}\DecValTok{270}\NormalTok{)}
+\NormalTok{    cbar.ax.get\_yaxis().labelpad }\OperatorTok{=} \DecValTok{15}
+    \CommentTok{\#ax.set\_axis\_off() \# aktivizoni/çaktivizoni akset}
+\NormalTok{    plt.show()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ urllib.request}
+
+\CommentTok{\# shkarkoni skedarët. Asc qëndron për Ascii, një format i thjeshtë raster.}
+\NormalTok{years }\OperatorTok{=} \BuiltInTok{range}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2016}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\NormalTok{base\_url }\OperatorTok{=} \StringTok{\textquotesingle{}https://raw.githubusercontent.com/endri81/instatgis/master/data/global\_precipitation\_1950\_2017/rasters/\textquotesingle{}}
+
+\ControlFlowTok{for}\NormalTok{ year }\KeywordTok{in}\NormalTok{ years:}
+\NormalTok{    rast\_url }\OperatorTok{=}\NormalTok{ base\_url }\OperatorTok{+} \StringTok{\textquotesingle{}precip\_}\SpecialCharTok{\{\}}\StringTok{{-}total.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year)}
+\NormalTok{    local\_file\_name }\OperatorTok{=} \StringTok{\textquotesingle{}data/global\_precip\_raster{-}}\SpecialCharTok{\{\}}\StringTok{.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year)}
+    \BuiltInTok{print}\NormalTok{(local\_file\_name)}
+\NormalTok{    urllib.request.urlretrieve(rast\_url, local\_file\_name)}
+    \KeywordTok{del}\NormalTok{ rast\_url, local\_file\_name}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Për thjeshtësi, ne po i mbajmë të gjithë rastet në një sistem referimi gjeografik.}
+\CommentTok{\# Në një studim shkencor, do të na duhej t\textquotesingle{}i projektonim ato për vizualizim.}
+
+\CommentTok{\# ndertojmë rasterat e reshjeve:}
+\ControlFlowTok{for}\NormalTok{ year }\KeywordTok{in}\NormalTok{ years:}
+    \CommentTok{\# gjenerojme emer lokal}
+\NormalTok{    local\_file\_name }\OperatorTok{=} \StringTok{\textquotesingle{}data/global\_precip\_raster{-}}\SpecialCharTok{\{\}}\StringTok{.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year)}
+    \CommentTok{\# open raster}
+\NormalTok{    precip\_rast }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(local\_file\_name, mask}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+    \CommentTok{\# plot}
+\NormalTok{    plot\_raster(precip\_rast, precip\_rast.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{), }
+        \StringTok{\textquotesingle{}Rreshjet totale vjetore (mm) \textquotesingle{}}\OperatorTok{+}\BuiltInTok{str}\NormalTok{(year), }\StringTok{\textquotesingle{}mm\textquotesingle{}}\NormalTok{, }
+\NormalTok{        cmap}\OperatorTok{=}\StringTok{\textquotesingle{}GnBu\textquotesingle{}}\NormalTok{, width}\OperatorTok{=}\DecValTok{14}\NormalTok{, height}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-2}{}
+\includegraphics{./Figs/reshtotvjet.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 2}
+\protect\hypertarget{ushtrimi-2}{}
+\begin{itemize}
+\item
+  Duke përdorur veprimin e zbritjes nga algjebra e hartës, llogarisni
+  dhe vizatoni diferencën e rasterit midis viteve 1980, 1990, 2000 dhe
+  2010 (3 çifte).
+\item
+  Përdorni një cikël \textbf{for}.
+\item
+  Ripërdorni funksionin \textbf{plot\_raster}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ndihmë}
+\protect\hypertarget{ndihmuxeb}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{years }\OperatorTok{=}\NormalTok{ [}\DecValTok{1980}\NormalTok{,}\DecValTok{1990}\NormalTok{,}\DecValTok{2000}\NormalTok{,}\DecValTok{2010}\NormalTok{]}
+\CommentTok{\# loop sipas viteve}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(years)}\OperatorTok{{-}}\DecValTok{1}\NormalTok{):}
+\NormalTok{    year1 }\OperatorTok{=}\NormalTok{ years[i]}
+\NormalTok{    year2 }\OperatorTok{=}\NormalTok{ years[i}\OperatorTok{+}\DecValTok{1}\NormalTok{]}
+    \BuiltInTok{print}\NormalTok{(year1,year2)}
+    \CommentTok{\# fusnin kodin ketu}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-3}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{years }\OperatorTok{=}\NormalTok{ [}\DecValTok{1980}\NormalTok{,}\DecValTok{1990}\NormalTok{,}\DecValTok{2000}\NormalTok{,}\DecValTok{2010}\NormalTok{]}
+\CommentTok{\# loop sipas viteve}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(years)}\OperatorTok{{-}}\DecValTok{1}\NormalTok{):}
+\NormalTok{    year1 }\OperatorTok{=}\NormalTok{ years[i]}
+\NormalTok{    year2 }\OperatorTok{=}\NormalTok{ years[i}\OperatorTok{+}\DecValTok{1}\NormalTok{]}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Krahaso:"}\NormalTok{, year1, year2)}
+    \CommentTok{\# Ngarkojme dy rastera per krahasim}
+\NormalTok{    rast1 }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}data/global\_precip\_raster{-}}\SpecialCharTok{\{\}}\StringTok{.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year1), mask}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{    rast2 }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}data/global\_precip\_raster{-}}\SpecialCharTok{\{\}}\StringTok{.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year2), mask}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{    vals1 }\OperatorTok{=}\NormalTok{ rast1.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{    vals2 }\OperatorTok{=}\NormalTok{ rast2.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+    \CommentTok{\# Llogarisim diferencen}
+\NormalTok{    vals\_diff }\OperatorTok{=}\NormalTok{ vals2}\OperatorTok{{-}}\NormalTok{vals1}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Statistikat e diferences:"}\NormalTok{, vals\_diff.}\BuiltInTok{min}\NormalTok{(), }\BuiltInTok{round}\NormalTok{(vals\_diff.mean(),}\DecValTok{2}\NormalTok{), vals\_diff.}\BuiltInTok{max}\NormalTok{())}
+    \CommentTok{\# Vizatoni diferencen}
+\NormalTok{    plot\_raster(rast1, vals\_diff, }\StringTok{\textquotesingle{}Total precipitation change between }\SpecialCharTok{\{\}}\StringTok{ and }\SpecialCharTok{\{\}}\StringTok{\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year1,year2), }
+            \StringTok{\textquotesingle{}Rreshje vjetore (mm)\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PuOr\textquotesingle{}}\NormalTok{, width}\OperatorTok{=}\DecValTok{10}\NormalTok{, height}\OperatorTok{=}\DecValTok{10}\NormalTok{, diverge\_zero}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-4}{}
+\includegraphics{./Figs/krahasim.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 3}
+\protect\hypertarget{ushtrimi-3}{}
+\begin{itemize}
+\item
+  Sa është sasia e reshjeve totale në çdo vend në vitin 2015?
+\item
+  Duke përdorur kufijtë e botës, përdorni statistikat zonale për t'iu
+  përgjigjur kësaj pyetjeje.
+\item
+  Për çdo vend, llogarisni reshjet minimale, maksimale, mesatare,
+  mediane dhe totale.
+\item
+  Ruani rezultatet në një tabelë CSV me një rresht për çdo vend dhe një
+  kolonë për çdo statistikë përshkruese.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ushtrimi 3 (vazhdim)}
+\protect\hypertarget{ushtrimi-3-vazhdim}{}
+\begin{itemize}
+\item
+  Vini re se të dhënat e reshjeve janë shumë dhe rezultatet mund të
+  paraqesin gabime të mëdha për vendet e vogla.
+\item
+  Përsëriteni analizën për vitin 1980: Duhet të bëni ndryshime minimale
+  në kod.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ndihmë}
+\protect\hypertarget{ndihmuxeb-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{year }\OperatorTok{=} \DecValTok{2015}
+\NormalTok{output\_file }\OperatorTok{=} \StringTok{\textquotesingle{}tmp/precipitation\_country\_stats\_\textquotesingle{}} \OperatorTok{+} \BuiltInTok{str}\NormalTok{(year) }\OperatorTok{+} \StringTok{\textquotesingle{}.csv\textquotesingle{}}
+\BuiltInTok{print}\NormalTok{(output\_file)}
+
+\CommentTok{\# futni kodin tuaj këtu}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-5}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# shkarkojmë hartën e botës}
+\CommentTok{\# Shkarkoni gjithashtu kufijtë e vendeve}
+\NormalTok{url\_boundaries }\OperatorTok{=} \StringTok{\textquotesingle{}https://github.com/endri81/instatgis/blob/master/data/gis4/natural\_earth\_world\_boundaries\_50m\_2018.geojson?raw=true\textquotesingle{}}
+\NormalTok{file\_name\_boundaries }\OperatorTok{=} \StringTok{\textquotesingle{}data/natural\_earth\_world\_boundaries\_50m\_2018.geojson\textquotesingle{}}
+\NormalTok{urllib.request.urlretrieve(url\_boundaries, file\_name\_boundaries)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-6}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ngarkojmë kufijtë}
+\NormalTok{countries\_df }\OperatorTok{=}\NormalTok{ gpd.read\_file(}\StringTok{\textquotesingle{}data/natural\_earth\_world\_boundaries\_50m\_2018.geojson\textquotesingle{}}\NormalTok{)}
+\CommentTok{\# heqim vendet e panjohura}
+\NormalTok{countries\_df }\OperatorTok{=}\NormalTok{ countries\_df[countries\_df.iso\_a3 }\OperatorTok{!=} \StringTok{\textquotesingle{}{-}99\textquotesingle{}}\NormalTok{]}
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{len}\NormalTok{(countries\_df))}
+\NormalTok{countries\_df.plot()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-7}{}
+\includegraphics{./Figs/bota.png}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-8}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ rasterstats }\ImportTok{import}\NormalTok{ zonal\_stats, gen\_zonal\_stats}
+
+\ControlFlowTok{for}\NormalTok{ year }\KeywordTok{in}\NormalTok{ [}\DecValTok{1980}\NormalTok{, }\DecValTok{2015}\NormalTok{]:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Duke llogaritur statistikat zonale midis kufijve të vendeve të botës dhe reshjeve në }\SpecialCharTok{\{\}}\StringTok{..."}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year))}
+    \CommentTok{\# ngarkoni rasterin e reshjeve}
+\NormalTok{    rast\_file }\OperatorTok{=} \StringTok{\textquotesingle{}data/global\_precip\_raster{-}}\SpecialCharTok{\{\}}\StringTok{.asc\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year)}
+    \CommentTok{\# gjeneroni rrugën e skedarit të daljes}
+\NormalTok{    output\_file }\OperatorTok{=} \StringTok{\textquotesingle{}tmp/precipitation\_country\_stats\_}\SpecialCharTok{\{\}}\StringTok{.csv\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(year)}
+    \CommentTok{\# llogarit statistikat zonale}
+    \CommentTok{\# zgjidhni vetëm kolonat përkatëse nga countries\_df}
+\NormalTok{    zon\_stats }\OperatorTok{=}\NormalTok{ zonal\_stats(countries\_df[[}\StringTok{\textquotesingle{}iso\_a3\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}geometry\textquotesingle{}}\NormalTok{]], rast\_file, }
+\NormalTok{                            stats}\OperatorTok{=}\StringTok{"count min median mean max sum"}\NormalTok{, geojson\_out}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+    \CommentTok{\# gjeneroni një kornizë të dhënash nga rezultatet e zonal\_stats (listë fjalorësh)}
+\NormalTok{    stats\_gdf }\OperatorTok{=}\NormalTok{ gpd.GeoDataFrame.from\_features(zon\_stats)}
+    \CommentTok{\# konverto nga geodataframe në dataframe, pasi nuk kemi nevojë për gjeometrinë}
+\NormalTok{    stats\_df }\OperatorTok{=}\NormalTok{ pd.DataFrame(stats\_gdf.drop(columns}\OperatorTok{=}\StringTok{\textquotesingle{}geometry\textquotesingle{}}\NormalTok{))    }
+    \CommentTok{\# hiqni vendet për të cilat nuk kemi vëzhgime}
+\NormalTok{    stats\_df }\OperatorTok{=}\NormalTok{ stats\_df[stats\_df[}\StringTok{\textquotesingle{}count\textquotesingle{}}\NormalTok{] }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{]}
+\NormalTok{    stats\_df }\OperatorTok{=}\NormalTok{ stats\_df.sort\_values(}\StringTok{\textquotesingle{}sum\textquotesingle{}}\NormalTok{)}
+    \CommentTok{\# printoni statistikat}
+    \BuiltInTok{print}\NormalTok{(stats\_df.describe())}
+    \CommentTok{\# ruani rezultatet në skedar}
+\NormalTok{    stats\_df.to\_csv(output\_file, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Rezultatet janë te"}\NormalTok{, output\_file)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-9}{}
+\includegraphics{./Figs/rezultate.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 4}
+\protect\hypertarget{ushtrimi-4}{}
+\begin{itemize}
+\item
+  Duke përdorur \textbf{.rank()}, gjeneroni renditje për vendet për sa i
+  përket reshjeve të tyre (renditja 1 korrespondon me vendin më të
+  lagësht).
+\item
+  Tregoni 10 vendet më të thata dhe më të lagështa në botë në vitin 1980
+  dhe 2015.
+\item
+  A mund të vini re shumë ndryshime?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ndihmë}
+\protect\hypertarget{ndihmuxeb-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{years }\OperatorTok{=}\NormalTok{ [}\DecValTok{1980}\NormalTok{, }\DecValTok{2015}\NormalTok{]}
+\ControlFlowTok{for}\NormalTok{ year }\KeywordTok{in}\NormalTok{ years:}
+\NormalTok{    input\_stats\_file }\OperatorTok{=} \StringTok{\textquotesingle{}tmp/precipitation\_country\_stats\_\textquotesingle{}} \OperatorTok{+} \BuiltInTok{str}\NormalTok{(year) }\OperatorTok{+} \StringTok{\textquotesingle{}.csv\textquotesingle{}}
+    \BuiltInTok{print}\NormalTok{(input\_stats\_file)}
+    \CommentTok{\# ngarkoni skedarin dhe gjeneroni renditje}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-10}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# përcaktojmë "wet rank" bazuar në precipitimin mesatar.}
+\NormalTok{years }\OperatorTok{=}\NormalTok{ [}\DecValTok{1980}\NormalTok{,}\DecValTok{2015}\NormalTok{]}
+
+\CommentTok{\# bashkojmë statistikat në vite}
+\NormalTok{wet\_rank\_df }\OperatorTok{=}\NormalTok{ countries\_df[[}\StringTok{\textquotesingle{}iso\_a3\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{]]}
+
+\ControlFlowTok{for}\NormalTok{ year }\KeywordTok{in}\NormalTok{ years:}
+\NormalTok{    input\_stats\_file }\OperatorTok{=} \StringTok{\textquotesingle{}tmp/precipitation\_country\_stats\_\textquotesingle{}}\OperatorTok{+}\BuiltInTok{str}\NormalTok{(year)}\OperatorTok{+}\StringTok{\textquotesingle{}.csv\textquotesingle{}}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"ranking"}\NormalTok{,input\_stats\_file)}
+    \CommentTok{\# ngarkojme skedarin}
+\NormalTok{    stats\_df }\OperatorTok{=}\NormalTok{ pd.read\_csv(input\_stats\_file)}
+    \CommentTok{\# gjenerojme renditje}
+\NormalTok{    rank\_field }\OperatorTok{=} \StringTok{\textquotesingle{}wet\_rank\_\textquotesingle{}}\OperatorTok{+}\BuiltInTok{str}\NormalTok{(year)}
+\NormalTok{    stats\_df[rank\_field] }\OperatorTok{=}\NormalTok{ stats\_df[}\StringTok{\textquotesingle{}mean\textquotesingle{}}\NormalTok{].rank(ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+    \CommentTok{\# bashkojme rankimin me rezultatet finale}
+\NormalTok{    wet\_rank\_df }\OperatorTok{=}\NormalTok{ wet\_rank\_df.merge(stats\_df[[}\StringTok{\textquotesingle{}iso\_a3\textquotesingle{}}\NormalTok{,rank\_field]], }
+\NormalTok{                                    on}\OperatorTok{=}\StringTok{\textquotesingle{}iso\_a3\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# sort dhe ruaj rezultate}
+\NormalTok{wet\_rank\_df[}\StringTok{\textquotesingle{}wet\_rank\_change\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ wet\_rank\_df[}\StringTok{\textquotesingle{}wet\_rank\_1980\textquotesingle{}}\NormalTok{]}\OperatorTok{{-}}\NormalTok{wet\_rank\_df[}\StringTok{\textquotesingle{}wet\_rank\_2015\textquotesingle{}}\NormalTok{]}
+\NormalTok{wet\_rank\_df }\OperatorTok{=}\NormalTok{ wet\_rank\_df.sort\_values(}\StringTok{\textquotesingle{}wet\_rank\_2015\textquotesingle{}}\NormalTok{)}
+\NormalTok{wet\_rank\_df.to\_csv(}\StringTok{\textquotesingle{}tmp/precipitation\_country\_stats.csv\textquotesingle{}}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\CommentTok{\# vendet më të lagështa 2015}
+\NormalTok{wet\_rank\_df.head(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-11}{}
+\includegraphics{./Figs/usht4.png}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-12}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# vendet më të thata 2015}
+\NormalTok{wet\_rank\_df.tail(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-13}{}
+\includegraphics{./Figs/usht41.png}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-14}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# vendet me ndryshime ekstreme në klasifikim}
+\NormalTok{wet\_rank\_df[}\StringTok{\textquotesingle{}wet\_rank\_change\textquotesingle{}}\NormalTok{].hist()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-15}{}
+\includegraphics{./Figs/usht42.png}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-16}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# vendet me ndryshime ekstreme }
+\NormalTok{wet\_rank\_df }\OperatorTok{=}\NormalTok{ wet\_rank\_df.sort\_values(}\StringTok{\textquotesingle{}wet\_rank\_change\textquotesingle{}}\NormalTok{, ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\CommentTok{\# Kontrollojmë diapazonin}
+\NormalTok{extreme\_change\_df }\OperatorTok{=}\NormalTok{ wet\_rank\_df[}\OperatorTok{\textasciitilde{}}\NormalTok{wet\_rank\_df.wet\_rank\_change.between(}\OperatorTok{{-}}\DecValTok{20}\NormalTok{, }\DecValTok{20}\NormalTok{)]}
+\NormalTok{extreme\_change\_df}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-17}{}
+\includegraphics{./Figs/usht43.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 5}
+\protect\hypertarget{ushtrimi-5}{}
+\begin{itemize}
+\item
+  Duke përdorur \textbf{urllib.request.urlretrieve}, shkarkoni këtë
+  dataset që përmban aeroportet globale.
+\item
+  Ngarkojeni në një dataframe gjeo me geopandas dhe printoni sa rreshta
+  përmban.
+\item
+  Zgjidhni disa atribute prej saj, duke përfshirë emrin e aeroportit,
+  kodin IATA të aeroportit, kodin e vendit, lartësinë dhe tipin.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ndihmë}
+\protect\hypertarget{ndihmuxeb-3}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ urllib.request}
+
+\CommentTok{\# URL e azhurnuar për skedarin e aeroportit}
+\NormalTok{airports\_url }\OperatorTok{=} \StringTok{\textquotesingle{}https://raw.githubusercontent.com/endri81/instatgis/master/data/gis4/airports\_2020.geojson\textquotesingle{}}
+
+\CommentTok{\# Skedari lokal ku do të ruhet të dhënat}
+\NormalTok{local\_file\_name }\OperatorTok{=} \StringTok{\textquotesingle{}data/airports\_2020.geojson\textquotesingle{}}
+\BuiltInTok{print}\NormalTok{(local\_file\_name)}
+
+\CommentTok{\# Shkarkoni skedarin nga URL{-}ja}
+\NormalTok{urllib.request.urlretrieve(airports\_url, local\_file\_name)}
+
+\CommentTok{\# futni kodin tuaj këtu}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-18}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{airports\_all\_df }\OperatorTok{=}\NormalTok{ gpd.read\_file(}\StringTok{\textquotesingle{}data/airports\_2020.geojson\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}n airports =\textquotesingle{}}\NormalTok{,}\BuiltInTok{len}\NormalTok{(airports\_all\_df))}
+\BuiltInTok{print}\NormalTok{(airports\_all\_df.columns)}
+\NormalTok{airports\_all\_df.sample(}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-19}{}
+\includegraphics{./Figs/usht5.png}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-20}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{airports\_df }\OperatorTok{=}\NormalTok{ airports\_all\_df[[}\StringTok{\textquotesingle{}id\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}iata\_code\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}type\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}iso\_countr\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}elevation\_\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}geometry\textquotesingle{}}\NormalTok{]]}
+\CommentTok{\# rename elevation to show it is in feet}
+\NormalTok{airports\_df }\OperatorTok{=}\NormalTok{ airports\_df.rename(columns}\OperatorTok{=}\NormalTok{\{}\StringTok{"elevation\_"}\NormalTok{: }\StringTok{"elevation\_ft"}\NormalTok{\})}
+\CommentTok{\# show sample}
+\NormalTok{airports\_df.sample(}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-21}{}
+\includegraphics{./Figs/usht51.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 6}
+\protect\hypertarget{ushtrimi-6}{}
+\begin{itemize}
+\item
+  Analizoni densitetin e aeroporteve në botë.
+\item
+  Së pari, duke përdorur një histogram 2D me numër të ndryshëm të
+  koshave (nga 20 në 100).
+\item
+  Bëni analizën për të gjitha aeroportet dhe vetëm për aeroportet e
+  mëdha (type==`large\_airport').
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-22}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ndryshojmë numrin e bin:}
+\ControlFlowTok{for}\NormalTok{ bin\_n }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{40}\NormalTok{,}\DecValTok{201}\NormalTok{,}\DecValTok{40}\NormalTok{):}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"bin\_n"}\NormalTok{,bin\_n)}
+    
+    \CommentTok{\# ndryshojmë tipin}
+    \ControlFlowTok{for}\NormalTok{ atype }\KeywordTok{in}\NormalTok{ [}\StringTok{\textquotesingle{}all\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}large\_airport\textquotesingle{}}\NormalTok{]:}
+\NormalTok{        df }\OperatorTok{=}\NormalTok{ airports\_df}
+        \ControlFlowTok{if}\NormalTok{ atype }\OperatorTok{!=} \StringTok{\textquotesingle{}all\textquotesingle{}}\NormalTok{:}
+\NormalTok{            df }\OperatorTok{=}\NormalTok{ airports\_df[airports\_df[}\StringTok{\textquotesingle{}type\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{ atype]}
+        \ControlFlowTok{assert} \BuiltInTok{len}\NormalTok{(df) }\OperatorTok{\textgreater{}} \DecValTok{0}
+        \CommentTok{\# aeroportet e kërkuara janë në df}
+\NormalTok{        h }\OperatorTok{=}\NormalTok{ plt.hist2d(df.geometry.x, df.geometry.y, bins}\OperatorTok{=}\NormalTok{bin\_n, density}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\NormalTok{        plt.colorbar(h[}\DecValTok{3}\NormalTok{])}
+\NormalTok{        plt.title(}\StringTok{"2D histograma e aeroporteve (type=}\SpecialCharTok{\{\}}\StringTok{, bins=}\SpecialCharTok{\{\}}\StringTok{)"}\NormalTok{.}\BuiltInTok{format}\NormalTok{(atype, bin\_n))}
+\NormalTok{        plt.show()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-23}{}
+\includegraphics{./Figs/usht6.png}
+\end{frame}
+
+\begin{frame}{Ushtrimi 7}
+\protect\hypertarget{ushtrimi-7}{}
+\begin{itemize}
+\item
+  Gjeneroni KDE për aeroportet për Britaninë dhe SHBA-në duke ndryshuar
+  gjerësinë e brezit në tre vlera të ndryshme që kapin shpërndarjen e
+  aeroporteve në një mënyrë të përshtatshme.
+\item
+  Ku janë zonat më të dendura në botë? Ndani analizën midis të gjitha
+  aeroporteve dhe vetëm aeroporteve të mëdha, duke minimizuar
+  përsëritjen e kodit.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Zgjidhje}
+\protect\hypertarget{zgjidhje-24}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ geoplot}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+
+\CommentTok{\# Për secilin vend, \textquotesingle{}US\textquotesingle{} dhe \textquotesingle{}GB\textquotesingle{}}
+\ControlFlowTok{for}\NormalTok{ country }\KeywordTok{in}\NormalTok{ [}\StringTok{\textquotesingle{}US\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}GB\textquotesingle{}}\NormalTok{]:}
+    \CommentTok{\# zgjidh aeroportet në adf}
+\NormalTok{    adf }\OperatorTok{=}\NormalTok{ airports\_df[airports\_df[}\StringTok{\textquotesingle{}iso\_countr\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{ country]}
+\NormalTok{    cdf }\OperatorTok{=}\NormalTok{ countries\_df[countries\_df[}\StringTok{\textquotesingle{}iso\_a2\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{ country]}
+    
+    \CommentTok{\# nëse vendi është \textquotesingle{}GB\textquotesingle{}, largoni një aeroport RAF në Qipro}
+    \ControlFlowTok{if}\NormalTok{ country }\OperatorTok{==} \StringTok{\textquotesingle{}GB\textquotesingle{}}\NormalTok{:}
+\NormalTok{        adf }\OperatorTok{=}\NormalTok{ adf[adf[}\StringTok{\textquotesingle{}iata\_code\textquotesingle{}}\NormalTok{] }\OperatorTok{!=} \StringTok{\textquotesingle{}AKT\textquotesingle{}}\NormalTok{]}
+    
+    \CommentTok{\# sigurohuni që të dhënat e vendit dhe aeroportit të mos jenë bosh}
+    \ControlFlowTok{assert} \BuiltInTok{len}\NormalTok{(cdf) }\OperatorTok{\textgreater{}} \DecValTok{0}
+    \ControlFlowTok{assert} \BuiltInTok{len}\NormalTok{(adf) }\OperatorTok{\textgreater{}} \DecValTok{0}
+
+    \CommentTok{\# ndryshoni bandwidth}
+    \ControlFlowTok{for}\NormalTok{ bandwidth }\KeywordTok{in}\NormalTok{ [}\FloatTok{.01}\NormalTok{, }\FloatTok{.05}\NormalTok{, }\FloatTok{.1}\NormalTok{]:}
+\NormalTok{        title }\OperatorTok{=} \StringTok{\textquotesingle{}KDE për aeroportet (vendi=}\SpecialCharTok{\{\}}\StringTok{, bandwidth=}\SpecialCharTok{\{\}}\StringTok{)\textquotesingle{}}\NormalTok{.}\BuiltInTok{format}\NormalTok{(country, bandwidth)}
+\NormalTok{        ax }\OperatorTok{=}\NormalTok{ geoplot.kdeplot(adf, shade}\OperatorTok{=}\VariableTok{False}\NormalTok{, bw}\OperatorTok{=}\NormalTok{bandwidth, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{12}\NormalTok{), alpha}\OperatorTok{=}\FloatTok{.5}\NormalTok{)}
+        
+        \CommentTok{\# shtoni vijën bregdetare}
+\NormalTok{        cdf.plot(ax}\OperatorTok{=}\NormalTok{ax, color}\OperatorTok{=}\StringTok{\textquotesingle{}lightgray\textquotesingle{}}\NormalTok{, edgecolor}\OperatorTok{=}\StringTok{"none"}\NormalTok{, linewidth}\OperatorTok{=}\FloatTok{.5}\NormalTok{)}
+        
+        \CommentTok{\# shtoni titullin}
+\NormalTok{        plt.title(title, fontsize}\OperatorTok{=}\DecValTok{18}\NormalTok{)}
+        
+        \CommentTok{\# shfaqni figurën}
+\NormalTok{        plt.show()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Zgjidhje}
+\protect\hypertarget{zgjidhje-25}{}
+\includegraphics{./Figs/usht7.png}
 \end{frame}
 
 \end{document}
