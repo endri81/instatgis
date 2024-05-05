@@ -157,7 +157,7 @@
 
 \title{Leksioni 5}
 \author{Endri Raco}
-\date{04 May, 2024}
+\date{05 May, 2024}
 
 \begin{document}
 \frame{\titlepage}
@@ -253,6 +253,340 @@ Kernelit (KDE)}
 \NormalTok{plt.show()}
 \end{Highlighting}
 \end{Shaded}
+\end{frame}
+
+\begin{frame}{Vizualizimi i Pikave}
+\protect\hypertarget{vizualizimi-i-pikave-1}{}
+\includegraphics{./Figs/anije.png}
+\end{frame}
+
+\begin{frame}{Histogram 2D}
+\protect\hypertarget{histogram-2d}{}
+\begin{itemize}
+\tightlist
+\item
+  Një mënyrë më e mirë për të përfaqësuar një densitet hapësinor është
+  një histogram dy-dimensional (hist2d), i njohur gjithashtu si një
+  grafik rrjeti.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Histogram 2D}
+\protect\hypertarget{histogram-2d-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Vini re se një nga avantazhet e Python është mundësia e ndryshimit të
+  parametrave të një funksioni përmes një cikli for (për shembull, numri
+  i shtyllave në një histogram) dhe krahasimi i rezultateve.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Histogram 2D}
+\protect\hypertarget{histogram-2d-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# riprojektojmë në lon/lat për të pasur koordinata më të interpretueshme}
+\NormalTok{ship\_df }\OperatorTok{=}\NormalTok{ ship\_df.to\_crs(}\DecValTok{4326}\NormalTok{)}
+
+\CommentTok{\# le të luajmë me numrin e bins:}
+\ControlFlowTok{for}\NormalTok{ bin\_n }\KeywordTok{in}\NormalTok{ [}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{40}\NormalTok{]:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"bin\_n"}\NormalTok{,bin\_n)}
+\NormalTok{    h }\OperatorTok{=}\NormalTok{ plt.hist2d(ship\_df.geometry.x, ship\_df.geometry.y, bins}\OperatorTok{=}\NormalTok{bin\_n, density}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\NormalTok{    plt.colorbar(h[}\DecValTok{3}\NormalTok{])}
+\NormalTok{    plt.title(}\StringTok{\textquotesingle{}2D histograma e anijeve (bins=\textquotesingle{}}\OperatorTok{+}\BuiltInTok{str}\NormalTok{(bin\_n)}\OperatorTok{+}\StringTok{")"}\NormalTok{)}
+\NormalTok{    plt.show()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Histogram 2D}
+\protect\hypertarget{histogram-2d-3}{}
+Këto grafikë tregojnë praninë e një zone me densitet jashtëzakonisht të
+lartë midis Francës, Korsikës dhe Italisë:
+\end{frame}
+
+\begin{frame}{Grafiku KDE}
+\protect\hypertarget{grafiku-kde}{}
+\begin{itemize}
+\item
+  Një qasje më shkencore është vlerësimi i densitetit të bërthamës
+  (KDE).
+\item
+  \textbf{geoplot.kdeplot(\ldots)} mund të vizatojë një KDE duke u nisur
+  nga të dhënat e pikës.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Grafiku KDE}
+\protect\hypertarget{grafiku-kde-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Një parametër vendimtar është \textbf{bandwidth} (bw), që është pragu
+  i distancës që përdoret për të prodhuar sipërfaqen (distancat më të
+  shkurtra rezultojnë në një sipërfaqe më të detajuar):
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Grafiku KDE}
+\protect\hypertarget{grafiku-kde-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# transformojmë në lon/lat}
+\NormalTok{ship\_df\_ll }\OperatorTok{=}\NormalTok{ ship\_df.to\_crs(}\DecValTok{4326}\NormalTok{)}
+
+\CommentTok{\# gjenerojmë KDE me bandwidth të ndryshëm}
+\ControlFlowTok{for}\NormalTok{ bandwidth }\KeywordTok{in}\NormalTok{ [}\FloatTok{.1}\NormalTok{, }\FloatTok{.2}\NormalTok{, }\FloatTok{.3}\NormalTok{, }\FloatTok{.4}\NormalTok{]:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"bandwidth:"}\NormalTok{,bandwidth)}
+    \CommentTok{\# konturet e KDE}
+\NormalTok{    ax }\OperatorTok{=}\NormalTok{ geoplot.kdeplot(ship\_df\_ll, shade}\OperatorTok{=}\VariableTok{False}\NormalTok{, bw}\OperatorTok{=}\NormalTok{bandwidth, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{12}\NormalTok{), alpha}\OperatorTok{=}\FloatTok{.5}\NormalTok{)}
+    \CommentTok{\# shtojmë vijën bregdetare}
+\NormalTok{    countries\_df.to\_crs(}\DecValTok{4326}\NormalTok{).plot(ax}\OperatorTok{=}\NormalTok{ax, color}\OperatorTok{=}\StringTok{\textquotesingle{}lightgray\textquotesingle{}}\NormalTok{, edgecolor}\OperatorTok{=}\StringTok{"none"}\NormalTok{, linewidth}\OperatorTok{=}\FloatTok{.5}\NormalTok{)}
+    \CommentTok{\# shtojmë titull}
+\NormalTok{    plt.title(}\StringTok{\textquotesingle{}Dendësia e mbytjeve të anijeve (KDE, bw=\textquotesingle{}}\OperatorTok{+}\BuiltInTok{str}\NormalTok{(bandwidth)}\OperatorTok{+}\StringTok{")"}\NormalTok{, fontsize}\OperatorTok{=}\DecValTok{18}\NormalTok{)}
+    \CommentTok{\# figura}
+\NormalTok{    plt.show()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Grafiku KDE}
+\protect\hypertarget{grafiku-kde-3}{}
+\includegraphics{./Figs/kde.png}
+\end{frame}
+
+\begin{frame}{Analiza e të dhënave}
+\protect\hypertarget{analiza-e-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\item
+  Këta grafikë KDE tregojnë se dataset-i ka një përqendrim shumë të
+  lartë të pikave në Detin Mesdhe, midis Francës Jugore, Korsikës dhe
+  Bregut Perëndimor të Italisë.
+\item
+  Në të gjitha grafikët, kjo qendër graviteti shfaqet qartë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Analiza e të dhënave}
+\protect\hypertarget{analiza-e-tuxeb-dhuxebnave-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Në aspektin shkencor, kjo mund të tregojë se kishte shumë më tepër
+  mbytje anijesh aty se gjetkë, ose (më e mundshme) që të dhënat
+  historike janë më të pasura dhe më të hollësishme për atë zonë.
+\end{itemize}
+\end{frame}
+
+\hypertarget{algjebra-e-hartave}{%
+\section{Algjebra e Hartave}\label{algjebra-e-hartave}}
+
+\begin{frame}{Algjebra e Hartave}
+\protect\hypertarget{algjebra-e-hartave-1}{}
+\begin{itemize}
+\item
+  Termi ``algjebra e hartave'' i referohet idesë së aplikimit të
+  operacioneve algjebrike në dataset-e raster.
+\item
+  Për shembull, mund të dëshirojmë të zbresim nga njëri- tjetri dy
+  rastera të temperaturës të kapur në kohë të ndryshme për të vëzhguar
+  ndryshimin e temperaturës:
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algjebra e Hartave}
+\protect\hypertarget{algjebra-e-hartave-2}{}
+\includegraphics{./Figs/map_algebra1.png}
+\end{frame}
+
+\begin{frame}{Algjebra e Hartave}
+\protect\hypertarget{algjebra-e-hartave-3}{}
+Në praktikë, ky është një operacion aritmetik i aplikuar në çdo qelizë
+të të dy raster-ve:
+
+\includegraphics{./Figs/map_algebra2.png}
+\end{frame}
+
+\begin{frame}{Algjebra e hartave në Python}
+\protect\hypertarget{algjebra-e-hartave-nuxeb-python}{}
+\begin{itemize}
+\item
+  Kur aksesojmë raster me \textbf{rasterio} ose \textbf{gdal}, ne mund
+  të kryejmë çdo lloj llogaritjeje algjebrike lineare mbi të dhënat duke
+  përdorur \textbf{numpy, scipy} dhe shumë paketa të tjera të fuqishme
+  të Python.
+\item
+  Statistikat zonale suportohen në librarinë \textbf{rasterstats}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algjebra e hartave në Python}
+\protect\hypertarget{algjebra-e-hartave-nuxeb-python-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Kjo është arsyeja kryesore pse Python përdoret gjerësisht në
+  komunitetet e remote sensing, machine learning, dhe AI.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ngarkoni të dhënat e temperaturës}
+\protect\hypertarget{ngarkoni-tuxeb-dhuxebnat-e-temperaturuxebs}{}
+\begin{itemize}
+\tightlist
+\item
+  Si një shembull, le të shkarkojmë dhe vizualizojmë dy datasete raster
+  që përfaqësojnë temperaturën mesatare në vitin 2000 dhe 2017.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ngarkoni të dhënat e temperaturës}
+\protect\hypertarget{ngarkoni-tuxeb-dhuxebnat-e-temperaturuxebs-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ urllib.request}
+
+\CommentTok{\# Define new URLs and file names}
+\NormalTok{url\_2000 }\OperatorTok{=} \StringTok{"https://github.com/endri81/instatgis/blob/master/data/gis4/air\_temp\_2000{-}average.tif?raw=true"}
+\NormalTok{url\_2017 }\OperatorTok{=} \StringTok{"https://github.com/endri81/instatgis/blob/master/data/gis4/air\_temp\_2017{-}average.tif?raw=true"}
+\NormalTok{file\_name\_2000 }\OperatorTok{=} \StringTok{\textquotesingle{}data/air\_temp\_2000{-}average.tif\textquotesingle{}}
+\NormalTok{file\_name\_2017 }\OperatorTok{=} \StringTok{\textquotesingle{}data/air\_temp\_2017{-}average.tif\textquotesingle{}}
+
+\CommentTok{\# Download the files}
+\NormalTok{urllib.request.urlretrieve(url\_2000, file\_name\_2000)}
+\NormalTok{urllib.request.urlretrieve(url\_2017, file\_name\_2017)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ngarkoni të dhënat e temperaturës}
+\protect\hypertarget{ngarkoni-tuxeb-dhuxebnat-e-temperaturuxebs-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp00 }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}data/air\_temp\_2000{-}average.tif\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(temp00.meta)}
+\NormalTok{temp17 }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}data/air\_temp\_2017{-}average.tif\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(temp17.meta)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ngarkoni të dhënat e temperaturës}
+\protect\hypertarget{ngarkoni-tuxeb-dhuxebnat-e-temperaturuxebs-3}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{import}\NormalTok{ rasterio}
+\ImportTok{from}\NormalTok{ matplotlib.colors }\ImportTok{import}\NormalTok{ TwoSlopeNorm}
+\CommentTok{\# Vini re diverge\_zero: kjo përdoret sepse temperatura në Celsius mund të vizualizohet si diverguese nga zero}
+\NormalTok{plot\_raster(temp00, temp00.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{), }\StringTok{\textquotesingle{}Temperatura mesatare e ajrit (2000)\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Temperatura mesatare (C)\textquotesingle{}}\NormalTok{, }
+    \StringTok{\textquotesingle{}RdYlBu\_r\textquotesingle{}}\NormalTok{, diverge\_zero}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{plot\_raster(temp17, temp17.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{), }\StringTok{\textquotesingle{}Temperatura mesatare e ajrit (2017)\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Temperatura mesatare (C)\textquotesingle{}}\NormalTok{, }
+    \StringTok{\textquotesingle{}RdYlBu\_r\textquotesingle{}}\NormalTok{, diverge\_zero}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Ngarkoni të dhënat e temperaturës}
+\protect\hypertarget{ngarkoni-tuxeb-dhuxebnat-e-temperaturuxebs-4}{}
+\includegraphics{./Figs/temp200.png}
+\end{frame}
+
+\begin{frame}{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster}{}
+\begin{itemize}
+\item
+  Vizualisht, nuk është e mundur të dallohen ndryshimet midis të dhënave
+  të vitit 2000 dhe atyre të vitit 2017.
+\item
+  Prandaj, do të zbresim dy rasterat e temperaturës, duke përdorur
+  Algjebrën e Hartave.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-1}{}
+\begin{itemize}
+\item
+  Në praktikë, Python lejon të bëhet kjo në mënyrë intuitive si
+  \textbf{raster\_vals2 - raster\_vals1}.
+\item
+  Këto janë operacione algjebrike lineare të aplikuara në çdo qelizë të
+  matricave.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-2}{}
+\begin{itemize}
+\tightlist
+\item
+  Pastaj do të ndërtojmë një histogram të vlerave dhe raster-it, duke
+  treguar se temperaturat mesatare janë më të larta me 0.5 gradë, me
+  disa raste ekstreme pozitive dhe negative që mund të shkaktohen nga
+  gabimet e sensorëve.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-3}{}
+Rezultati do të ruhet në një skedar të ri raster, duke ripërdorur
+metadatat nga raster-at hyrës.
+\end{frame}
+
+\begin{frame}[fragile]{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-4}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vals17 }\OperatorTok{=}\NormalTok{ temp17.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{vals00 }\OperatorTok{=}\NormalTok{ temp00.read(}\DecValTok{1}\NormalTok{, masked}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-5}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# zbresim të dy raster{-}at}
+\NormalTok{vals\_diff }\OperatorTok{=}\NormalTok{ vals17 }\OperatorTok{{-}}\NormalTok{ vals00}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Statistikat e Diferencës:"}\NormalTok{, vals\_diff.}\BuiltInTok{min}\NormalTok{(), }\BuiltInTok{round}\NormalTok{(vals\_diff.mean(), }\DecValTok{2}\NormalTok{), vals\_diff.}\BuiltInTok{max}\NormalTok{())}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Diferenca midis mesatareve:"}\NormalTok{, }\BuiltInTok{round}\NormalTok{(vals17.mean()}\OperatorTok{{-}}\NormalTok{vals00.mean(), }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-6}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# vizatoni histogramin}
+\NormalTok{show\_hist(vals\_diff, bins}\OperatorTok{=}\DecValTok{30}\NormalTok{, lw}\OperatorTok{=}\FloatTok{0.2}\NormalTok{, stacked}\OperatorTok{=}\VariableTok{False}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.8}\NormalTok{, label}\OperatorTok{=}\StringTok{\textquotesingle{}Nr i qelizave\textquotesingle{}}\NormalTok{,}
+\NormalTok{    histtype}\OperatorTok{=}\StringTok{\textquotesingle{}stepfilled\textquotesingle{}}\NormalTok{, title}\OperatorTok{=}\StringTok{"Dallimi në temperaturën mesatare (2000{-}2017)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Krahasimi i të dhënave raster}
+\protect\hypertarget{krahasimi-i-tuxeb-dhuxebnave-raster-7}{}
+\includegraphics{./Figs/temphist.png}
 \end{frame}
 
 \end{document}
