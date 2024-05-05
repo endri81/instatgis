@@ -1,5 +1,5 @@
 ---
-title: "Leksioni 5"
+title: "Leksioni 8"
 author: "Endri Raco"
 output:
   beamer_presentation:
@@ -367,12 +367,404 @@ show_hist(vals_diff, bins=30, lw=0.2, stacked=False, alpha=0.8, label='Nr i qeli
 ![](./Figs/temphist.png)
 
 
+## Ndërtojmë rasterin
+
+  - Cmap (Purple - White - Orange) thekson vlerat ekstreme, duke fshehur zonat ku vlerat nuk divergojnë.
+
+
+## Ndërtojmë rasterin
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+plot_raster(temp17, vals_diff, 'Ndryshimi mesatar i temperaturës së ajrit 2000-2017',
+            'Diferenca e temperaturës (C)', 'PuOr_r')
+```            
+            
+
+## Ndërtojmë rasterin
+
+![](./Figs/tempdif.png)
+
+
+
+## Ruani rezultatin në një skedar raster
+
+  - Është e rëndësishme të specifikohen metadatat nga skedarët hyrës, përfshirë CRS, vlerën NODATA dhe transformimin e     koordinatave gjeografike:
+
+## Ruani rezultatin në një skedar raster
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+fout = 'tmp/air_temp_diff_2000_2017.tif'
+ds = rasterio.open(fout, 'w',
+    driver='GTiff', # formati i skedarit të daljes
+    height=vals_diff.shape[0], # madhësia e matricës
+    width=vals_diff.shape[1], # madhësia e matricës
+    count=1, # numri i bandave
+    dtype=vals_diff.dtype, # lloji i të dhënave (p.sh., pikë lundruese)
+    crs=temp17.crs, # CRS (p.sh., Lambert, WGS84, UTM, etj.)
+    nodata=temp17.nodata, # vlera e përdorur për të përfaqësuar NO DATA
+    transform=temp17.transform # transformimi i koordinatave gjeografike
+)
+
+ds.write(vals_diff, 1)
+ds.close()
+print("Raster u ruajt te", fout, '.')
+```
+
+
+## Statistikat zonale
+
+  - Kur dëshirojmë të llogarisim statistikat raster bazuar në një zonë gjeografike, na duhen **statistikat zonale**.
+
+  - Për shembull, mund të dëshirojmë të llogarisim lartësinë mesatare (vlerat) e çdo rrethi (zonave) në Angli.
+
+## Statistikat zonale
+
+  - Si skedar **input**, statistikat zonale kanë nevojë për një raster që përfaqëson vlerat dhe një grup tjetër të        dhënash që përfaqëson zonat për të cilat duam të llogarisim statistikat:
+
+
+## Statistikat zonale
+
+![](./Figs/zonal1.png)
+## Statistikat zonale
+
+  - Në këtë shembull, ne do të përdorim të dhënat evropiane të NOx të përdorura më sipër si vlera dhe zonat               statistikore evropiane (NUTS) si zona.
+
+## Shkarkojmë datat
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# shkarkoni kufijtë rajonalë të BE-së (niveli NUTS 2, 2021)
+nuts2_file = 'data/NUTS_RG_01M_2021_4326_LEVL_2.geojson.gz'
+url = 'https://raw.githubusercontent.com/endri81/instatgis/master/data/gis4/NUTS_RG_01M_2021_4326_LEVL_2.geojson.gz'
+urllib.request.urlretrieve(url, nuts2_file)
+
+```
+
+
+
+## Shkarkojmë datat
+
+Skedari është gzip dhe mund ta hapim direkt me **gzip.open(...)**
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import geopandas as gpd
+import gzip
+nuts2_df = gpd.read_file(gzip.open(nuts2_file))
+nuts2_df.plot()
+```
+
+
+## Shkarkojmë datat
+
+
+![](./Figs/gzip.png)
+
+
+
+## Kontrollojmë
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nuts2_df.sample(5)
+```
+
+
+## Përgatitja e të Dhënave
+
+  - Duke qenë se nuk kemi të dhëna për Guyana Franceze dhe territore të tjera më të vogla, mund t'i heqim ato nga         dataset-i.
+
+## Përgatitja e të Dhënave
+
+Në dataframe pandas, mund të shkruajmë kushte në mënyra të ndryshme:
+
+  - `column.str.contains(string)` kryen një përputhje të pjesshme në një kolonë me format tekst
+
+  - `column.isin(list)` kryen një përputhje të saktë në përmbajtjen e një kolone ndaj një liste
+
+  - `~` do të thotë "jo" (vetëm në kontekstin e pandas)
+
+
+## Përgatitja e të Dhënave
+
+  - Do projektojmë kufijtë dhe ti ruajmë ato në një GeoPackage. 
+  
+  - Kini parasysh se GeoJSON lejon vetëm gjeometri në WGS84 (4326). 
+  
+  - Kur keni një CRS tjetër, duhet të përdorni një GeoPackage.
+
+## Përgatitja e të Dhënave
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Kjo shprehje do të thotë:
+# zgjidhni rreshta ku NUTS_ID nuk përmban 'FRY'
+nuts2_df = nuts2_df[~nuts2_df['NUTS_ID'].str.contains("FRY")]
+
+# hiqni rreshtat me kode që korrespondojnë me ishujt për të cilët nuk kemi të dhëna:
+nuts2_df = nuts2_df[~nuts2_df['NUTS_ID'].isin(['PT20','PT30','ES70','NO0B'])]
+
+# projektoni në Lambert (i përshtatshëm për Evropën)
+nuts2_df = nuts2_df.to_crs(3035)
+nuts2_df.info()
+
+# Ky është një rregullim: dataframe gjeo kanë nevojë që FID të jetë i tipit integer
+nuts2_df['FID'] = nuts2_df.index
+```
+
+
+## Ruani këtë dataset në një skedar
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nuts2_clean_file = "tmp/nuts2_boundaries.gpkg"
+nuts2_df.to_file(nuts2_clean_file, driver="GPKG")
+```
+
+## Vizatoni gjeometrinë
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nuts2_df.plot(figsize=(10,10))
+```
+
+
+
+## Vizatoni gjeometrinë
+
+![](./Figs/algebra1.png)
+
+
+## Statistikat Zonale në Python
+
+  - Statistikat zonale mund të llogariten me funksionin **rasterstats.zonal_stats** 
+  
+  - Parametri `stats` tregon cilat statistika dëshirojmë të llogariten në çdo zonë.
+
+## Statistikat Zonale në Python
+
+  - Do të llogarisim disa statistika zonale dhe do ta ruajmë rezultatin në një GeoPackage dhe një skedar CSV:
+
+
+## Statistikat Zonale në Python
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+from rasterstats import zonal_stats
+
+print("Duke llogaritur statistikat zonale midis", nuts2_clean_file, 'dhe data/eu-2016-nox_avg.tif ...')
+
+zon_stats = zonal_stats(nuts2_clean_file, 'data/eu-2016-nox_avg.tif',
+                        stats="count min mean max median", geojson_out=True)
+print('Përfunduar.')
+```
+
+## Statistikat Zonale në Python
+
+  - Rezultati është një listë e fjalorëve që përmban statistikat për çdo rresht të skedarit hyrës të vektorit
+
+  - Këto rezultate mund të konvertohen në një kornizë të të dhënave gjeo kështu:
+
+
+## Statistikat Zonale në Python
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import geopandas as gpd
+stats_df = gpd.GeoDataFrame.from_features(zon_stats)
+
+# riemërtoni kolonat për të qenë më kuptimplota
+stats_df = stats_df.rename(columns={"min": "nox_min",
+                                    "max": "nox_max",
+                                    "count": "nox_count",
+                                    "mean": "nox_mean",
+                                    "median": "nox_median"})
+stats_df.sample(4)
+```
+
+
+## Statistikat Zonale në Python
+
+![](./Figs/regstat.png)
+
+## Statistikat Zonale në Python
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# ruajmë rezultatin në një geopackage
+stats_df.to_file('tmp/eu_nox_2016_nuts2.gpkg', driver="GPKG")
+
+# për lehtësi ruajmë tabelën e atributeve si CSV
+stats_df.drop(columns=['geometry']).to_csv('tmp/eu_nox_2016_nuts2.csv', index=False)
+print("results saved.")
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+  - Tani, ne mund të eksplorojmë dhe vizualizojmë rezultatet.
+
+  - Funksioni **.rank()** i pandas na lejon të renditim vlerat.
+  
+## Renditja dhe Vizualizimi i Rezultateve
+
+  - Shpesh është një ide e mirë të ndajmë në qeliza të ndryshme llogaritjet dhe vizualizimet e gjata.
+
+  - Në këtë rast, nëse dëshirojmë të ekzekutojmë vizualizime të ndryshme, nuk kemi nevojë të rikthejmë llogaritjet zonale në qelizën e mëparshme.
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nox_nuts2_df = gpd.read_file('tmp/eu_nox_2016_nuts2.gpkg')
+print(nox_nuts2_df.describe())
+print(nox_nuts2_df.columns)
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+![](./Figs/eunox.png)
+
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Rendisni rajonet: 1 = vlera më e lartë
+nox_nuts2_df['nox_mean_rank'] = nox_nuts2_df['nox_mean'].rank(ascending=False)
+nox_nuts2_df['nox_max_rank'] = nox_nuts2_df['nox_max'].rank(ascending=False)
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# E vërtetë nëse vlera > 40
+nox_nuts2_df['nox_max_high'] = nox_nuts2_df['nox_max'] > 40
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Shikoni rajonet më të ndotura NUTS, duke përzgjedhur vetëm kolonat përkatëse
+sel_df = nox_nuts2_df[['NUTS_ID','NUTS_NAME','nox_mean','nox_max',
+                       'nox_mean_rank','nox_max_rank','nox_max_high']]
+sel_df.sample(5)
+
+# Rendisni rajonet sipas nox_mean
+sel_df.sort_values('nox_mean',ascending=False).head(20)
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+![](./Figs/eunox2.png)
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+  - Vini re se si renditja për **nox_max** dhe **nox_mean** mund të ndryshojë:
+  
+  - Për shembull, Inner London - West ("UKI3") ka nivelin më të lartë të NOx në mesatare, por është vetëm i 23-ti për     sa i përket vlerës maksimale.
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+  - Mund të vizatojmë vlerat e grumbulluara me një choropleth:
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nox_nuts2_df.plot(column='nox_max', figsize=(12,9), scheme='equalinterval', cmap='OrRd', k=5,
+    edgecolor="lightgrey", linewidth=0.4,
+    legend=True, legend_kwds={'loc': 'upper right', 'title': 'NOx Maksimale (2016) - NUTS 2'},
+    missing_kwds={'color': "lightgrey"})
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+![](./Figs/eunox3.png)
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+  - Shpërndarja e NOx është shumë heterogjene hapësinore (dmth., ndryshon shumë në çdo vend).
+
+  - Ne mund të përdorim **groupby** për të gjetur njësinë kryesore të NUTS për çdo vend për sa i përket NOx maksimale:
 
 
 
 
+## Renditja dhe Vizualizimi i Rezultateve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+nox_nuts2_df['nox_max_country_rank'] = nox_nuts2_df.groupby('CNTR_CODE')['nox_max'].rank(ascending=False)
+
+# për çdo vend, njësitë renditen në mënyrë të brendshme
+sel_df = nox_nuts2_df[['NUTS_ID','NUTS_NAME','nox_max','nox_max_country_rank']]
+sel_df
+```
 
 
 
+## Renditja dhe Vizualizimi i Rezultateve
 
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Zgjidhni vetëm njësinë kryesore për çdo vend (rank==1) dhe rendisni ato sipas NOx maksimale:
+top_df = sel_df[sel_df['nox_max_country_rank']==1]
+top_df.sort_values('nox_max', ascending=False)
+```
+
+
+## Renditja dhe Vizualizimi i Rezultateve
+
+![](./Figs/eunox4.png)
 

@@ -1,5 +1,5 @@
 ---
-title: "Leksioni 5"
+title: "Leksioni 7"
 author: "Endri Raco"
 output:
   beamer_presentation:

@@ -589,4 +589,503 @@ metadatat nga raster-at hyrës.
 \includegraphics{./Figs/temphist.png}
 \end{frame}
 
+\begin{frame}{Ndërtojmë rasterin}
+\protect\hypertarget{nduxebrtojmuxeb-rasterin}{}
+\begin{itemize}
+\tightlist
+\item
+  Cmap (Purple - White - Orange) thekson vlerat ekstreme, duke fshehur
+  zonat ku vlerat nuk divergojnë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ndërtojmë rasterin}
+\protect\hypertarget{nduxebrtojmuxeb-rasterin-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot\_raster(temp17, vals\_diff, }\StringTok{\textquotesingle{}Ndryshimi mesatar i temperaturës së ajrit 2000{-}2017\textquotesingle{}}\NormalTok{,}
+            \StringTok{\textquotesingle{}Diferenca e temperaturës (C)\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PuOr\_r\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Ndërtojmë rasterin}
+\protect\hypertarget{nduxebrtojmuxeb-rasterin-2}{}
+\includegraphics{./Figs/tempdif.png}
+\end{frame}
+
+\begin{frame}{Ruani rezultatin në një skedar raster}
+\protect\hypertarget{ruani-rezultatin-nuxeb-njuxeb-skedar-raster}{}
+\begin{itemize}
+\tightlist
+\item
+  Është e rëndësishme të specifikohen metadatat nga skedarët hyrës,
+  përfshirë CRS, vlerën NODATA dhe transformimin e koordinatave
+  gjeografike:
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ruani rezultatin në një skedar raster}
+\protect\hypertarget{ruani-rezultatin-nuxeb-njuxeb-skedar-raster-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fout }\OperatorTok{=} \StringTok{\textquotesingle{}tmp/air\_temp\_diff\_2000\_2017.tif\textquotesingle{}}
+\NormalTok{ds }\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(fout, }\StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{,}
+\NormalTok{    driver}\OperatorTok{=}\StringTok{\textquotesingle{}GTiff\textquotesingle{}}\NormalTok{, }\CommentTok{\# formati i skedarit të daljes}
+\NormalTok{    height}\OperatorTok{=}\NormalTok{vals\_diff.shape[}\DecValTok{0}\NormalTok{], }\CommentTok{\# madhësia e matricës}
+\NormalTok{    width}\OperatorTok{=}\NormalTok{vals\_diff.shape[}\DecValTok{1}\NormalTok{], }\CommentTok{\# madhësia e matricës}
+\NormalTok{    count}\OperatorTok{=}\DecValTok{1}\NormalTok{, }\CommentTok{\# numri i bandave}
+\NormalTok{    dtype}\OperatorTok{=}\NormalTok{vals\_diff.dtype, }\CommentTok{\# lloji i të dhënave (p.sh., pikë lundruese)}
+\NormalTok{    crs}\OperatorTok{=}\NormalTok{temp17.crs, }\CommentTok{\# CRS (p.sh., Lambert, WGS84, UTM, etj.)}
+\NormalTok{    nodata}\OperatorTok{=}\NormalTok{temp17.nodata, }\CommentTok{\# vlera e përdorur për të përfaqësuar NO DATA}
+\NormalTok{    transform}\OperatorTok{=}\NormalTok{temp17.transform }\CommentTok{\# transformimi i koordinatave gjeografike}
+\NormalTok{)}
+
+\NormalTok{ds.write(vals\_diff, }\DecValTok{1}\NormalTok{)}
+\NormalTok{ds.close()}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Raster u ruajt te"}\NormalTok{, fout, }\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Statistikat zonale}
+\protect\hypertarget{statistikat-zonale}{}
+\begin{itemize}
+\item
+  Kur dëshirojmë të llogarisim statistikat raster bazuar në një zonë
+  gjeografike, na duhen \textbf{statistikat zonale}.
+\item
+  Për shembull, mund të dëshirojmë të llogarisim lartësinë mesatare
+  (vlerat) e çdo rrethi (zonave) në Angli.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statistikat zonale}
+\protect\hypertarget{statistikat-zonale-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Si skedar \textbf{input}, statistikat zonale kanë nevojë për një
+  raster që përfaqëson vlerat dhe një grup tjetër të dhënash që
+  përfaqëson zonat për të cilat duam të llogarisim statistikat:
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statistikat zonale}
+\protect\hypertarget{statistikat-zonale-2}{}
+\includegraphics{./Figs/zonal1.png} \#\# Statistikat zonale
+
+\begin{itemize}
+\tightlist
+\item
+  Në këtë shembull, ne do të përdorim të dhënat evropiane të NOx të
+  përdorura më sipër si vlera dhe zonat statistikore evropiane (NUTS) si
+  zona.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Shkarkojmë datat}
+\protect\hypertarget{shkarkojmuxeb-datat}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# shkarkoni kufijtë rajonalë të BE{-}së (niveli NUTS 2, 2021)}
+\NormalTok{nuts2\_file }\OperatorTok{=} \StringTok{\textquotesingle{}data/NUTS\_RG\_01M\_2021\_4326\_LEVL\_2.geojson.gz\textquotesingle{}}
+\NormalTok{url }\OperatorTok{=} \StringTok{\textquotesingle{}https://raw.githubusercontent.com/endri81/instatgis/master/data/gis4/NUTS\_RG\_01M\_2021\_4326\_LEVL\_2.geojson.gz\textquotesingle{}}
+\NormalTok{urllib.request.urlretrieve(url, nuts2\_file)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Shkarkojmë datat}
+\protect\hypertarget{shkarkojmuxeb-datat-1}{}
+Skedari është gzip dhe mund ta hapim direkt me
+\textbf{gzip.open(\ldots)}
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ geopandas }\ImportTok{as}\NormalTok{ gpd}
+\ImportTok{import}\NormalTok{ gzip}
+\NormalTok{nuts2\_df }\OperatorTok{=}\NormalTok{ gpd.read\_file(gzip.}\BuiltInTok{open}\NormalTok{(nuts2\_file))}
+\NormalTok{nuts2\_df.plot()}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Shkarkojmë datat}
+\protect\hypertarget{shkarkojmuxeb-datat-2}{}
+\includegraphics{./Figs/gzip.png}
+\end{frame}
+
+\begin{frame}[fragile]{Kontrollojmë}
+\protect\hypertarget{kontrollojmuxeb}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nuts2\_df.sample(}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Përgatitja e të Dhënave}
+\protect\hypertarget{puxebrgatitja-e-tuxeb-dhuxebnave}{}
+\begin{itemize}
+\tightlist
+\item
+  Duke qenë se nuk kemi të dhëna për Guyana Franceze dhe territore të
+  tjera më të vogla, mund t'i heqim ato nga dataset-i.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Përgatitja e të Dhënave}
+\protect\hypertarget{puxebrgatitja-e-tuxeb-dhuxebnave-1}{}
+Në dataframe pandas, mund të shkruajmë kushte në mënyra të ndryshme:
+
+\begin{itemize}
+\item
+  \texttt{column.str.contains(string)} kryen një përputhje të pjesshme
+  në një kolonë me format tekst
+\item
+  \texttt{column.isin(list)} kryen një përputhje të saktë në përmbajtjen
+  e një kolone ndaj një liste
+\item
+  \texttt{\textasciitilde{}} do të thotë ``jo'' (vetëm në kontekstin e
+  pandas)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Përgatitja e të Dhënave}
+\protect\hypertarget{puxebrgatitja-e-tuxeb-dhuxebnave-2}{}
+\begin{itemize}
+\item
+  Do projektojmë kufijtë dhe ti ruajmë ato në një GeoPackage.
+\item
+  Kini parasysh se GeoJSON lejon vetëm gjeometri në WGS84 (4326).
+\item
+  Kur keni një CRS tjetër, duhet të përdorni një GeoPackage.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Përgatitja e të Dhënave}
+\protect\hypertarget{puxebrgatitja-e-tuxeb-dhuxebnave-3}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Kjo shprehje do të thotë:}
+\CommentTok{\# zgjidhni rreshta ku NUTS\_ID nuk përmban \textquotesingle{}FRY\textquotesingle{}}
+\NormalTok{nuts2\_df }\OperatorTok{=}\NormalTok{ nuts2\_df[}\OperatorTok{\textasciitilde{}}\NormalTok{nuts2\_df[}\StringTok{\textquotesingle{}NUTS\_ID\textquotesingle{}}\NormalTok{].}\BuiltInTok{str}\NormalTok{.contains(}\StringTok{"FRY"}\NormalTok{)]}
+
+\CommentTok{\# hiqni rreshtat me kode që korrespondojnë me ishujt për të cilët nuk kemi të dhëna:}
+\NormalTok{nuts2\_df }\OperatorTok{=}\NormalTok{ nuts2\_df[}\OperatorTok{\textasciitilde{}}\NormalTok{nuts2\_df[}\StringTok{\textquotesingle{}NUTS\_ID\textquotesingle{}}\NormalTok{].isin([}\StringTok{\textquotesingle{}PT20\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}PT30\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}ES70\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}NO0B\textquotesingle{}}\NormalTok{])]}
+
+\CommentTok{\# projektoni në Lambert (i përshtatshëm për Evropën)}
+\NormalTok{nuts2\_df }\OperatorTok{=}\NormalTok{ nuts2\_df.to\_crs(}\DecValTok{3035}\NormalTok{)}
+\NormalTok{nuts2\_df.info()}
+
+\CommentTok{\# Ky është një rregullim: dataframe gjeo kanë nevojë që FID të jetë i tipit integer}
+\NormalTok{nuts2\_df[}\StringTok{\textquotesingle{}FID\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ nuts2\_df.index}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Ruani këtë dataset në një skedar}
+\protect\hypertarget{ruani-kuxebtuxeb-dataset-nuxeb-njuxeb-skedar}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nuts2\_clean\_file }\OperatorTok{=} \StringTok{"tmp/nuts2\_boundaries.gpkg"}
+\NormalTok{nuts2\_df.to\_file(nuts2\_clean\_file, driver}\OperatorTok{=}\StringTok{"GPKG"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Vizatoni gjeometrinë}
+\protect\hypertarget{vizatoni-gjeometrinuxeb}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nuts2\_df.plot(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Vizatoni gjeometrinë}
+\protect\hypertarget{vizatoni-gjeometrinuxeb-1}{}
+\includegraphics{./Figs/algebra1.png}
+\end{frame}
+
+\begin{frame}[fragile]{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python}{}
+\begin{itemize}
+\item
+  Statistikat zonale mund të llogariten me funksionin
+  \textbf{rasterstats.zonal\_stats}
+\item
+  Parametri \texttt{stats} tregon cilat statistika dëshirojmë të
+  llogariten në çdo zonë.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-1}{}
+\begin{itemize}
+\tightlist
+\item
+  Do të llogarisim disa statistika zonale dhe do ta ruajmë rezultatin në
+  një GeoPackage dhe një skedar CSV:
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ rasterstats }\ImportTok{import}\NormalTok{ zonal\_stats}
+
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Duke llogaritur statistikat zonale midis"}\NormalTok{, nuts2\_clean\_file, }\StringTok{\textquotesingle{}dhe data/eu{-}2016{-}nox\_avg.tif ...\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{zon\_stats }\OperatorTok{=}\NormalTok{ zonal\_stats(nuts2\_clean\_file, }\StringTok{\textquotesingle{}data/eu{-}2016{-}nox\_avg.tif\textquotesingle{}}\NormalTok{,}
+\NormalTok{                        stats}\OperatorTok{=}\StringTok{"count min mean max median"}\NormalTok{, geojson\_out}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Përfunduar.\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-3}{}
+\begin{itemize}
+\item
+  Rezultati është një listë e fjalorëve që përmban statistikat për çdo
+  rresht të skedarit hyrës të vektorit
+\item
+  Këto rezultate mund të konvertohen në një kornizë të të dhënave gjeo
+  kështu:
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-4}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ geopandas }\ImportTok{as}\NormalTok{ gpd}
+\NormalTok{stats\_df }\OperatorTok{=}\NormalTok{ gpd.GeoDataFrame.from\_features(zon\_stats)}
+
+\CommentTok{\# riemërtoni kolonat për të qenë më kuptimplota}
+\NormalTok{stats\_df }\OperatorTok{=}\NormalTok{ stats\_df.rename(columns}\OperatorTok{=}\NormalTok{\{}\StringTok{"min"}\NormalTok{: }\StringTok{"nox\_min"}\NormalTok{,}
+                                    \StringTok{"max"}\NormalTok{: }\StringTok{"nox\_max"}\NormalTok{,}
+                                    \StringTok{"count"}\NormalTok{: }\StringTok{"nox\_count"}\NormalTok{,}
+                                    \StringTok{"mean"}\NormalTok{: }\StringTok{"nox\_mean"}\NormalTok{,}
+                                    \StringTok{"median"}\NormalTok{: }\StringTok{"nox\_median"}\NormalTok{\})}
+\NormalTok{stats\_df.sample(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-5}{}
+\includegraphics{./Figs/regstat.png}
+\end{frame}
+
+\begin{frame}[fragile]{Statistikat Zonale në Python}
+\protect\hypertarget{statistikat-zonale-nuxeb-python-6}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ruajmë rezultatin në një geopackage}
+\NormalTok{stats\_df.to\_file(}\StringTok{\textquotesingle{}tmp/eu\_nox\_2016\_nuts2.gpkg\textquotesingle{}}\NormalTok{, driver}\OperatorTok{=}\StringTok{"GPKG"}\NormalTok{)}
+
+\CommentTok{\# për lehtësi ruajmë tabelën e atributeve si CSV}
+\NormalTok{stats\_df.drop(columns}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}geometry\textquotesingle{}}\NormalTok{]).to\_csv(}\StringTok{\textquotesingle{}tmp/eu\_nox\_2016\_nuts2.csv\textquotesingle{}}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"results saved."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve}{}
+\begin{itemize}
+\item
+  Tani, ne mund të eksplorojmë dhe vizualizojmë rezultatet.
+\item
+  Funksioni \textbf{.rank()} i pandas na lejon të renditim vlerat.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-1}{}
+\begin{itemize}
+\item
+  Shpesh është një ide e mirë të ndajmë në qeliza të ndryshme
+  llogaritjet dhe vizualizimet e gjata.
+\item
+  Në këtë rast, nëse dëshirojmë të ekzekutojmë vizualizime të ndryshme,
+  nuk kemi nevojë të rikthejmë llogaritjet zonale në qelizën e
+  mëparshme.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-2}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nox\_nuts2\_df }\OperatorTok{=}\NormalTok{ gpd.read\_file(}\StringTok{\textquotesingle{}tmp/eu\_nox\_2016\_nuts2.gpkg\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(nox\_nuts2\_df.describe())}
+\BuiltInTok{print}\NormalTok{(nox\_nuts2\_df.columns)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-3}{}
+\includegraphics{./Figs/eunox.png}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-4}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Rendisni rajonet: 1 = vlera më e lartë}
+\NormalTok{nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_mean\_rank\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_mean\textquotesingle{}}\NormalTok{].rank(ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\NormalTok{nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_max\_rank\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{].rank(ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-5}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# E vërtetë nëse vlera \textgreater{} 40}
+\NormalTok{nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_max\_high\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{] }\OperatorTok{\textgreater{}} \DecValTok{40}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-6}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Shikoni rajonet më të ndotura NUTS, duke përzgjedhur vetëm kolonat përkatëse}
+\NormalTok{sel\_df }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df[[}\StringTok{\textquotesingle{}NUTS\_ID\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}NUTS\_NAME\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_mean\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{,}
+                       \StringTok{\textquotesingle{}nox\_mean\_rank\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_max\_rank\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_max\_high\textquotesingle{}}\NormalTok{]]}
+\NormalTok{sel\_df.sample(}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\# Rendisni rajonet sipas nox\_mean}
+\NormalTok{sel\_df.sort\_values(}\StringTok{\textquotesingle{}nox\_mean\textquotesingle{}}\NormalTok{,ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{).head(}\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-7}{}
+\includegraphics{./Figs/eunox2.png}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-8}{}
+\begin{itemize}
+\item
+  Vini re se si renditja për \textbf{nox\_max} dhe \textbf{nox\_mean}
+  mund të ndryshojë:
+\item
+  Për shembull, Inner London - West (``UKI3'') ka nivelin më të lartë të
+  NOx në mesatare, por është vetëm i 23-ti për sa i përket vlerës
+  maksimale.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-9}{}
+\begin{itemize}
+\tightlist
+\item
+  Mund të vizatojmë vlerat e grumbulluara me një choropleth:
+\end{itemize}
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nox\_nuts2\_df.plot(column}\OperatorTok{=}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{,}\DecValTok{9}\NormalTok{), scheme}\OperatorTok{=}\StringTok{\textquotesingle{}equalinterval\textquotesingle{}}\NormalTok{, cmap}\OperatorTok{=}\StringTok{\textquotesingle{}OrRd\textquotesingle{}}\NormalTok{, k}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
+\NormalTok{    edgecolor}\OperatorTok{=}\StringTok{"lightgrey"}\NormalTok{, linewidth}\OperatorTok{=}\FloatTok{0.4}\NormalTok{,}
+\NormalTok{    legend}\OperatorTok{=}\VariableTok{True}\NormalTok{, legend\_kwds}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}loc\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}upper right\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}title\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}NOx Maksimale (2016) {-} NUTS 2\textquotesingle{}}\NormalTok{\},}
+\NormalTok{    missing\_kwds}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}color\textquotesingle{}}\NormalTok{: }\StringTok{"lightgrey"}\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-10}{}
+\includegraphics{./Figs/eunox3.png}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-11}{}
+\begin{itemize}
+\item
+  Shpërndarja e NOx është shumë heterogjene hapësinore (dmth., ndryshon
+  shumë në çdo vend).
+\item
+  Ne mund të përdorim \textbf{groupby} për të gjetur njësinë kryesore të
+  NUTS për çdo vend për sa i përket NOx maksimale:
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-12}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nox\_nuts2\_df[}\StringTok{\textquotesingle{}nox\_max\_country\_rank\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df.groupby(}\StringTok{\textquotesingle{}CNTR\_CODE\textquotesingle{}}\NormalTok{)[}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{].rank(ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+
+\CommentTok{\# për çdo vend, njësitë renditen në mënyrë të brendshme}
+\NormalTok{sel\_df }\OperatorTok{=}\NormalTok{ nox\_nuts2\_df[[}\StringTok{\textquotesingle{}NUTS\_ID\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}NUTS\_NAME\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}nox\_max\_country\_rank\textquotesingle{}}\NormalTok{]]}
+\NormalTok{sel\_df}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-13}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Zgjidhni vetëm njësinë kryesore për çdo vend (rank==1) dhe rendisni ato sipas NOx maksimale:}
+\NormalTok{top\_df }\OperatorTok{=}\NormalTok{ sel\_df[sel\_df[}\StringTok{\textquotesingle{}nox\_max\_country\_rank\textquotesingle{}}\NormalTok{]}\OperatorTok{==}\DecValTok{1}\NormalTok{]}
+\NormalTok{top\_df.sort\_values(}\StringTok{\textquotesingle{}nox\_max\textquotesingle{}}\NormalTok{, ascending}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Renditja dhe Vizualizimi i Rezultateve}
+\protect\hypertarget{renditja-dhe-vizualizimi-i-rezultateve-14}{}
+\includegraphics{./Figs/eunox4.png}
+\end{frame}
+
 \end{document}
