@@ -32,1319 +32,1434 @@ fig.height=4,
 fig.path='Figs/')
 ```
 
-# Të dhënat Raster (vazhdim)
 
-## Analiza e Pikave dhe Vlerësimi i Dendësisë së Kernelit (KDE)
+# Python për Analizën e Rrjetit
+
+
+## Python për Analizën e Rrjetit
+
+  - Në Python ne përdorim një kombinim të librarive të specializuara për analizimin e rrjetave.
+
+## Python për Analizën e Rrjetit
+
+  - **networkx** (importuar si nx): Një nga paketat kryesore për të punuar me të dhëna rrjeti
+
+  - **osmnx**: Një paketë për të nxjerrë të dhëna rrjeti nga OpenStreetMap dhe për t'i manipuluar ato në networkx për      analizë komplekse të rrjeteve (https://github.com/gboeing/osmnx).
+
+## Python për Analizën e Rrjetit
+
+  - Këto paketa mbështesin disa nga funksionalitetet e njëjta të implementuara në ESRI-të e famshme ArcGIS Network         Analyst.
+
+# Shkenca e Rrjetave
+
+## Teoria e Grafeve
+
+  - Rrjetet, të njohura gjithashtu si grafe, janë një strukturë thelbësore e të dhënave që lejon përfaqësimin e            sistemeve.
+
+  - Një **nyje** (node) (e quajtur gjithashtu vertex) është një element i rrjetit që përfaqëson një entitet (p.sh., një     person, një mjet, një kafshë, një stacion, një organizatë).
+
+## Teoria e Grafeve
+
+  - Një **skaj** (edge) (i quajtur gjithashtu link) është një lidhje midis dy nyjeve dhe mund të ketë atribute. 
+  
+  - Një skaj përfaqëson një marrëdhënie midis dy nyjeve (p.sh., një miqësi midis dy personave, një hekurudhë midis dy     stacioneve të trenit, një telefonatë midis dy përdoruesve të telefonit).
+
+  - Një skaj mund të jetë **i drejtuar** (directed) (a --> b dhe b --> a janë dy skaje të veçanta) ose **i pa drejtuar** (undirected) (a -- b nuk ka       drejtim).
+
+
+## Teoria e Grafeve
+
+  - *networkx* mbështet krijimin e llojeve të ndryshme të rrjeteve dhe ofron implementime të shumë algoritmeve dhe        metrikave të grafeve.
+
+## Problemet e Grafeve
+
+  - Një nga shembujt më të hershëm të problemeve teorike të grafeve është shtatë urat e Königsberg. 
+  
+  - A ka një rrugë që kalon çdo urë saktësisht një herë? 
+
+## Teoria e Grafeve
+
+  - Leonhard Euler (1735) tregoi se një shëtitje e tillë nuk ekzistonte duke formuluar problemin si një graf 
+  
+![](./Figs/eiler.png)  
+  
+
+## Rrjetet Gjeohapësinore
+
+  - Në shkencën e të dhënave gjeografike, rrjetet gjeohapësinore janë rrjete ku vendndodhja e nyjeve dhe skajeve është     e nevojshme për t'i studiuar dhe përdorur për analizë.
+
+  - Të tilla rrjete janë të kudogjendura dhe përfshijnë rrjetet e transportit, rrjetet hidrologjike, matricat             origjinë-destinacion (të dhëna të rrjedhës), rrjetet e energjisë dhe rrjetet tregtare.
+
+## Algoritmet e Rrjetit
+
+  - Një nga problemet themelore në grafe është llogaritja e rrugës më të shkurtër midis dy nyjeve. 
+  
+  - Ky problem ka aplikime të panumërta në sektorin gjeohapësinor, duke përfshirë rrugëtimin nga pika A në B.
+
+## Algoritmet e Rrjetit
+
+  - Që nga viti 1956, algoritmi i Dijkstra ka qenë mënyra më e famshme për të llogaritur një rrugë më të shkurtër në      një graf me peshë. 
+  
+
+## Algoritmi i Dijkstra
+
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-import urllib.request
+## Prezantimi i Grafit dhe Nyjeve
 
-# Shkarkoni të dhënat e anijeve të mbytura historike
-url_shipwrecks = 'https://github.com/endri81/instatgis/blob/master/data/gis4/darmc_historical_shipwrecks_500bce_1500ce.geojson?raw=true'
-file_name_shipwrecks = 'data/darmc_historical_shipwrecks_500bce_1500ce.geojson'
-urllib.request.urlretrieve(url_shipwrecks, file_name_shipwrecks)
-
-# Shkarkoni gjithashtu kufijtë e vendeve
-url_boundaries = 'https://github.com/endri81/instatgis/blob/master/data/gis4/natural_earth_world_boundaries_50m_2018.geojson?raw=true'
-file_name_boundaries = 'data/natural_earth_world_boundaries_50m_2018.geojson'
-urllib.request.urlretrieve(url_boundaries, file_name_boundaries)
-
-```
-
-
-
-## Ngarkimi dhe Projekti i Dataset-eve
-
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-import geopandas as gpd
-
-# Ngarkoni dataset-in dhe projektoni në 3035 (Lambert, i përshtatshëm për Evropën)
-ship_df = gpd.read_file('data/darmc_historical_shipwrecks_500bce_1500ce.geojson').to_crs(3035)
-countries_df = gpd.read_file('data/natural_earth_world_boundaries_50m_2018.geojson').to_crs(3035)
-```
-
-
-## Shfaqni një shembull të të dhënave
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-ship_df.sample(5)
-```
-
-## Shfaqni një shembull të të dhënave
-
-![](./Figs/ship.png)
-
-
-## Vizualizimi i Pikave
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-import geoplot
+import networkx as nx
 import matplotlib.pyplot as plt
 
-# Përkufizoni kanavacën
-f, ax = plt.subplots(figsize=(10,7))
+# Krijoni graf-in
+G = nx.Graph()
+edges = [
+    ('A', 'B', 1),
+    ('A', 'C', 4),
+    ('B', 'C', 2),
+    ('B', 'D', 5),
+    ('C', 'D', 1),
+    ('C', 'E', 3),
+    ('D', 'E', 2)
+]
+G.add_weighted_edges_from(edges)
 
-# Vizualizoni dy shtresa
-countries_df.plot(ax=ax, color='lightgray', edgecolor="none", linewidth=.5)
-geoplot.pointplot(ship_df, s=2, color='red', ax=ax, alpha=.1)
-
-# Vendosni kufijtë e hartës
-# Krijoni një buffer për të shtuar një margjinë
-buff = ship_df.buffer(1)
-xlim = ([buff.total_bounds[0], buff.total_bounds[2]])
-ylim = ([buff.total_bounds[1], buff.total_bounds[3]])
-ax.set_xlim(xlim)
-ax.set_ylim(ylim)
-
-# Vendosni titullin e hartës
-ax.set_title('Anije të Mbytura (500 p.e.s. - 1500 e.s.)')
-
-# Shfaqni rezultatet
+# Vizualizoni graf-in
+pos = nx.spring_layout(G)
+nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='grey')
+labels = nx.get_edge_attributes(G, 'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 plt.show()
 ```
 
+## Algoritmi i Dijkstra
+
+![](./Figs/dijkstra1.png)
 
 
-## Vizualizimi i Pikave
+## Algoritmi i Dijkstra - Hapi 1
 
-![](./Figs/anije.png)
+Filloni me nyjen fillestare (A)
+
+  - Distanca nga A në A: 0
+      
+
+## Algoritmi i Dijkstra - Hapi 2
+
+Filloni me nyjen fillestare (A)
 
 
-## Histogram 2D
+  - Distanca nga A te fqinjët:
 
-  - Një mënyrë më e mirë për të përfaqësuar një densitet hapësinor është një histogram dy-dimensional (hist2d), i        njohur gjithashtu si një grafik rrjeti.
+      B: 1
 
-## Histogram 2D
+      C: 4
 
-  - Vini re se një nga avantazhet e Python është mundësia e ndryshimit të parametrave të një funksioni përmes një         cikli for (për shembull, numri i shtyllave në një histogram) dhe krahasimi i rezultateve.
+  - Rrugët më të shkurtra:
 
-## Histogram 2D
+      A -> A: 0
 
+      A -> B: 1
+
+      A -> C: 4
+      
+
+
+
+## Algoritmi i Dijkstra - Hapi 3
+
+Zgjidhni nyjen më të afërt (B)
+
+  - Distanca nga B te fqinjët:
+
+    C: 3 (1 + 2)
+    
+    D: 6 (1 + 5)
+
+  - Rrugët më të shkurtra:
+
+  - A -> B: 1
+
+  - A -> C: 3 (via B)
+
+  - A -> D: 6 (via B)
+      
+
+
+## Algoritmi i Dijkstra - Hapi 4
+
+Zgjidhni nyjen më të afërt të ardhshme (C)
+
+  - Distanca nga C te fqinjët:
+
+    D: 4 (3 + 1)
+
+    E: 6 (3 + 3)
+
+  - Rrugët më të shkurtra:
+
+    A -> B: 1
+
+    A -> C: 3 (via B)
+
+    A -> D: 4 (via C)
+
+    A -> E: 6 (via C)
+
+## Algoritmi i Dijkstra - Hapi 5
+
+Zgjidhni nyjen më të afërt të ardhshme (D)
+
+  - Distanca nga D te fqinjët:
+      
+    E: 6 (via C)
+
+  - Rrugët më të shkurtra:
+
+    A -> B: 1
+
+    A -> C: 3 (via B)
+
+    A -> D: 4 (via C)
+  
+    A -> E: 6 (via C)
+
+
+Distancat më të shkurtra janë: {'A': (None, 0), 'B': ('A', 1), 'C': ('B', 3), 'D': ('C', 4), 'E': ('C', 6)}
+Rruga më e shkurtër nga A në E është: ['A', 'B', 'C', 'E'] me total 6.
+
+
+
+      
+## Algoritmi i Dijkstra - Hapi 4
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-# riprojektojmë në lon/lat për të pasur koordinata më të interpretueshme
-ship_df = ship_df.to_crs(4326)
+import networkx as nx
 
-# le të luajmë me numrin e bins:
-for bin_n in [10,20,30,40]:
-    print("bin_n",bin_n)
-    h = plt.hist2d(ship_df.geometry.x, ship_df.geometry.y, bins=bin_n, density=False)
-    plt.colorbar(h[3])
-    plt.title('2D histograma e anijeve (bins='+str(bin_n)+")")
-    plt.show()
+# Krijoni graf-in
+G = nx.Graph()
+edges = [
+    ('A', 'B', 1),
+    ('A', 'C', 4),
+    ('B', 'C', 2),
+    ('B', 'D', 5),
+    ('C', 'D', 1),
+    ('C', 'E', 3),
+    ('D', 'E', 2)
+]
+G.add_weighted_edges_from(edges)
+
+# Filloni me nyjen 'A'
+shortest_paths = {'A': (None, 0)}  # Nyja 'A' me kosto zero
+current_node = 'A'
+visited = set()
+
+# Hapi 2 dhe 3: Zgjidhni nyjen më të afërt dhe llogaritni distancat
+def calculate_shortest_paths(graph, start_node):
+    visited = set()
+    shortest_paths = {start_node: (None, 0)}
+    current_node = start_node
+
+    while current_node:
+        visited.add(current_node)
+        destinations = graph[current_node]
+        weight_to_current_node = shortest_paths[current_node][1]
+```
+
+  
+## Algoritmi i Dijkstra - Hapi 4
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}        
+        
+
+        for next_node, weight in destinations.items():
+            weight = weight['weight']
+            total_weight = weight_to_current_node + weight
+            if next_node not in shortest_paths:
+                shortest_paths[next_node] = (current_node, total_weight)
+            else:
+                current_weight = shortest_paths[next_node][1]
+                if current_weight > total_weight:
+                    shortest_paths[next_node] = (current_node, total_weight)
+
+        next_destinations = {node: shortest_paths[node] for node in shortest_paths if node not in visited}
+        if not next_destinations:
+            break
+        current_node = min(next_destinations, key=lambda k: next_destinations[k][1])
+
+    return shortest_paths
+```
+  
+## Algoritmi i Dijkstra - Hapi 4
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE} 
+
+# Llogaritni rrugët më të shkurtra nga 'A' në të gjitha nyjet
+shortest_paths = calculate_shortest_paths(G, 'A')
+print("Distancat më të shkurtra janë:", shortest_paths)
+
+# Për rrugën më të shkurtër nga A në E
+def get_path(shortest_paths, end_node):
+    path = []
+    while end_node:
+        path.append(end_node)
+        next_node = shortest_paths[end_node][0]
+        end_node = next_node
+    path = path[::-1]
+    return path
+
+# Gjeni rrugën më të shkurtër nga A në E
+shortest_path = get_path(shortest_paths, 'E')
+print("Rruga më e shkurtër nga A në E është:", shortest_path)
+
 ```
 
 
-## Histogram 2D
+## Krijimi i Grafit
 
-  Këto grafikë tregojnë praninë e një zone me densitet jashtëzakonisht të lartë midis Francës, Korsikës dhe Italisë:
+  - Le të krijojmë një graf me skaje të peshësuara.
 
+  - Peshat mund të përfaqësojnë për shembull koston e përshkimit të një skaji (p.sh., një skaj i gjatë ka një peshë më     të madhe se një i shkurtër) dhe përdoren shumë shpesh për të përfaqësuar sisteme.
 
+## Krijimi i Grafit
 
-## Grafiku KDE
-
-  - Një qasje më shkencore është vlerësimi i densitetit të bërthamës (KDE). 
-  
-  - **geoplot.kdeplot(...)** mund të vizatojë një KDE duke u nisur nga të dhënat e pikës.
-  
-## Grafiku KDE
-
-  - Një parametër vendimtar është **bandwidth** (bw), që është pragu i distancës që përdoret për të prodhuar                 sipërfaqen (distancat më të shkurtra rezultojnë në një sipërfaqe më të detajuar):
-
-
-## Grafiku KDE
-
+Në disa skenarë, grafet mund të krijohen dhe popullohen drejtpërdrejt me networkx:
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-```{python, eval = FALSE}
-# transformojmë në lon/lat
-ship_df_ll = ship_df.to_crs(4326)
-
-# gjenerojmë KDE me bandwidth të ndryshëm
-for bandwidth in [.1, .2, .3, .4]:
-    print("bandwidth:",bandwidth)
-    # konturet e KDE
-    ax = geoplot.kdeplot(ship_df_ll, shade=False, bw=bandwidth, figsize=(12, 12), alpha=.5)
-    # shtojmë vijën bregdetare
-    countries_df.to_crs(4326).plot(ax=ax, color='lightgray', edgecolor="none", linewidth=.5)
-    # shtojmë titull
-    plt.title('Dendësia e mbytjeve të anijeve (KDE, bw='+str(bandwidth)+")", fontsize=18)
-    # figura
-    plt.show()
-```
-
-
-
-## Grafiku KDE
-
-![](./Figs/kde.png)
-
-
-## Analiza e të dhënave
-
-  - Këta grafikë KDE tregojnë se dataset-i ka një përqendrim shumë të lartë të pikave në Detin Mesdhe, midis Francës      Jugore, Korsikës dhe Bregut Perëndimor të Italisë. 
-  
-  - Në të gjitha grafikët, kjo qendër graviteti shfaqet qartë.
-
-## Analiza e të dhënave
-
-  - Në aspektin shkencor, kjo mund të tregojë se kishte shumë më tepër mbytje anijesh aty se gjetkë, ose (më e            mundshme) që të dhënat historike janë më të pasura dhe më të hollësishme për atë zonë.
-  
-
-# Algjebra e Hartave
-
-## Algjebra e Hartave
-
-  - Termi "algjebra e hartave" i referohet idesë së aplikimit të operacioneve algjebrike në dataset-e raster.
-
-  - Për shembull, mund të dëshirojmë të zbresim nga njëri- tjetri dy rastera të temperaturës të kapur në kohë të          ndryshme për të vëzhguar ndryshimin e temperaturës:
-  
-## Algjebra e Hartave  
-
-![](./Figs/map_algebra1.png)
-
-## Algjebra e Hartave
-
-Në praktikë, ky është një operacion aritmetik i aplikuar në çdo qelizë të të dy raster-ve:
-
-![](./Figs/map_algebra2.png)
-
-## Algjebra e hartave në Python
-
-  - Kur aksesojmë raster me **rasterio** ose **gdal**, ne mund të kryejmë çdo lloj llogaritjeje algjebrike lineare mbi     të dhënat duke përdorur **numpy, scipy** dhe shumë paketa të tjera të fuqishme të Python. 
-  
-  - Statistikat zonale suportohen në librarinë **rasterstats**.
-
-
-## Algjebra e hartave në Python
-
-  - Kjo është arsyeja kryesore pse Python përdoret gjerësisht në komunitetet e remote sensing, machine learning, dhe      AI. 
-  
-  
-## Ngarkoni të dhënat e temperaturës
-
-  - Si një shembull, le të shkarkojmë dhe vizualizojmë dy datasete raster që përfaqësojnë temperaturën mesatare në        vitin 2000 dhe 2017.
-
-## Ngarkoni të dhënat e temperaturës
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-import urllib.request
-
-# Define new URLs and file names
-url_2000 = "https://github.com/endri81/instatgis/blob/master/data/gis4/air_temp_2000-average.tif?raw=true"
-url_2017 = "https://github.com/endri81/instatgis/blob/master/data/gis4/air_temp_2017-average.tif?raw=true"
-file_name_2000 = 'data/air_temp_2000-average.tif'
-file_name_2017 = 'data/air_temp_2017-average.tif'
-
-# Download the files
-urllib.request.urlretrieve(url_2000, file_name_2000)
-urllib.request.urlretrieve(url_2017, file_name_2017)
-
-```
-
-
-
-## Ngarkoni të dhënat e temperaturës
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-temp00 = rasterio.open('data/air_temp_2000-average.tif')
-print(temp00.meta)
-temp17 = rasterio.open('data/air_temp_2017-average.tif')
-print(temp17.meta)
-```
-
-
-## Ngarkoni të dhënat e temperaturës
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
+```{python, eval = FALSE} 
+import networkx as nx
 import matplotlib.pyplot as plt
-import rasterio
-from matplotlib.colors import TwoSlopeNorm
-# Vini re diverge_zero: kjo përdoret sepse temperatura në Celsius mund të vizualizohet si diverguese nga zero
-plot_raster(temp00, temp00.read(1, masked=True), 'Temperatura mesatare e ajrit (2000)', 'Temperatura mesatare (C)', 
-    'RdYlBu_r', diverge_zero=True)
-plot_raster(temp17, temp17.read(1, masked=True), 'Temperatura mesatare e ajrit (2017)', 'Temperatura mesatare (C)', 
-    'RdYlBu_r', diverge_zero=True)
+
+# krijoni një graf të thjeshtë të pa drejtuar
+g = nx.Graph(name='graf i vogël')
+
+# shtoni skaje me një atribut (peshë)
+g.add_edge('a', 'b', weight=0.1)
+g.add_edge('b', 'c', weight=1.5)
+g.add_edge('a', 'c', weight=1.0)
+g.add_edge('c', 'd', weight=2.2)
+
+# Printoni informacionin e grafit
+print("Emri:", g.graph['name'])
+print("Tipi:", type(g))
+print("Numri i nyjeve:", g.number_of_nodes())
+print("Numri i skajeve:", g.number_of_edges())
+print("Shkalla mesatare:", sum(dict(g.degree()).values()) / g.number_of_nodes())
+
 ```
 
 
-## Ngarkoni të dhënat e temperaturës
+## Vizualizimi i Grafit
 
-![](./Figs/temp200.png)
+  - Veçanërisht për rrjete të vogla, është e mundur t'i vizatojmë ato drejtpërdrejt.
+
+  - Vini re se ky graf i pa drejtuar është jo-hapësinor, në kuptimin që nyjet nuk kanë një vendndodhje të caktuar         hapësinore.
 
 
-## Krahasimi i të dhënave raster
+## Vizualizimi i Grafit
 
-  - Vizualisht, nuk është e mundur të dallohen ndryshimet midis të dhënave të vitit 2000 dhe atyre të vitit 2017.
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
-  - Prandaj, do të zbresim dy rasterat e temperaturës, duke përdorur Algjebrën e Hartave. 
+
+```{python, eval = FALSE}
+# gjeneroni pozicionet e nyjeve duke përdorur një paraqitje të njohur
+pos = nx.spring_layout(g)
+
+# hapni vizatimin
+nx.draw_networkx(g, pos=pos, font_color='white')
+
+# vizatoni etiketat e skajeve
+nx.draw_networkx_edge_labels(g, pos=pos)
+
+# vizatoni skajet
+nx.draw_networkx_edges(g, pos=pos)
+
+# shfaqni graf-in
+plt.show()
+```
+
+## Aksesimi i Elementeve të Grafit
+
+  - Elementet e grafit mund të aksesohen drejtpërdrejt
   
-## Krahasimi i të dhënave raster  
   
-  - Në praktikë, Python lejon të bëhet kjo në mënyrë intuitive si **raster_vals2 - raster_vals1**. 
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}  
+# Nyjet e grafit
+g.nodes
+# NodeView(('a', 'b', 'c', 'd'))
+
+# Skajet e grafit
+g.edges
+# EdgeView([('a', 'b'), ('a', 'c'), ('b', 'c'), ('c', 'd')])
+```
+
+
+## Aksesimi i Elementeve të Grafit
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# shikoni nyjet fqinje të nyjës 'a':
+for node_nei in g.neighbors('a'):
+    print(node_nei)
+```
+
+## Aksesimi i Atributeve
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+weights = nx.get_edge_attributes(g, 'weight')
+weights
+# {('a', 'b'): 0.1, ('a', 'c'): 1.0, ('b', 'c'): 1.5, ('c', 'd'): 2.2}
+```
+
+
+## Llogaritja e Rrugës më të Shkurtër
+
+  - Tani mund të përdorim **networkx** për të llogaritur rrugën më të shkurtër midis nyjeve.
+
+  - Fillimisht, mund të llogarisim rrugën më të shkurtër të peshuar (**unweighted shortest path**), duke supozuar se      të gjitha skajet kanë të njëjtën peshë:
+
+
+## Llogaritja e Rrugës më të Shkurtër
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+unweighted_path = nx.shortest_path(g, 'b', 'd')
+unweighted_path
+```
+
+## Rruga e Peshuar
+
+  - Tani, mund të shohim rrugën më të shkurtër të peshuar (**weighted shortest path**), duke vënë re se shuma e           peshave të **(bacd)** është më e lehtë se **(bcd)**:
+
+
+## Rruga e Peshua
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+weighted_path = nx.shortest_path(g, 'b', 'd', weight='weight')
+weighted_path
+```
+
+
+## Metrikat e Rrjetit
+
+  - Për të përshkruar dhe kuptuar rrjetet, janë krijuar shumë metrika.
+
+  - Për shembull, ne mund të shohim se sa skaje janë të lidhura me një nyje (shkalla (**degree **) e një nyje).
+
+## Metrikat e Rrjetit
+
+  - Nyja 'a' ka dy skaje, ndërsa 'c' ka 3. 
   
-  - Këto janë operacione algjebrike lineare të aplikuara në çdo qelizë të matricave.
+  - Disa nyje me shkallë të lartë janë "qendra", duke lidhur shumë nyje: Për shembull, në rrjetet sociale, politikanët     janë qendra.
 
+## Metrikat e Rrjetit
 
-## Krahasimi i të dhënave raster
+  - Qendra (**centrality**) i një nyje është gjithashtu i rëndësishëm: Sa "hapje" në skaje janë të nevojshme për të      arritur të gjitha nyjet e tjera?
 
-  - Pastaj do të ndërtojmë një histogram të vlerave dhe raster-it, duke treguar se temperaturat mesatare janë më të       larta me 0.5 gradë, me disa raste ekstreme pozitive dhe negative që mund të shkaktohen nga gabimet e sensorëve.
+## Metrikat e Rrjetit
 
-
-## Krahasimi i të dhënave raster
-
-Rezultati do të ruhet në një skedar të ri raster, duke ripërdorur metadatat nga raster-at hyrës.
-
-
-## Krahasimi i të dhënave raster
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-vals17 = temp17.read(1, masked=True)
-vals00 = temp00.read(1, masked=True)
-```
-
-
-## Krahasimi i të dhënave raster
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# zbresim të dy raster-at
-vals_diff = vals17 - vals00
-print("Statistikat e Diferencës:", vals_diff.min(), round(vals_diff.mean(), 2), vals_diff.max())
-print("Diferenca midis mesatareve:", round(vals17.mean()-vals00.mean(), 3))
-```
-
-
-## Krahasimi i të dhënave raster
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# vizatoni histogramin
-show_hist(vals_diff, bins=30, lw=0.2, stacked=False, alpha=0.8, label='Nr i qelizave',
-    histtype='stepfilled', title="Dallimi në temperaturën mesatare (2000-2017)")
-```
-
-
-## Krahasimi i të dhënave raster
-
-![](./Figs/temphist.png)
-
-
-## Ndërtojmë rasterin
-
-  - Cmap (Purple - White - Orange) thekson vlerat ekstreme, duke fshehur zonat ku vlerat nuk divergojnë.
-
-
-## Ndërtojmë rasterin
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-plot_raster(temp17, vals_diff, 'Ndryshimi mesatar i temperaturës së ajrit 2000-2017',
-            'Diferenca e temperaturës (C)', 'PuOr_r')
-```            
-            
-
-## Ndërtojmë rasterin
-
-![](./Figs/tempdif.png)
-
-
-
-## Ruani rezultatin në një skedar raster
-
-  - Është e rëndësishme të specifikohen metadatat nga skedarët hyrës, përfshirë CRS, vlerën NODATA dhe transformimin e     koordinatave gjeografike:
-
-## Ruani rezultatin në një skedar raster
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-fout = 'tmp/air_temp_diff_2000_2017.tif'
-ds = rasterio.open(fout, 'w',
-    driver='GTiff', # formati i skedarit të daljes
-    height=vals_diff.shape[0], # madhësia e matricës
-    width=vals_diff.shape[1], # madhësia e matricës
-    count=1, # numri i bandave
-    dtype=vals_diff.dtype, # lloji i të dhënave (p.sh., pikë lundruese)
-    crs=temp17.crs, # CRS (p.sh., Lambert, WGS84, UTM, etj.)
-    nodata=temp17.nodata, # vlera e përdorur për të përfaqësuar NO DATA
-    transform=temp17.transform # transformimi i koordinatave gjeografike
-)
-
-ds.write(vals_diff, 1)
-ds.close()
-print("Raster u ruajt te", fout, '.')
-```
-
-
-## Statistikat zonale
-
-  - Kur dëshirojmë të llogarisim statistikat raster bazuar në një zonë gjeografike, na duhen **statistikat zonale**.
-
-  - Për shembull, mund të dëshirojmë të llogarisim lartësinë mesatare (vlerat) e çdo rrethi (zonave) në Angli.
-
-## Statistikat zonale
-
-  - Si skedar **input**, statistikat zonale kanë nevojë për një raster që përfaqëson vlerat dhe një grup tjetër të        dhënash që përfaqëson zonat për të cilat duam të llogarisim statistikat:
-
-
-## Statistikat zonale
-
-![](./Figs/zonal1.png)
-## Statistikat zonale
-
-  - Në këtë shembull, ne do të përdorim të dhënat evropiane të NOx të përdorura më sipër si vlera dhe zonat               statistikore evropiane (NUTS) si zona.
-
-## Shkarkojmë datat
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# shkarkoni kufijtë rajonalë të BE-së (niveli NUTS 2, 2021)
-nuts2_file = 'data/NUTS_RG_01M_2021_4326_LEVL_2.geojson.gz'
-url = 'https://raw.githubusercontent.com/endri81/instatgis/master/data/gis4/NUTS_RG_01M_2021_4326_LEVL_2.geojson.gz'
-urllib.request.urlretrieve(url, nuts2_file)
-
-```
-
-
-
-## Shkarkojmë datat
-
-Skedari është gzip dhe mund ta hapim direkt me **gzip.open(...)**
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-import geopandas as gpd
-import gzip
-nuts2_df = gpd.read_file(gzip.open(nuts2_file))
-nuts2_df.plot()
-```
-
-
-## Shkarkojmë datat
-
-
-![](./Figs/gzip.png)
-
-
-
-## Kontrollojmë
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-nuts2_df.sample(5)
-```
-
-
-## Përgatitja e të Dhënave
-
-  - Duke qenë se nuk kemi të dhëna për Guyana Franceze dhe territore të tjera më të vogla, mund t'i heqim ato nga         dataset-i.
-
-## Përgatitja e të Dhënave
-
-Në dataframe pandas, mund të shkruajmë kushte në mënyra të ndryshme:
-
-  - `column.str.contains(string)` kryen një përputhje të pjesshme në një kolonë me format tekst
-
-  - `column.isin(list)` kryen një përputhje të saktë në përmbajtjen e një kolone ndaj një liste
-
-  - `~` do të thotë "jo" (vetëm në kontekstin e pandas)
-
-
-## Përgatitja e të Dhënave
-
-  - Do projektojmë kufijtë dhe ti ruajmë ato në një GeoPackage. 
+  - Për shembull, Londra është një qendër e udhëtimeve ajrore më e rëndësishme se çdo qytet tjetër në Mbretërinë e Bashkuar
   
-  - Kini parasysh se GeoJSON lejon vetëm gjeometri në WGS84 (4326). 
+## Metrikat e Rrjetit  
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import networkx as nx
+
+# Krijo graf-in
+g = nx.Graph(name='graf i vogël')
+g.add_edge('a', 'b', weight=0.1)
+g.add_edge('b', 'c', weight=1.5)
+g.add_edge('a', 'c', weight=1.0)
+g.add_edge('c', 'd', weight=2.2)
+
+# Ekstraktoni të gjitha shkallët: kjo është zakonisht një pjesë e rëndësishme e informacionit për të kuptuar strukturën e grafit.
+g.degree()
+```
+
+
+## Metrikat e Rrjetit  
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Nxirrni shkallët në një listë të thjeshtë
+degrees = [deg for node, deg in g.degree()]
+degrees
+```
+
+
+## Metrikat e Rrjetit  
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# 'c' është nyja më qendrore, pasi mund të arrijmë të gjitha nyjet e tjera me numrin më të vogël të hapave, ndërsa 'd' është nyja më e izoluar.
+nx.algorithms.centrality.degree_centrality(g)
+```
+
+## Centraliteti dhe Pesha
+
+  - Një tjetër metrikë popullore e qendralitetit është **betweeness centrality** i bazuar në rrugët më të shkurtra        midis nyjeve
   
-  - Kur keni një CRS tjetër, duhet të përdorni një GeoPackage.
+## Centraliteti dhe Pesha
 
-## Përgatitja e të Dhënave
+  - Peshat e skajeve **Edge weights** mund të jenë të rëndësishme për të llogaritur centralitetin dhe metrika të          tjera.
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# Kjo shprehje do të thotë:
-# zgjidhni rreshta ku NUTS_ID nuk përmban 'FRY'
-nuts2_df = nuts2_df[~nuts2_df['NUTS_ID'].str.contains("FRY")]
-
-# hiqni rreshtat me kode që korrespondojnë me ishujt për të cilët nuk kemi të dhëna:
-nuts2_df = nuts2_df[~nuts2_df['NUTS_ID'].isin(['PT20','PT30','ES70','NO0B'])]
-
-# projektoni në Lambert (i përshtatshëm për Evropën)
-nuts2_df = nuts2_df.to_crs(3035)
-nuts2_df.info()
-
-# Ky është një rregullim: dataframe gjeo kanë nevojë që FID të jetë i tipit integer
-nuts2_df['FID'] = nuts2_df.index
-```
-
-
-## Ruani këtë dataset në një skedar
+## Metrikat e Rrjetit  
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-nuts2_clean_file = "tmp/nuts2_boundaries.gpkg"
-nuts2_df.to_file(nuts2_clean_file, driver="GPKG")
+# Centraliteti i nyjeve
+nx.algorithms.centrality.betweenness_centrality(g, weight='weight')
+# 'a' dhe 'b' janë nyjet më qendrore të grafit
 ```
 
-## Vizatoni gjeometrinë
+## Metrikat e Rrjetit  
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-nuts2_df.plot(figsize=(10,10))
+# Centraliteti i skajeve
+nx.algorithms.centrality.edge_betweenness_centrality(g, weight='weight')
+# 'ac' është skaji më qendror i grafit
 ```
 
 
 
-## Vizatoni gjeometrinë
+## Rrjetet Tregtare
 
-![](./Figs/algebra1.png)
+  - Analiza e rrjetave aplikohet me sukses për të modeluar ndërveprimet në ekonomi, sociologji dhe fusha të tjera.
 
-
-## Statistikat Zonale në Python
-
-  - Statistikat zonale mund të llogariten me funksionin **rasterstats.zonal_stats** 
+  - Të dhënat nga kjo analizë përfaqësojnë ndërveprimet tregtare midis palëve (p.sh. tregtia e kafshëve midis             Argjentinës dhe Brazilit në vitin 2017). 
   
-  - Parametri `stats` tregon cilat statistika dëshirojmë të llogariten në çdo zonë.
 
-## Statistikat Zonale në Python
+## Rrjetet Tregtare
 
-  - Do të llogarisim disa statistika zonale dhe do ta ruajmë rezultatin në një GeoPackage dhe një skedar CSV:
-
-
-## Statistikat Zonale në Python
+Rrjetet e marra nga këto të dhëna do të ofrojnë një pamje të anuar mbi tregtinë botërore.
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-from rasterstats import zonal_stats
+import pandas as pd
 
-print("Duke llogaritur statistikat zonale midis", nuts2_clean_file, 'dhe data/eu-2016-nox_avg.tif ...')
-
-zon_stats = zonal_stats(nuts2_clean_file, 'data/eu-2016-nox_avg.tif',
-                        stats="count min mean max median", geojson_out=True)
-print('Përfunduar.')
+# ngarkoni të dhënat nga një skedar TSV duke përdorur pandas
+trade_df = pd.read_csv('data/gis4/trade_network_wits-1988_2018.tsv', sep='\t')
+# shfaqni katër rreshta shembuj nga të dhënat e ngarkuara
+trade_df.sample(4)
 ```
 
-## Statistikat Zonale në Python
+## Rrjetet Tregtare
 
-  - Rezultati është një listë e fjalorëve që përmban statistikat për çdo rresht të skedarit hyrës të vektorit
-
-  - Këto rezultate mund të konvertohen në një kornizë të të dhënave gjeo kështu:
+![](./Figs/trade1.png)
 
 
-## Statistikat Zonale në Python
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+## Rrjetet Tregtare
 
-
-```{python, eval = FALSE}
-import geopandas as gpd
-stats_df = gpd.GeoDataFrame.from_features(zon_stats)
-
-# riemërtoni kolonat për të qenë më kuptimplota
-stats_df = stats_df.rename(columns={"min": "nox_min",
-                                    "max": "nox_max",
-                                    "count": "nox_count",
-                                    "mean": "nox_mean",
-                                    "median": "nox_median"})
-stats_df.sample(4)
-```
+  Pasi kemi ngarkuar dhe shfaqur disa rreshta shembull nga të dhënat, le të përqendrohemi në të dhënat e vitit 2018     dhe të heqim të dhënat e paplota:
 
 
-## Statistikat Zonale në Python
-
-![](./Figs/regstat.png)
-
-## Statistikat Zonale në Python
+## Rrjetet Tregtare
 
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-# ruajmë rezultatin në një geopackage
-stats_df.to_file('tmp/eu_nox_2016_nuts2.gpkg', driver="GPKG")
+import pandas as pd
+# përzgjedhja e kolonave të interesit për analizë
+trade_df = trade_df[['reporter_country_code','reporter','partner_country_code','partner',
+                     'product_categories','indicator_type','indicator','2018']]
 
-# për lehtësi ruajmë tabelën e atributeve si CSV
-stats_df.drop(columns=['geometry']).to_csv('tmp/eu_nox_2016_nuts2.csv', index=False)
-print("results saved.")
+# përqendrimi në vëllimin total në USD të importit/eksportit midis vendeve
+trade_df = trade_df[~trade_df['reporter_country_code'].isnull()]
+trade_df = trade_df[~trade_df['partner_country_code'].isnull()]
+# heqja e të dhënave të paplota
+trade_df = trade_df[~trade_df['2018'].isnull()]
+trade_df = trade_df[trade_df['product_categories']=='all_products']
+
+# përqendrimi në tregtarët më të mëdhenj të importit/eksportit
+trade_df = trade_df[trade_df['indicator'].isin(['partner_share_pc_top_5_import_partner','partner_share_pc_top_5_export_partner'])]
+# kolonat e tjera interesante janë: 'trade_us_mil_top_5_export_partner','trade_us_mil_top_5_import_partner'
 ```
 
 
-## Renditja dhe Vizualizimi i Rezultateve
+## Rrjetet Tregtare
 
-  - Tani, ne mund të eksplorojmë dhe vizualizojmë rezultatet.
-
-  - Funksioni **.rank()** i pandas na lejon të renditim vlerat.
-  
-## Renditja dhe Vizualizimi i Rezultateve
-
-  - Shpesh është një ide e mirë të ndajmë në qeliza të ndryshme llogaritjet dhe vizualizimet e gjata.
-
-  - Në këtë rast, nëse dëshirojmë të ekzekutojmë vizualizime të ndryshme, nuk kemi nevojë të rikthejmë llogaritjet zonale në qelizën e mëparshme.
-
-
-## Renditja dhe Vizualizimi i Rezultateve
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-nox_nuts2_df = gpd.read_file('tmp/eu_nox_2016_nuts2.gpkg')
-print(nox_nuts2_df.describe())
-print(nox_nuts2_df.columns)
+# numri total i rreshtave të filtruar
+len(trade_df)
 ```
 
 
-## Renditja dhe Vizualizimi i Rezultateve
+## Rrjetet Tregtare
 
-![](./Figs/eunox.png)
-
-
-
-## Renditja dhe Vizualizimi i Rezultateve
+Për të parë shembullin e rrjetit tregtar të Kinës:
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-# Rendisni rajonet: 1 = vlera më e lartë
-nox_nuts2_df['nox_mean_rank'] = nox_nuts2_df['nox_mean'].rank(ascending=False)
-nox_nuts2_df['nox_max_rank'] = nox_nuts2_df['nox_max'].rank(ascending=False)
+# shembull i rrjetit tregtar të Kinës
+trade_df[trade_df.reporter_country_code=='CHN']
 ```
 
 
-## Renditja dhe Vizualizimi i Rezultateve
+## Rrjetet Tregtare
+
+![](./Figs/trade2.png)
+
+
+
+## Grafet nga dataframe
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-# E vërtetë nëse vlera > 40
-nox_nuts2_df['nox_max_high'] = nox_nuts2_df['nox_max'] > 40
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Define a function to print graph information manually
+def print_graph_info(g):
+    num_nodes = g.number_of_nodes()
+    num_edges = g.number_of_edges()
+    avg_in_degree = sum(dict(g.in_degree()).values()) / num_nodes
+    avg_out_degree = sum(dict(g.out_degree()).values()) / num_nodes
+
+    print(f"Emri:")
+    print(f"Tipi: {type(g).__name__}")
+    print(f"Numri i nyjeve: {num_nodes}")
+    print(f"Numri i degeve: {num_edges}")
+    print(f"Mesatarja brenda në gradë: {avg_in_degree:.4f}")
+    print(f"Mesatarja jashtë në gradë: {avg_out_degree:.4f}")
+
+# Gjeneroni grafikun nga data frame (lista e degeve)
+df = trade_df[trade_df.indicator == 'partner_share_pc_top_5_import_partner']
+trade_import_g = nx.from_pandas_edgelist(df, 'reporter', 'partner', ['2018'], create_using=nx.DiGraph())
+print_graph_info(trade_import_g)
 ```
 
+## Grafet nga dataframe
 
-## Renditja dhe Vizualizimi i Rezultateve
+![](./Figs/trade3.png)
+
+## Grafet nga dataframe
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-# Shikoni rajonet më të ndotura NUTS, duke përzgjedhur vetëm kolonat përkatëse
-sel_df = nox_nuts2_df[['NUTS_ID','NUTS_NAME','nox_mean','nox_max',
-                       'nox_mean_rank','nox_max_rank','nox_max_high']]
-sel_df.sample(5)
-
-# Rendisni rajonet sipas nox_mean
-sel_df.sort_values('nox_mean',ascending=False).head(20)
+# Gjeneroni grafikun nga data frame  (lista e skajeve)
+df = trade_df[trade_df.indicator=='partner_share_pc_top_5_export_partner']
+trade_export_g = nx.from_pandas_edgelist(df, 'reporter', 'partner', ['2018'], create_using=nx.DiGraph())
+print_graph_info(trade_export_g)
 ```
 
+## Grafet nga dataframe
 
-## Renditja dhe Vizualizimi i Rezultateve
-
-![](./Figs/eunox2.png)
+![](./Figs/trade4.png)
 
 
-## Renditja dhe Vizualizimi i Rezultateve
+## Shkalla e plot in- and out
 
-  - Vini re se si renditja për **nox_max** dhe **nox_mean** mund të ndryshojë:
-  
-  - Për shembull, Inner London - West ("UKI3") ka nivelin më të lartë të NOx në mesatare, por është vetëm i 23-ti për     sa i përket vlerës maksimale.
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-  - Mund të vizatojmë vlerat e grumbulluara me një choropleth:
+Hapi i parë për të kuptuar strukturën e një rrjeti është llogaritja e shkallës së çdo nyje (numri i skajeve).
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
 ```{python, eval = FALSE}
-nox_nuts2_df.plot(column='nox_max', figsize=(12,9), scheme='equalinterval', cmap='OrRd', k=5,
-    edgecolor="lightgrey", linewidth=0.4,
-    legend=True, legend_kwds={'loc': 'upper right', 'title': 'NOx Maksimale (2016) - NUTS 2'},
-    missing_kwds={'color': "lightgrey"})
-```
-
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-![](./Figs/eunox3.png)
-
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-  - Shpërndarja e NOx është shumë heterogjene hapësinore (dmth., ndryshon shumë në çdo vend).
-
-  - Ne mund të përdorim **groupby** për të gjetur njësinë kryesore të NUTS për çdo vend për sa i përket NOx maksimale:
-
-
-
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-nox_nuts2_df['nox_max_country_rank'] = nox_nuts2_df.groupby('CNTR_CODE')['nox_max'].rank(ascending=False)
-
-# për çdo vend, njësitë renditen në mënyrë të brendshme
-sel_df = nox_nuts2_df[['NUTS_ID','NUTS_NAME','nox_max','nox_max_country_rank']]
-sel_df
-```
-
-
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# Zgjidhni vetëm njësinë kryesore për çdo vend (rank==1) dhe rendisni ato sipas NOx maksimale:
-top_df = sel_df[sel_df['nox_max_country_rank']==1]
-top_df.sort_values('nox_max', ascending=False)
-```
-
-
-## Renditja dhe Vizualizimi i Rezultateve
-
-![](./Figs/eunox4.png)
-
-
-# Praktikë
-
-
-## Detyra 1
-
-
-  - Do ngarkojmë dataset që përmban raster me të dhëna globale të reshjeve nga viti 1950 deri në vitin 2017 në            milimetra nga url [https://raw.githubusercontent.com/endri81/instatgis/master/data/global_precipitation_1950_2017/     rasters/](https://raw.githubusercontent.com/endri81/instatgis/master/data/global_precipitation_1950_2017/rasters/)
-
-  - Duke përdorur cikle for, merrni raster-in e reshjeve çdo 5 vjet nga viti 1980 deri në vitin 2015.
-
-  - Për çdo raster, gjeneroni një grafik duke përdorur funksionin **plot_raster** (funksioni në 2 slidet e tjera) dhe         printoni vlerat minimale, mesatare dhe maksimale.
-
-
-## Funksioni plot_raster
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}
-# Duke qenë se funksionaliteti i vizualizimit të rasterio është mjaft i komplikuar,
-# ne krijojmë një funksion për të vizualizuar një raster më lehtë.
-# Vini re vlerat e paracaktuara (Blues, 10, 10).
-# Sa i përket kompleksitetit, kjo është një funksion realist i përdorur në shkencën e të dhënave,
-# me "hack"-e për t'i bërë gjërat të funksionojnë për shkak të kufizimeve të paketës.
-
-def plot_raster(rast, val_matrix, plot_title, value_label, cmap='Blues', width=10, height=10, diverge_zero=False):
-    """Vizualizon një rasterio raster me cilësime të arsyeshme dhe me legjendë.
-        @ rast: skedari rasterio (përdoret për të lexuar koordinatat gjeografike)
-        @ val_matrix: vlerat e nxjerra (përdoret për të lexuar vlerat e rasterit)
-        @ plot_title: titulli i figurës së plotë
-        @ value_label: sasia që shfaqet
-        @ diverge_zero: e vërtetë nëse përdorni një cmap divergjent për të përqendruar hartën e ngjyrave në zero
+def plot_graph_degrees(g, title, logscale=False):
     """
-    fig, ax = plt.subplots(figsize=(10,10))
-    # image_hidden është një "hack" për të treguar legjendën
-    if diverge_zero:
-        image_hidden = ax.imshow(val_matrix, cmap=cmap, norm=TwoSlopeNorm(0))
-    else:
-        image_hidden = ax.imshow(val_matrix, cmap=cmap)
+    Paraqitni shkallën e hyrjes dhe daljes së grafikut g në një grafik linje.
+    @ g: një grafik
+    @ title: titulli i grafikës
+    @ logscale: transformoni boshtet x dhe y me log10
+    """
+    # merrni shkallët
+    indegrees = [deg for node, deg in g.in_degree()]
+    outdegrees = [deg for node, deg in g.out_degree()]
+    # numërimi i shkallës në hyrje
+    indeg_vals = sorted(list(set(indegrees)))
+    indeg_hist = [indegrees.count(x) for x in indeg_vals]
+    # numërimi i shkallës në dalje
+    outdeg_vals = sorted(list(set(outdegrees)))
+    outdeg_hist = [outdegrees.count(x) for x in outdeg_vals]
+    # shtoni informacionin në titull
+    title = title + " [" + str(len(g.nodes)) + " nyje, " + str(len(g.edges)) + " skaje]"
+    # paraqitni
+    plt.figure()
+    plt.grid()
+    # paraqitni shkallët
+    plt.plot(indeg_vals, indeg_hist, 'ro-')
+    plt.plot(outdeg_vals, outdeg_hist, 'bv-')
+```
 
-    ax.clear()
+## Shkalla e plot in- and out (vazhdim)
 
-```    
-    
-## Funksioni plot_raster (vazhdim)
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-```{python, eval = FALSE}    
-    # vizualizoni raster: rast.transform lejon sistemin të tregojë koordinatat gjeografike
-    if diverge_zero:
-        rast_plot = rasterio.plot.show(val_matrix, cmap=cmap, ax=ax, transform=rast.transform, norm=TwoSlopeNorm(0))
-    else: 
-        rast_plot = rasterio.plot.show(val_matrix, cmap=cmap, ax=ax, transform=rast.transform)
-    
-    # vendosni titullin e grafikut
-    ax.set_title(plot_title, fontsize=14)
-    
-    # shfaqni legjendën me etiketën
-    # "hack" për të rregulluar lartësinë
-    im_ratio = val_matrix.shape[0]/val_matrix.shape[1] 
-    #plt.colorbar(im,fraction=0.046*im_ratio, pad=0.04)
-    cbar = fig.colorbar(image_hidden, ax=ax, fraction=0.046*im_ratio, pad=0.04)
-    cbar.ax.set_ylabel(value_label, rotation=270)
-    cbar.ax.get_yaxis().labelpad = 15
-    #ax.set_axis_off() # aktivizoni/çaktivizoni akset
+```{python, eval = FALSE}
+    if logscale:
+        plt.xscale("log")
+        plt.yscale("log")
+        title = title + " [log]"
+
+    # shtoni legjendën dhe etiketat
+    plt.legend(['shkalla në hyrje','shkalla në dalje'])
+    plt.xlabel('Shkalla')
+    plt.ylabel('Numri i nyjeve')
+    plt.title(title)
+    plt.show()
+# paraqitni strukturën e rrjetit
+plot_graph_degrees(trade_export_g, 'Rrjeti i eksportit tregtar', logscale=False)
+plot_graph_degrees(trade_export_g, 'Rrjeti i eksportit tregtar', logscale=True)
+plot_graph_degrees(trade_import_g, 'Rrjeti i importit tregtar', logscale=False)
+plot_graph_degrees(trade_import_g, 'Rrjeti i importit tregtar', logscale=True)
+```
+
+
+
+
+## Shkalla e plot in- and out (vazhdim)
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# ndërto strukturën e rrjetit
+plot_graph_degrees(trade_export_g, 'Rrjeti i eksportit tregtar', logscale=False)
+plot_graph_degrees(trade_export_g, 'Rrjeti i eksportit tregtar', logscale=True)
+plot_graph_degrees(trade_import_g, 'Rrjeti i importit tregtar', logscale=False)
+plot_graph_degrees(trade_import_g, 'Rrjeti i importit tregtar', logscale=True)
+```
+
+
+## Shkalla e plot in- and out (vazhdim)
+
+![](./Figs/trade5.png)
+
+
+## Vizualizimi i Nyjeve dhe Skajeve
+
+  - Gjenerimi i vizualizimeve të mira të rrjeteve nuk është i lehtë. 
+  
+  - Kur një rrjet rritet në numër të nyjeve dhe shkallë, mbivendosja bëhet e pashmangshme. 
+  
+## Vizualizimi i Nyjeve dhe Skajeve
+
+  - Libraria ofron funksionalitet për vizualizim të avancuar
+  
+  - Me grafet hapësinore, është e nevojshme të zgjidhni një paraqitje për të rregulluar nyjet në një mënyrë të            përshtatshme.
+
+
+## Vizualizimi i Nyjeve dhe Skajeve
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+
+# përkufizoni funksionin e ripërdorshëm për të vizatuar paraqitjen e rrjetit
+def plot_graph(g, title, edge_label_attribute, layout='spring', fig_sz=10):
+    """
+    Funksioni për të vizatuar një grafik të drejtuar me vlera të përshtatshme të parazgjedhura.
+    @ g: një grafik
+    @ title: titulli i grafikut
+    @ edge_label_attribute: emri i atributit të skajit që do të përdoret si etiketa e skajit
+    @ layout: paraqitja e rrjetit që do të përdoret
+    @ fig_sz: madhësia e kanavacës
+    """
+    # gjeneroni pozicionet e nyjeve bazuar në paraqitjen e zgjedhur
+    if layout == 'spring':
+        pos = nx.spring_layout(g, k=0.55, iterations=30)
+    elif layout == 'circular':
+        pos = nx.circular_layout(g)
+    else:
+        raise ValueError("Paraqitje e pavlefshme")
+```  
+
+
+## Vizualizimi i Nyjeve dhe Skajeve (vazhdim)
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+
+    # rregulloni figurën
+    plt.figure(figsize=(fig_sz, fig_sz))
+    # hapni vizatimin
+    nx.draw_networkx(g, pos=pos, node_color='lightblue', alpha=.8)
+    # nxirrni etiketat e skajeve
+    edge_labels = nx.get_edge_attributes(g, edge_label_attribute)
+    # vizatoni etiketat e skajeve
+    nx.draw_networkx_edge_labels(g, pos=pos, edge_labels=edge_labels, alpha=.6)
+    # vizatoni skajet
+    nx.draw_networkx_edges(g, pos=pos, arrows=True, alpha=.6, edge_color='lightgray')
+    plt.title(title)
     plt.show()
 ```
 
 
-## Zgjidhje
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+## Vizualizimi i Nyjeve dhe Skajeve (vazhdim)
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-```{python, eval = FALSE}  
-import urllib.request
-
-# shkarkoni skedarët. Asc qëndron për Ascii, një format i thjeshtë raster.
-years = range(1980, 2016, 5)
-base_url = 'https://raw.githubusercontent.com/endri81/instatgis/master/data/global_precipitation_1950_2017/rasters/'
-
-for year in years:
-    rast_url = base_url + 'precip_{}-total.asc'.format(year)
-    local_file_name = 'data/global_precip_raster-{}.asc'.format(year)
-    print(local_file_name)
-    urllib.request.urlretrieve(rast_url, local_file_name)
-    del rast_url, local_file_name
+```{python, eval = FALSE}
+# vizatoni grafikun me dy paraqitje të ndryshme
+plot_graph(trade_export_g, "Rrjeti i eksportit (% i eksportit total)", '2018', 'circular', fig_sz=40)
+plot_graph(trade_import_g, "Rrjeti i importit (% i importit total)", '2018', 'spring', fig_sz=40)
 ```
 
 
-## Zgjidhje
+## Vizualizimi i Nyjeve dhe Skajeve (vazhdim)
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE}  
-# Për thjeshtësi, ne po i mbajmë të gjithë rastet në një sistem referimi gjeografik.
-# Në një studim shkencor, do të na duhej t'i projektonim ato për vizualizim.
-
-# ndertojmë rasterat e reshjeve:
-for year in years:
-    # gjenerojme emer lokal
-    local_file_name = 'data/global_precip_raster-{}.asc'.format(year)
-    # open raster
-    precip_rast = rasterio.open(local_file_name, mask=True)
-    # plot
-    plot_raster(precip_rast, precip_rast.read(1, masked=True), 
-        'Rreshjet totale vjetore (mm) '+str(year), 'mm', 
-        cmap='GnBu', width=14, height=14)
-```
+![](./Figs/difrrjet.png)
 
 
-## Zgjidhje
 
-![](./Figs/reshtotvjet.png)
+## Vizualizimi i Nyjeve dhe Skajeve
 
-
-## Ushtrimi 2
-
-  - Duke përdorur veprimin e zbritjes nga algjebra e hartës, llogarisni dhe vizatoni diferencën e rasterit midis          viteve 1980, 1990, 2000 dhe 2010 (3 çifte). 
+  - Këto vizualizime në thelb janë të padobishme pasi nuk mund të dallojmë strukturën e rrjeteve. 
   
-  - Përdorni një cikël **for**. 
+  - Një strategji për të vizualizuar një rrjet të madh është të përfshini vetëm nyje të lidhura relativisht. 
   
-  - Ripërdorni funksionin **plot_raster**
-  
-  
-## Ndihmë
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+  - Për shembull, le të zgjedhim nyje me shkallë të lartë nga grafiku **trade_export_g**:
 
 
-```{python, eval = FALSE} 
-years = [1980,1990,2000,2010]
-# loop sipas viteve
-for i in range(len(years)-1):
-    year1 = years[i]
-    year2 = years[i+1]
-    print(year1,year2)
-    # fusnin kodin ketu
+
+## Vizualizimi i Nyjeve dhe Skajeve
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# zgjedhni nyjet me shkallë të lartë
+degrees = trade_export_g.degree()
+nodes_to_remove = [n for n, degree in degrees if degrees[n] < 20]
+
+# kopjoni dhe hiqni nyjet nga grafiku
+hideg_trade_export_g = trade_export_g.copy()
+hideg_trade_export_g.remove_nodes_from(nodes_to_remove)
+
+# shtypni informacionin e grafikut të shkallës së lartë
+def print_graph_info(g):
+    num_nodes = g.number_of_nodes()
+    num_edges = g.number_of_edges()
+    avg_in_degree = sum(dict(g.in_degree()).values()) / num_nodes
+    avg_out_degree = sum(dict(g.out_degree()).values()) / num_nodes
+
+    print(f"Name:")
+    print(f"Type: {type(g).__name__}")
+    print(f"Number of nodes: {num_nodes}")
+    print(f"Number of edges: {num_edges}")
+    print(f"Average in degree: {avg_in_degree:.4f}")
+    print(f"Average out degree: {avg_out_degree:.4f}")
+
+print_graph_info(hideg_trade_export_g)
 ```
 
 
-## Zgjidhje
+## Vizualizimi i Nyjeve dhe Skajeve
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+![](./Figs/difrrjet1.png)
+
+## Vizualizimi i Nyjeve dhe Skajeve
+
+  Grafiku me shkallë të lartë është më i lehtë për t'u vizatuar dhe ne mund të shohim lidhjet midis vendeve me shkallë   të lartë:
+
+## Vizualizimi i Nyjeve dhe Skajeve
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-```{python, eval = FALSE} 
-
-years = [1980,1990,2000,2010]
-# loop sipas viteve
-for i in range(len(years)-1):
-    year1 = years[i]
-    year2 = years[i+1]
-    print("Krahaso:", year1, year2)
-    # Ngarkojme dy rastera per krahasim
-    rast1 = rasterio.open('data/global_precip_raster-{}.asc'.format(year1), mask=True)
-    rast2 = rasterio.open('data/global_precip_raster-{}.asc'.format(year2), mask=True)
-    vals1 = rast1.read(1, masked=True)
-    vals2 = rast2.read(1, masked=True)
-    # Llogarisim diferencen
-    vals_diff = vals2-vals1
-    print("Statistikat e diferences:", vals_diff.min(), round(vals_diff.mean(),2), vals_diff.max())
-    # Vizatoni diferencen
-    plot_raster(rast1, vals_diff, 'Total precipitation change between {} and {}'.format(year1,year2), 
-            'Rreshje vjetore (mm)', 'PuOr', width=10, height=10, diverge_zero=True)
-    
+```{python, eval = FALSE}
+# grafiku i shkallës së lartë
+plot_graph(hideg_trade_export_g, "Rrjeti i eksportit (% i eksportit total)", '2018', 'spring', fig_sz=10)
 ```
 
 
+## Vizualizimi i Nyjeve dhe Skajeve
 
-## Zgjidhje
-
-![](./Figs/krahasim.png)
-
-## Ushtrimi 3
-
-  - Sa është sasia e reshjeve totale në çdo vend në vitin 2015?
-  
-  - Duke përdorur kufijtë e botës, përdorni statistikat zonale për t'iu përgjigjur kësaj pyetjeje.
-
-  - Për çdo vend, llogarisni reshjet minimale, maksimale, mesatare, mediane dhe totale.
-
-  - Ruani rezultatet në një tabelë CSV me një rresht për çdo vend dhe një kolonë për çdo statistikë përshkruese.
-
-## Ushtrimi 3 (vazhdim)
-
-  - Vini re se të dhënat e reshjeve janë shumë dhe rezultatet mund të paraqesin gabime të mëdha për vendet e vogla.
-
-  - Përsëriteni analizën për vitin 1980: Duhet të bëni ndryshime minimale në kod.
-
-## Ndihmë
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+![](./Figs/difrrjet2.png)
 
 
-```{python, eval = FALSE} 
-year = 2015
-output_file = 'tmp/precipitation_country_stats_' + str(year) + '.csv'
-print(output_file)
-
-# futni kodin tuaj këtu
-```
 
 
-## Zgjidhje
+## Vizualizimi i Nyjeve dhe Skajeve
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-# shkarkojmë hartën e botës
-# Shkarkoni gjithashtu kufijtë e vendeve
-url_boundaries = 'https://github.com/endri81/instatgis/blob/master/data/gis4/natural_earth_world_boundaries_50m_2018.geojson?raw=true'
-file_name_boundaries = 'data/natural_earth_world_boundaries_50m_2018.geojson'
-urllib.request.urlretrieve(url_boundaries, file_name_boundaries)
-```
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+Një qasje tjetër është të zgjidhni nën-grafikë, për shembull fqinjët e një nyje të synuar:
 
 
-```{python, eval = FALSE} 
-# Ngarkojmë kufijtë
-countries_df = gpd.read_file('data/natural_earth_world_boundaries_50m_2018.geojson')
-# heqim vendet e panjohura
-countries_df = countries_df[countries_df.iso_a3 != '-99']
-print(len(countries_df))
-countries_df.plot()
-
-```
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-## Zgjidhje
-
-![](./Figs/bota.png)
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-from rasterstats import zonal_stats, gen_zonal_stats
-
-for year in [1980, 2015]:
-    print("\nDuke llogaritur statistikat zonale midis kufijve të vendeve të botës dhe reshjeve në {}...".format(year))
-    # ngarkoni rasterin e reshjeve
-    rast_file = 'data/global_precip_raster-{}.asc'.format(year)
-    # gjeneroni rrugën e skedarit të daljes
-    output_file = 'tmp/precipitation_country_stats_{}.csv'.format(year)
-    # llogarit statistikat zonale
-    # zgjidhni vetëm kolonat përkatëse nga countries_df
-    zon_stats = zonal_stats(countries_df[['iso_a3','name','geometry']], rast_file, 
-                            stats="count min median mean max sum", geojson_out=True)
-    # gjeneroni një kornizë të dhënash nga rezultatet e zonal_stats (listë fjalorësh)
-    stats_gdf = gpd.GeoDataFrame.from_features(zon_stats)
-    # konverto nga geodataframe në dataframe, pasi nuk kemi nevojë për gjeometrinë
-    stats_df = pd.DataFrame(stats_gdf.drop(columns='geometry'))    
-    # hiqni vendet për të cilat nuk kemi vëzhgime
-    stats_df = stats_df[stats_df['count'] > 0]
-    stats_df = stats_df.sort_values('sum')
-    # printoni statistikat
-    print(stats_df.describe())
-    # ruani rezultatet në skedar
-    stats_df.to_csv(output_file, index=False)
-    print("Rezultatet janë te", output_file)
-
+```{python, eval = FALSE}
+# tregoni nën-grafikë për secilin vend me shkallë të lartë
+for country in hideg_trade_export_g.nodes:
+    # nxirrni nën-grafikun për rrjetin e eksportit të një vendi
+    # skajet në dalje
+    edges = trade_export_g.out_edges(country, data=True)
+    g = nx.DiGraph(edges)
+    plot_graph(g, "Rrjeti i eksportit nga\n" + country + ' (% i eksportit total)', '2018', fig_sz=6)
+    # skajet në hyrje
+    edges = trade_export_g.in_edges(country, data=True)
+    g = nx.DiGraph(edges)
+    plot_graph(g, "Rrjeti i eksportit për\n" + country + ' (% i eksportit total)', '2018', fig_sz=6)
 
 ```
 
 
 
-## Zgjidhje
+## Vizualizimi i Nyjeve dhe Skajeve
 
+![](./Figs/difrrjet3.png)
+
+
+## Eksportimi i grafikut
+
+  - Shpesh është e nevojshme të eksportoni një grafik në një format standard të skedarit
   
-![](./Figs/rezultate.png)
-
-## Ushtrimi 4
-
-  - Duke përdorur **.rank()**, gjeneroni renditje për vendet për sa i përket reshjeve të tyre (renditja 1                korrespondon me vendin më të lagësht).
-
-  - Tregoni 10 vendet më të thata dhe më të lagështa në botë në vitin 1980 dhe 2015. 
+  - **networkX** supporton shumë formate. 
   
-  - A mund të vini re shumë ndryshime?
+  - Ndër formatet më të supportuara janë **GraphML** dhe **GEXF**, të dy bazuar në XML. 
+  
+  
+## Eksportimi i grafikut  
+  
+  Ekzaminoni skedarët e eksportuar me një redaktues teksti për të parë se si kodohen të dhënat.
 
 
-## Ndihmë
+## Eksportimi i grafikut
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-years = [1980, 2015]
-for year in years:
-    input_stats_file = 'tmp/precipitation_country_stats_' + str(year) + '.csv'
-    print(input_stats_file)
-    # ngarkoni skedarin dhe gjeneroni renditje
-```    
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-## Zgjidhje
+```{python, eval = FALSE}
+# eksportoni grafikun si GraphML dhe GEXF
+nx.write_graphml(hideg_trade_export_g, "tmp/street_network.graphml")
+nx.write_gexf(hideg_trade_export_g, "tmp/street_network.gexf")
+```
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+## Qëndra e Nyjeve
+
+  - Ne mund të përdorim **networkX** për të llogaritur metrikat e rrjetit, për shembull për të parë qendrën e 
+    ndërmjetësimit të vendeve në të dy rrjetet e ndryshme që përfaqësojnë importin dhe eksportin:
 
 
-```{python, eval = FALSE} 
-# përcaktojmë "wet rank" bazuar në precipitimin mesatar.
-years = [1980,2015]
+## Qëndra e Nyjeve
 
-# bashkojmë statistikat në vite
-wet_rank_df = countries_df[['iso_a3','name']]
 
-for year in years:
-    input_stats_file = 'tmp/precipitation_country_stats_'+str(year)+'.csv'
-    print("ranking",input_stats_file)
-    # ngarkojme skedarin
-    stats_df = pd.read_csv(input_stats_file)
-    # gjenerojme renditje
-    rank_field = 'wet_rank_'+str(year)
-    stats_df[rank_field] = stats_df['mean'].rank(ascending=False)
-    # bashkojme rankimin me rezultatet finale
-    wet_rank_df = wet_rank_df.merge(stats_df[['iso_a3',rank_field]], 
-                                    on='iso_a3')
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
-# sort dhe ruaj rezultate
-wet_rank_df['wet_rank_change'] = wet_rank_df['wet_rank_1980']-wet_rank_df['wet_rank_2015']
-wet_rank_df = wet_rank_df.sort_values('wet_rank_2015')
-wet_rank_df.to_csv('tmp/precipitation_country_stats.csv', index=False)
-# vendet më të lagështa 2015
-wet_rank_df.head(10)
+
+```{python, eval = FALSE}
+# llogarisni qendrën e ndërmjetësimit bazuar në dendësinë e nyjeve
+country_centrality = nx.algorithms.centrality.betweenness_centrality(trade_export_g)
+
+# konvertoni të dhënat në një kuadër të dhënash
+country_centrality_df = pd.DataFrame.from_dict(country_centrality, 
+                                orient='index', columns=['betw_centrality_export'])
+country_centrality_df['country'] = country_centrality_df.index
+
+# renditni dhe tregoni rezultatet
+country_centrality_df = country_centrality_df.sort_values('betw_centrality_export', ascending=False)
+country_centrality_df.head(10)
+```
+
+
+## Qëndra e Nyjeve
+
+![](./Figs/qnyje.png)
+## Importo Rrjetin
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# llogarisni qendrën e ndërmjetësimit të rrjetit të importit
+country_centrality = nx.algorithms.centrality.betweenness_centrality(trade_import_g)
+imp_df = pd.DataFrame.from_dict(country_centrality, 
+                            orient='index', columns=['betw_centrality_import'])
+
+# renditni dhe tregoni rezultatet
+imp_df = imp_df.sort_values('betw_centrality_import', ascending=False)
+imp_df['country'] = imp_df.index
+imp_df.head(10)
+```
+
+
+
+## Importo Rrjetin
+
+![](./Figs/qnyje1.png)
+
+## Kombinimi i Treguesve për të Krahasuar
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# kombinoni dy treguesit për t'i krahasuar ata
+impexp_df = country_centrality_df.merge(imp_df, on='country')
+impexp_df = impexp_df[['country','betw_centrality_import','betw_centrality_export']]
+impexp_df = impexp_df.sort_values('betw_centrality_export', ascending=False)
+impexp_df.to_csv('tmp/trade_importexport_centrality_2018.csv')
+impexp_df.head(10)
+```
+
+
+## Kombinimi i Treguesve për të Krahasuar
+
+![](./Figs/qnyje2.png)
+
+## Rrjetet Rrugore
+
+  - Rrjetet rrugore janë një lloj rrjeti që është veçanërisht i rëndësishëm në analizën e të dhënave gjeografike. 
+  
+  - Libraria **osmnx** ofron funksione për të nxjerrë lehtësisht rrjetet rrugore nga **OpenStreetMap**. 
+  
+## Rrjetet Rrugore
+
+  - Mënyra më efikase për të ruajtur këto rrjete kur punoni në Python është formati **pickle**. 
+  
+  - Do të përdorim skedarë pickle të kompresuar. 
+  
+  - Shumë formate të tjera rrjeti ekzistojnë, duke përfshirë GeoPackages dhe GraphML, që mund të përdoren .
+
+
+## Merrni Rrjetet Rrugore
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import osmnx as ox
+import pickle
+
+# Emri i vendit të synuar
+place_name = "City of London, UK"
+
+# Shkarkoni rrjetin rrugor nga OpenStreetMap bazuar në një emër vendi
+graph = ox.graph_from_place(place_name, network_type='drive')
+
+# Ruani rrjetin në disk duke përdorur gzip (.gz) për të zvogëluar madhësinë e skedarit
+net_file = "data/streets_citylondon.gpik"
+
+# Use pickle to write the graph to a file
+with open(net_file, 'wb') as f:
+    pickle.dump(graph, f)
+
+print("Skedari i grafikut të rrugëve në", place_name, "shkarkuar në", net_file)
+```
+
+
+## Merrni Rrjetet Rrugore
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# 'del' (fshij) shkatërron një objekt. Është e dobishme për të siguruar që ky objekt
+# nuk mund të përdoret në qeliza të tjera gabimisht.
+del graph, net_file
+```
+
+## Merrni Rrjetet Rrugore
+
+
+Në mënyrë alternative, paketa supporton një **point and radius search** bazuar në adresa ose nga poligonet:
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import osmnx as ox
+import pickle
+import gzip
+
+# Vendndodhja e Birkbeck, rreze 1 km
+radius_m = 1000
+graph = ox.graph_from_address('Malet St, London, UK', network_type='drive', dist=radius_m)
+
+# Ruani rrjetin në disk duke përdorur gzip (.gz) për të zvogëluar madhësinë e skedarit
+net_file = "data/streets_birkbeck_1km.gpik.gz"
+
+# Use pickle to write the graph to a compressed file
+with gzip.open(net_file, 'wb') as f:
+    pickle.dump(graph, f)
+
+print(f"Rrjeti rrugor i ruajtur në {net_file}")
+
+# Delete the graph object to free up memory
+del graph
+
+```
+
+
+
+## Vizato Rrjetin e Rrugës
+
+  - Rrjeti rrugor shprehet si **networkx.classes.multidigraph.MultiDiGraph**. 
+
+  - Le të ngarkojmë një skedar **pickle** dhe të vizatojmë rrjetin.
+
+## Vizato Rrjetin e Rrugës
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+import pickle
+import gzip
+
+# Load the graph from the compressed file
+net_file = "data/streets_birkbeck_1km.gpik.gz"
+with gzip.open(net_file, 'rb') as f:
+    streets_g = pickle.load(f)
+
+# Print the number of nodes and edges in the graph
+print("N i nyjeve:", len(streets_g.nodes))
+print("N i skajeve:", len(streets_g.edges))
+```
+
+
+## Vizato Rrjetin e Rrugës
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# vizatoni rrjetin
+osmnx.plot_graph(streets_g, figsize=(10,10))
+```
+
+
+## Vizato Rrjetin e Rrugës
+
+![](./Figs/osmx1.png)
+
+## Vizato Rrjetin e Rrugës
+
+Skajet përmbajnë atribute, si emri i rrugës dhe lloji, të cilat mund të aksesohen si një dataframe gjeografik.
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Merrni vetëm skajet nga grafiku
+edges_df = osmnx.graph_to_gdfs(streets_g, nodes=False, edges=True)
+edges_df.sample(3)
+```
+
+
+## Vizato Rrjetin e Rrugës
+
+![](./Figs/rrjetirrugor.png)
+
+
+## Vizato Rrjetin e Rrugës
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+edges_df.plot()
+```
+
+
+## Vizato Rrjetin e Rrugës
+
+![](./Figs/rrjetirrugor2.png)
+
+
+## Vizato Rrjetin e Rrugës
+
+Nyjet gjithashtu mund të kenë atribute, të tilla si vendndodhja dhe numri i skajeve ndërprerëse:
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+# Merrni nyjet nga grafiku si një kuadër të dhënash
+nodes_df = osmnx.graph_to_gdfs(streets_g, nodes=True, edges=False)
+nodes_df.sample(5)
+
+# vizatoni nyjet
+nodes_df.plot()
+```
+
+
+## Vizato Rrjetin e Rrugës
+
+![](./Figs/rrjetirrugor1.png)
+
+
+
+## Projekto Rrjetin
+
+Për të punuar në rrjetet rrugore, është e nevojshme t'i projektoni ato në një sistem të përshtatshëm të referencës koordinative.
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+print("Sistemi i koordinatave të nyjeve:", nodes_df.crs)
+print("Sistemi i koordinatave të skajeve:", edges_df.crs)
 ```
 
 
 
 
-## Zgjidhje
+## Projekto Rrjetin
 
-  
-![](./Figs/usht4.png)
+![](./Figs/rrjetikor.png)
+
+## Projekto Rrjetin
+
+Projektimi i këtij rrjeti rrugor në British National Grid:
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
 
-## Zgjidhje
+```{python, eval = FALSE}
+streets_g = osmnx.project_graph(streets_g, 27700)
 
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
+# kontrolloni nëse projektimi funksionoi
+nodes_proj, edges_proj = osmnx.graph_to_gdfs(streets_g, nodes=True, edges=True)
+print(nodes_proj.crs)
+print(edges_proj.crs)
+```
 
 
-```{python, eval = FALSE} 
-# vendet më të thata 2015
-wet_rank_df.tail(10)
+## Projekto Rrjetin
+
+![](./Figs/rrjetikor2.png)
+
+
+## Projekto Rrjetin
+
+Tani koordinatat janë projektuar
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+
+```{python, eval = FALSE}
+
+edges_proj.sample(5)
+
+```
+
+
+## Projekto Rrjetin
+
+
+
+![](./Figs/rrjetikor3.png)
+
+
+## Ndërtojmë përsëri
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+
+osmnx.plot_graph(streets_g, figsize=(10,10))
+
+```
+
+
+## Ndërtojmë përsëri
+
+
+
+![](./Figs/osmx3.png)
+
+
+## Analiza e Rrjetit
+
+Rrjetet rrugore mund të analizohen në aspektin e strukturës së tyre (morfologji) duke përdorur një sërë treguesish:
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import osmnx as ox
+
+# Merrni statistikat bazike të rrjetit
+basic_stats = ox.basic_stats(streets_g)
+basic_stats
 ```
 
 
 
+## Llogaritja e Rrugëve
 
-## Zgjidhje
+Një pjesë qendrore në udhëzime është llogaritja e rrugëve më të shkurtra në rrjetet rrugore.
 
-  
-![](./Figs/usht41.png)
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
 
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-# vendet me ndryshime ekstreme në klasifikim
-wet_rank_df['wet_rank_change'].hist()
-```
-
-
-
-
-## Zgjidhje
-
-  
-![](./Figs/usht42.png)
-
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-# vendet me ndryshime ekstreme 
-wet_rank_df = wet_rank_df.sort_values('wet_rank_change', ascending=False)
-# Kontrollojmë diapazonin
-extreme_change_df = wet_rank_df[~wet_rank_df.wet_rank_change.between(-20, 20)]
-extreme_change_df
-```
-
-
-
-
-## Zgjidhje
-
-  
-![](./Figs/usht43.png)
-
-
-
-
-    
-## Ushtrimi 5
-
-  - Duke përdorur **urllib.request.urlretrieve**, shkarkoni këtë dataset që përmban aeroportet globale.
-  
-  - Ngarkojeni në një dataframe gjeo me geopandas dhe printoni sa rreshta përmban.
-
-  - Zgjidhni disa atribute prej saj, duke përfshirë emrin e aeroportit, kodin IATA të aeroportit, kodin e vendit, lartësinë dhe tipin.
-
-
-## Ndihmë
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-import urllib.request
-
-# URL e azhurnuar për skedarin e aeroportit
-airports_url = 'https://raw.githubusercontent.com/endri81/instatgis/master/data/gis4/airports_2020.geojson'
-
-# Skedari lokal ku do të ruhet të dhënat
-local_file_name = 'data/airports_2020.geojson'
-print(local_file_name)
-
-# Shkarkoni skedarin nga URL-ja
-urllib.request.urlretrieve(airports_url, local_file_name)
-
-# futni kodin tuaj këtu
-```
-
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-airports_all_df = gpd.read_file('data/airports_2020.geojson')
-print('n airports =',len(airports_all_df))
-print(airports_all_df.columns)
-airports_all_df.sample(5)
-```
-
-
-
-
-## Zgjidhje
-
-  
-![](./Figs/usht5.png)
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-airports_df = airports_all_df[['id','iata_code','name','type','iso_countr','elevation_','geometry']]
-# rename elevation to show it is in feet
-airports_df = airports_df.rename(columns={"elevation_": "elevation_ft"})
-# show sample
-airports_df.sample(5)
-```
-
-
-
-
-## Zgjidhje
-
-  
-![](./Figs/usht51.png)
-
-
-## Ushtrimi 6
-
-  - Analizoni densitetin e aeroporteve në botë.
-
-  - Së pari, duke përdorur një histogram 2D me numër të ndryshëm të koshave (nga 20 në 100).
-
-  - Bëni analizën për të gjitha aeroportet dhe vetëm për aeroportet e mëdha (type=='large_airport').
-
-
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-# ndryshojmë numrin e bin:
-for bin_n in range(40,201,40):
-    print("bin_n",bin_n)
-    
-    # ndryshojmë tipin
-    for atype in ['all','large_airport']:
-        df = airports_df
-        if atype != 'all':
-            df = airports_df[airports_df['type'] == atype]
-        assert len(df) > 0
-        # aeroportet e kërkuara janë në df
-        h = plt.hist2d(df.geometry.x, df.geometry.y, bins=bin_n, density=False)
-        plt.colorbar(h[3])
-        plt.title("2D histograma e aeroporteve (type={}, bins={})".format(atype, bin_n))
-        plt.show()
-```
-
-
-
-
-## Zgjidhje
-
-  
-![](./Figs/usht6.png)
-
-
-## Ushtrimi 7
-
-  - Gjeneroni KDE për aeroportet për Britaninë dhe SHBA-në duke ndryshuar gjerësinë e brezit në tre vlera të ndryshme     që kapin shpërndarjen e aeroporteve në një mënyrë të përshtatshme.
-
-  - Ku janë zonat më të dendura në botë? Ndani analizën midis të gjitha aeroporteve dhe vetëm aeroporteve të mëdha,    duke minimizuar përsëritjen e kodit.
-  
-  
-## Zgjidhje
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}   
-
-
-```{python, eval = FALSE} 
-import geoplot
+```{python, eval = FALSE}
+import random
+import networkx as nx
 import matplotlib.pyplot as plt
+from networkx.exception import NetworkXNoPath
 
-# Për secilin vend, 'US' dhe 'GB'
-for country in ['US', 'GB']:
-    # zgjidh aeroportet në adf
-    adf = airports_df[airports_df['iso_countr'] == country]
-    cdf = countries_df[countries_df['iso_a2'] == country]
-    
-    # nëse vendi është 'GB', largoni një aeroport RAF në Qipro
-    if country == 'GB':
-        adf = adf[adf['iata_code'] != 'AKT']
-    
-    # sigurohuni që të dhënat e vendit dhe aeroportit të mos jenë bosh
-    assert len(cdf) > 0
-    assert len(adf) > 0
-
-    # ndryshoni bandwidth
-    for bandwidth in [.01, .05, .1]:
-        title = 'KDE për aeroportet (vendi={}, bandwidth={})'.format(country, bandwidth)
-        ax = geoplot.kdeplot(adf, shade=False, bw=bandwidth, figsize=(12, 12), alpha=.5)
-        
-        # shtoni vijën bregdetare
-        cdf.plot(ax=ax, color='lightgray', edgecolor="none", linewidth=.5)
-        
-        # shtoni titullin
-        plt.title(title, fontsize=18)
-        
-        # shfaqni figurën
-        plt.show()
+# zgjidhni dy nyje të rastësishme
+nodes = [n for n in streets_g.nodes]
+orig_node = random.choice(nodes)
+dest_node = random.choice(nodes)
+print("Nyja e origjinës:", orig_node, ", nyja e destinacionit:", dest_node)
 ```
 
 
 
 
-## Zgjidhje
 
-  
-![](./Figs/usht7.png)  
+## Llogaritja e Rrugëve (vazhdim)
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# Përpiquni/gjeni se për shkak se ndonjëherë rrugët nuk mund të gjenden
+try:
+    # gjeni rrugën më të shkurtër midis dy nyjeve
+    route = nx.shortest_path(streets_g, orig_node, dest_node, weight='length')
+    route_len_m = nx.shortest_path_length(streets_g, orig_node, dest_node, weight='length')
+    print("Rruga e udhëtimit e gjetur:", len(route), "segmente; gjatësi (m)", round(route_len_m))
+    
+    # vizatoni rrugën
+    plt.figure(figsize=(6, 6))
+    fig, ax = ox.plot_graph_route(streets_g, route, route_linewidth=6, node_size=0, bgcolor='k')
+except NetworkXNoPath as e: 
+    print("Rruga nuk u gjet", e)
+```    
+    
+
+## Llogaritja e Rrugëve
+
+![](./Figs/rrugshkurter.png)
+    
+## Gjetja e Nyjeve Më të Afërta
+
+  - Kur udhëtoni nga pika A në pikën B, hapi i parë është të gjeni nyjet më të afërta me A dhe B.
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+import networkx as nx
+import osmnx as ox
+
+# Funksioni për të gjetur nyjen më të afërt
+def get_nearest_node(graph, point):
+    nearest_node = min(graph.nodes, key=lambda n: ox.distance.great_circle_vec(point[1], point[0], graph.nodes[n]['y'], graph.nodes[n]['x']))
+    return nearest_node
+
+
+birkbeck_node = get_nearest_node(streets_g, birkbeck_loc_bg)
+britishmus_node = get_nearest_node(streets_g, britishmus_loc_bg)
+
+print("Nyjet më të afërta (ID-të):", birkbeck_node, britishmus_node)
+```
+
+
+## Llogaritja e Rrugës së Udhëtimit
+
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+# llogarisni rrugën e udhëtimit
+route = nx.shortest_path(streets_g, birkbeck_node, britishmus_node, weight='length')
+route_len_m = nx.shortest_path_length(streets_g, orig_node, dest_node, weight='length')
+print("Rruga midis Birkbeck dhe British Museum e gjetur:", len(route), "segmente; gjatësi (m)", round(route_len_m))
+```
+
+
+## vizatoni rrugën
+
+python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+
+```{python, eval = FALSE}
+plt.figure(figsize=(6, 6))
+fig, ax = ox.plot_graph_route(streets_g, route, route_linewidth=6, node_size=0, bgcolor='k')
+```
+
+Këto të dhëna të rrjetit dhe mjetet mund të përdoren në një sërë aplikimesh.
+
+
+
+
+## vizatoni rrugën
+
+![](./Figs/rrugshkurter2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
