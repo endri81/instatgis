@@ -797,7 +797,7 @@ plot_graph_degrees(trade_import_g, 'Rrjeti i importit tregtar', logscale=True)
 
 ## Vizualizimi i Nyjeve dhe Skajeve
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -824,7 +824,7 @@ def plot_graph(g, title, edge_label_attribute, layout='spring', fig_sz=10):
 
 ## Vizualizimi i Nyjeve dhe Skajeve (vazhdim)
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -847,7 +847,7 @@ python\AddToHookNext{env/Highlighting/begin}{\tiny}
 
 ## Vizualizimi i Nyjeve dhe Skajeve (vazhdim)
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -875,7 +875,7 @@ plot_graph(trade_import_g, "Rrjeti i importit (% i importit total)", '2018', 'sp
 
 ## Vizualizimi i Nyjeve dhe Skajeve
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -915,7 +915,7 @@ print_graph_info(hideg_trade_export_g)
 
 ## Vizualizimi i Nyjeve dhe Skajeve
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -936,7 +936,7 @@ plot_graph(hideg_trade_export_g, "Rrjeti i eksportit (% i eksportit total)", '20
 Një qasje tjetër është të zgjidhni nën-grafikë, për shembull fqinjët e një nyje të synuar:
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -977,7 +977,7 @@ for country in hideg_trade_export_g.nodes:
 
 ## Eksportimi i grafikut
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -996,7 +996,7 @@ nx.write_gexf(hideg_trade_export_g, "tmp/street_network.gexf")
 ## Qëndra e Nyjeve
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1019,7 +1019,7 @@ country_centrality_df.head(10)
 ![](./Figs/qnyje.png)
 ## Importo Rrjetin
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1042,7 +1042,7 @@ imp_df.head(10)
 
 ## Kombinimi i Treguesve për të Krahasuar
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1076,7 +1076,7 @@ impexp_df.head(10)
 
 ## Merrni Rrjetet Rrugore
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1102,7 +1102,7 @@ print("Skedari i grafikut të rrugëve në", place_name, "shkarkuar në", net_fi
 
 ## Merrni Rrjetet Rrugore
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1116,7 +1116,7 @@ del graph, net_file
 
 Në mënyrë alternative, paketa supporton një **point and radius search** bazuar në adresa ose nga poligonet:
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1153,7 +1153,7 @@ del graph
 ## Vizato Rrjetin e Rrugës
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1174,7 +1174,7 @@ print("N i skajeve:", len(streets_g.edges))
 ## Vizato Rrjetin e Rrugës
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1191,7 +1191,7 @@ osmnx.plot_graph(streets_g, figsize=(10,10))
 
 Skajet përmbajnë atribute, si emri i rrugës dhe lloji, të cilat mund të aksesohen si një dataframe gjeografik.
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1209,7 +1209,7 @@ edges_df.sample(3)
 ## Vizato Rrjetin e Rrugës
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1226,7 +1226,7 @@ edges_df.plot()
 
 Nyjet gjithashtu mund të kenë atribute, të tilla si vendndodhja dhe numri i skajeve ndërprerëse:
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1249,7 +1249,7 @@ nodes_df.plot()
 
 Për të punuar në rrjetet rrugore, është e nevojshme t'i projektoni ato në një sistem të përshtatshëm të referencës koordinative.
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1268,7 +1268,7 @@ print("Sistemi i koordinatave të skajeve:", edges_df.crs)
 
 Projektimi i këtij rrjeti rrugor në British National Grid:
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1291,7 +1291,7 @@ print(edges_proj.crs)
 Tani koordinatat janë projektuar
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 
 ```{python, eval = FALSE}
@@ -1311,7 +1311,7 @@ edges_proj.sample(5)
 ## Ndërtojmë përsëri
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 
@@ -1332,7 +1332,7 @@ osmnx.plot_graph(streets_g, figsize=(10,10))
 Rrjetet rrugore mund të analizohen në aspektin e strukturës së tyre (morfologji) duke përdorur një sërë treguesish:
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 import osmnx as ox
@@ -1348,7 +1348,7 @@ basic_stats
 
 Një pjesë qendrore në udhëzime është llogaritja e rrugëve më të shkurtra në rrjetet rrugore.
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 import random
@@ -1370,7 +1370,7 @@ print("Nyja e origjinës:", orig_node, ", nyja e destinacionit:", dest_node)
 ## Llogaritja e Rrugëve (vazhdim)
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 # Përpiquni/gjeni se për shkak se ndonjëherë rrugët nuk mund të gjenden
@@ -1397,7 +1397,7 @@ except NetworkXNoPath as e:
   - Kur udhëtoni nga pika A në pikën B, hapi i parë është të gjeni nyjet më të afërta me A dhe B.
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 import networkx as nx
@@ -1419,7 +1419,7 @@ print("Nyjet më të afërta (ID-të):", birkbeck_node, britishmus_node)
 ## Llogaritja e Rrugës së Udhëtimit
 
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 # llogarisni rrugën e udhëtimit
@@ -1431,7 +1431,7 @@ print("Rruga midis Birkbeck dhe British Museum e gjetur:", len(route), "segmente
 
 ## vizatoni rrugën
 
-python\AddToHookNext{env/Highlighting/begin}{\tiny}   
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
 plt.figure(figsize=(6, 6))
