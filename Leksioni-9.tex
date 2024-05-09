@@ -157,7 +157,7 @@
 
 \title{Leksioni 9}
 \author{Endri Raco}
-\date{06 May, 2024}
+\date{10 May, 2024}
 
 \begin{document}
 \frame{\titlepage}
@@ -1762,19 +1762,16 @@ në rrjetet rrugore.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ networkx }\ImportTok{as}\NormalTok{ nx}
-\ImportTok{import}\NormalTok{ osmnx }\ImportTok{as}\NormalTok{ ox}
+\ImportTok{from}\NormalTok{ pyproj }\ImportTok{import}\NormalTok{ Transformer}
 
-\CommentTok{\# Funksioni për të gjetur nyjen më të afërt}
-\KeywordTok{def}\NormalTok{ get\_nearest\_node(graph, point):}
-\NormalTok{    nearest\_node }\OperatorTok{=} \BuiltInTok{min}\NormalTok{(graph.nodes, key}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ n: ox.distance.great\_circle\_vec(point[}\DecValTok{1}\NormalTok{], point[}\DecValTok{0}\NormalTok{], graph.nodes[n][}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], graph.nodes[n][}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{]))}
-    \ControlFlowTok{return}\NormalTok{ nearest\_node}
-
-
-\NormalTok{birkbeck\_node }\OperatorTok{=}\NormalTok{ get\_nearest\_node(streets\_g, birkbeck\_loc\_bg)}
-\NormalTok{britishmus\_node }\OperatorTok{=}\NormalTok{ get\_nearest\_node(streets\_g, britishmus\_loc\_bg)}
-
-\BuiltInTok{print}\NormalTok{(}\StringTok{"Nyjet më të afërta (ID{-}të):"}\NormalTok{, birkbeck\_node, britishmus\_node)}
+\KeywordTok{def}\NormalTok{ project\_points(points, in\_epsg\_code, out\_epsg\_code):}
+    \CommentTok{""" Transformojmë pikat nga një EPSG te tjetra}
+\CommentTok{    @ in\_epsg\_code: EPSG fillestare}
+\CommentTok{    @ out\_epsg\_code: EPSG target}
+\CommentTok{    """}
+\NormalTok{    transformer }\OperatorTok{=}\NormalTok{ Transformer.from\_crs(in\_epsg\_code, out\_epsg\_code, always\_xy}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{    proj\_points }\OperatorTok{=}\NormalTok{ [pt }\ControlFlowTok{for}\NormalTok{ pt }\KeywordTok{in}\NormalTok{ transformer.itransform(points)]}
+    \ControlFlowTok{return}\NormalTok{ proj\_points}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
@@ -1785,10 +1782,36 @@ në rrjetet rrugore.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# llogarisni rrugën e udhëtimit}
+\CommentTok{\# origjina dhe destinacioni (lonx, laty)}
+\NormalTok{birkbeck\_loc }\OperatorTok{=}\NormalTok{ [}\OperatorTok{{-}}\FloatTok{0.13134307}\NormalTok{, }\FloatTok{51.522510}\NormalTok{]}
+\NormalTok{british\_museum\_loc }\OperatorTok{=}\NormalTok{ [}\OperatorTok{{-}}\FloatTok{0.12575}\NormalTok{, }\FloatTok{51.518391}\NormalTok{]}
+
+\CommentTok{\# transformojmë lokacionin në British Grid (get first element with [0])}
+\NormalTok{birkbeck\_loc\_bg }\OperatorTok{=}\NormalTok{ project\_points([birkbeck\_loc], }\DecValTok{4326}\NormalTok{, }\DecValTok{27700}\NormalTok{)[}\DecValTok{0}\NormalTok{]}
+\NormalTok{britishmus\_loc\_bg }\OperatorTok{=}\NormalTok{ project\_points([british\_museum\_loc], }\DecValTok{4326}\NormalTok{, }\DecValTok{27700}\NormalTok{)[}\DecValTok{0}\NormalTok{]}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Vendndodhjet në BNG: "}\NormalTok{, birkbeck\_loc\_bg, britishmus\_loc\_bg)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Llogaritja e Rrugës së Udhëtimit}
+\protect\hypertarget{llogaritja-e-rruguxebs-suxeb-udhuxebtimit-1}{}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{import}\NormalTok{ pyproj}
+
+\NormalTok{birkbeck\_node }\OperatorTok{=}\NormalTok{ ox.distance.nearest\_nodes(streets\_g, birkbeck\_loc\_bg[}\DecValTok{0}\NormalTok{], birkbeck\_loc\_bg[}\DecValTok{1}\NormalTok{])}
+\NormalTok{britishmus\_node }\OperatorTok{=}\NormalTok{ ox.distance.nearest\_nodes(streets\_g, britishmus\_loc\_bg[}\DecValTok{0}\NormalTok{], britishmus\_loc\_bg[}\DecValTok{1}\NormalTok{])}
+
+\CommentTok{\# Llogarisim rrugen me te shkurter}
 \NormalTok{route }\OperatorTok{=}\NormalTok{ nx.shortest\_path(streets\_g, birkbeck\_node, britishmus\_node, weight}\OperatorTok{=}\StringTok{\textquotesingle{}length\textquotesingle{}}\NormalTok{)}
-\NormalTok{route\_len\_m }\OperatorTok{=}\NormalTok{ nx.shortest\_path\_length(streets\_g, orig\_node, dest\_node, weight}\OperatorTok{=}\StringTok{\textquotesingle{}length\textquotesingle{}}\NormalTok{)}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"Rruga midis Birkbeck dhe British Museum e gjetur:"}\NormalTok{, }\BuiltInTok{len}\NormalTok{(route), }\StringTok{"segmente; gjatësi (m)"}\NormalTok{, }\BuiltInTok{round}\NormalTok{(route\_len\_m))}
+\NormalTok{route\_len\_m }\OperatorTok{=}\NormalTok{ nx.shortest\_path\_length(streets\_g, birkbeck\_node, britishmus\_node, weight}\OperatorTok{=}\StringTok{\textquotesingle{}length\textquotesingle{}}\NormalTok{)}
+
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Rruga me e shkurter midis Birkbeck dhe British Museum u gjet:"}\NormalTok{,}
+\BuiltInTok{len}\NormalTok{(route), }\StringTok{"segmente; length (m):"}\NormalTok{, }\BuiltInTok{round}\NormalTok{(route\_len\_m))}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
@@ -1799,8 +1822,8 @@ në rrjetet rrugore.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ ox.plot\_graph\_route(streets\_g, route, route\_linewidth}\OperatorTok{=}\DecValTok{6}\NormalTok{, node\_size}\OperatorTok{=}\DecValTok{0}\NormalTok{, bgcolor}\OperatorTok{=}\StringTok{\textquotesingle{}k\textquotesingle{}}\NormalTok{)}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ ox.plot\_graph\_route(streets\_g, route, node\_size}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{plt.show()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1810,7 +1833,7 @@ aplikimesh.
 
 \begin{frame}{vizatoni rrugën}
 \protect\hypertarget{vizatoni-rruguxebn-1}{}
-\includegraphics{./Figs/rrugshkurter2.png}
+\includegraphics{./Figs/rrshk.png}
 \end{frame}
 
 \end{document}

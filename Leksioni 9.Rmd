@@ -1400,19 +1400,16 @@ except NetworkXNoPath as e:
 \AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
-import networkx as nx
-import osmnx as ox
+from pyproj import Transformer
 
-# Funksioni për të gjetur nyjen më të afërt
-def get_nearest_node(graph, point):
-    nearest_node = min(graph.nodes, key=lambda n: ox.distance.great_circle_vec(point[1], point[0], graph.nodes[n]['y'], graph.nodes[n]['x']))
-    return nearest_node
-
-
-birkbeck_node = get_nearest_node(streets_g, birkbeck_loc_bg)
-britishmus_node = get_nearest_node(streets_g, britishmus_loc_bg)
-
-print("Nyjet më të afërta (ID-të):", birkbeck_node, britishmus_node)
+def project_points(points, in_epsg_code, out_epsg_code):
+    """ Transformojmë pikat nga një EPSG te tjetra
+    @ in_epsg_code: EPSG fillestare
+    @ out_epsg_code: EPSG target
+    """
+    transformer = Transformer.from_crs(in_epsg_code, out_epsg_code, always_xy=True)
+    proj_points = [pt for pt in transformer.itransform(points)]
+    return proj_points
 ```
 
 
@@ -1422,20 +1419,44 @@ print("Nyjet më të afërta (ID-të):", birkbeck_node, britishmus_node)
 \AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
-# llogarisni rrugën e udhëtimit
-route = nx.shortest_path(streets_g, birkbeck_node, britishmus_node, weight='length')
-route_len_m = nx.shortest_path_length(streets_g, orig_node, dest_node, weight='length')
-print("Rruga midis Birkbeck dhe British Museum e gjetur:", len(route), "segmente; gjatësi (m)", round(route_len_m))
+# origjina dhe destinacioni (lonx, laty)
+birkbeck_loc = [-0.13134307, 51.522510]
+british_museum_loc = [-0.12575, 51.518391]
+
+# transformojmë lokacionin në British Grid (get first element with [0])
+birkbeck_loc_bg = project_points([birkbeck_loc], 4326, 27700)[0]
+britishmus_loc_bg = project_points([british_museum_loc], 4326, 27700)[0]
+print("Vendndodhjet në BNG: ", birkbeck_loc_bg, britishmus_loc_bg)
 ```
 
+## Llogaritja e Rrugës së Udhëtimit
+
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}    
+
+```{python, eval = FALSE}
+import matplotlib.pyplot as plt
+import pyproj
+
+birkbeck_node = ox.distance.nearest_nodes(streets_g, birkbeck_loc_bg[0], birkbeck_loc_bg[1])
+britishmus_node = ox.distance.nearest_nodes(streets_g, britishmus_loc_bg[0], britishmus_loc_bg[1])
+
+# Llogarisim rrugen me te shkurter
+route = nx.shortest_path(streets_g, birkbeck_node, britishmus_node, weight='length')
+route_len_m = nx.shortest_path_length(streets_g, birkbeck_node, britishmus_node, weight='length')
+
+print("Rruga me e shkurter midis Birkbeck dhe British Museum u gjet:",
+len(route), "segmente; length (m):", round(route_len_m))
+
+```
 
 ## vizatoni rrugën
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}    
 
 ```{python, eval = FALSE}
-plt.figure(figsize=(6, 6))
-fig, ax = ox.plot_graph_route(streets_g, route, route_linewidth=6, node_size=0, bgcolor='k')
+fig, ax = ox.plot_graph_route(streets_g, route, node_size=0)
+plt.show()
 ```
 
 Këto të dhëna të rrjetit dhe mjetet mund të përdoren në një sërë aplikimesh.
@@ -1445,7 +1466,7 @@ Këto të dhëna të rrjetit dhe mjetet mund të përdoren në një sërë aplik
 
 ## vizatoni rrugën
 
-![](./Figs/rrugshkurter2.png)
+![](./Figs/rrshk.png)
 
 
 
