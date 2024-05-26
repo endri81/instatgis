@@ -597,4 +597,170 @@ lehta për t'u lexuar.
 \includegraphics{./Figs/sql16.png}
 \end{frame}
 
+\begin{frame}{Select LIMIT}
+\phantomsection\label{select-limit}
+\begin{itemize}
+\item
+  Në vend që të kthejmë çdo rresht, ne mund të përdorim \textbf{LIMIT}
+  për të kufizuar numrin e rreshtave të kthyer.
+\item
+  Specifikoni numrin e rreshtave që do të kthehen.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Select LIMIT}
+\phantomsection\label{select-limit-1}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} 
+\NormalTok{artist\_id, }
+\NormalTok{artist\_name }
+\KeywordTok{FROM} 
+\NormalTok{artist }
+\KeywordTok{LIMIT} \DecValTok{5}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Select LIMIT}
+\phantomsection\label{select-limit-2}
+\includegraphics{./Figs/sql16.png}
+\end{frame}
+
+\begin{frame}{Select DISTINCT}
+\phantomsection\label{select-distinct}
+\begin{itemize}
+\item
+  Përdorni \textbf{SELECT DISTINCT} për të kthyer një listë me vlera
+  unike nga një kolonë.
+\item
+  Nëse përdorni \textbf{SELECT DISTINCT} me dy ose më shumë kolona, do
+  të ktheni çdo kombinim unik vlerash.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Select DISTINCT}
+\phantomsection\label{select-distinct-1}
+Krahasojmë rezultatin kur nuk përdorim \textbf{DISTINCT}
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} 
+\NormalTok{nerc\_region}
+\KeywordTok{FROM} 
+\NormalTok{grid;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Select DISTINCT}
+\phantomsection\label{select-distinct-2}
+\includegraphics{./Figs/sql18.png}
+\end{frame}
+
+\begin{frame}[fragile]{Select DISTINCT}
+\phantomsection\label{select-distinct-3}
+Krahasojmë rezultatin kur përdorim \textbf{DISTINCT}
+
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \KeywordTok{DISTINCT}
+\NormalTok{nerc\_region}
+\KeywordTok{FROM} 
+\NormalTok{grid;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Select DISTINCT}
+\phantomsection\label{select-distinct-4}
+\includegraphics{./Figs/sql19.png}
+\end{frame}
+
+\begin{frame}{Select *}
+\phantomsection\label{select}
+\begin{itemize}
+\item
+  Përdorni \textbf{SELECT}, e ndjekur nga tasti \(\star\), për të kthyer
+  të gjitha rreshtat dhe kolonat në një tabelë.
+\item
+  Kjo është e mirë për eksplorimin e shpejtë të tabelave të vogla, por
+  jo për tabelat shumë të mëdha.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Select *}
+\phantomsection\label{select-1}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*}
+\KeywordTok{FROM} 
+\NormalTok{grid;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Select *}
+\phantomsection\label{select-2}
+\includegraphics{./Figs/sql20.png} \#\# Përcaktimi i emrave të kolonave
+me AS
+
+\begin{itemize}
+\item
+  Ju mund të riemërtoni, ose \textbf{ALIAS}, një kolonë për t'i bërë
+  rezultatet tuaja më kuptimplote.
+\item
+  Thjesht zgjidhni kolonën, e ndjekur nga \textbf{AS}, dhe më pas emrin
+  e kolonës që dëshironi.
+\item
+  Vini re se si \textbf{demand\_loss\_mw} kthehet si
+  \textbf{lost\_demand}, ndërsa \textbf{description} kthehet si
+  \textbf{cause\_of\_outage}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Përcaktimi i emrave të kolonave me AS}
+\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT}\NormalTok{  demand\_loss\_mw }\KeywordTok{AS}\NormalTok{ lost\_demand}
+\KeywordTok{FROM} 
+\NormalTok{grid;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Përcaktimi i emrave të kolonave me AS}
+\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as-1}
+\includegraphics{./Figs/sql21.png}
+\end{frame}
+
+\begin{frame}[fragile]{Përcaktimi i emrave të kolonave me AS}
+\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as-2}
+\AddToHookNext{env/Highlighting/begin}{\tiny}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT}\NormalTok{  description }\KeywordTok{AS}\NormalTok{ cause\_of\_outage}
+\KeywordTok{FROM} 
+\NormalTok{grid;}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Select DISTINCT}
+\phantomsection\label{select-distinct-5}
+\includegraphics{./Figs/sql22.png}
+\end{frame}
+
 \end{document}

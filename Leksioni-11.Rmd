@@ -325,7 +325,148 @@ FROM
 
 ![](./Figs/sql16.png)
 
+## Select LIMIT
 
+  - Në vend që të kthejmë çdo rresht, ne mund të përdorim **LIMIT** për të kufizuar numrin e rreshtave të kthyer. 
+  
+  - Specifikoni numrin e rreshtave që do të kthehen. 
+  
+
+  
+## Select LIMIT
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT 
+artist_id, 
+artist_name 
+FROM 
+artist 
+LIMIT 5;
+
+```
+
+
+
+## Select LIMIT
+
+![](./Figs/sql16.png)
+
+## Select DISTINCT
+
+  - Përdorni **SELECT DISTINCT** për të kthyer një listë me vlera unike nga një kolonë. 
+  
+  - Nëse përdorni **SELECT DISTINCT** me dy ose më shumë kolona, do të ktheni çdo kombinim unik vlerash.
+
+
+## Select DISTINCT
+
+Krahasojmë rezultatin kur nuk përdorim **DISTINCT**
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT 
+nerc_region
+FROM 
+grid;
+
+```
+
+
+
+## Select DISTINCT
+
+![](./Figs/sql18.png)
+
+## Select DISTINCT
+
+Krahasojmë rezultatin kur përdorim **DISTINCT**
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT DISTINCT
+nerc_region
+FROM 
+grid;
+
+```
+
+
+
+## Select DISTINCT
+
+![](./Figs/sql19.png)
+
+
+## Select *
+
+  - Përdorni **SELECT**, e ndjekur nga tasti $\star$, për të kthyer të gjitha rreshtat dhe kolonat në një tabelë. 
+  
+  - Kjo është e mirë për eksplorimin e shpejtë të tabelave të vogla, por jo për tabelat shumë të mëdha. 
+  
+  
+## Select *
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT *
+FROM 
+grid;
+
+```
+
+
+
+## Select *
+
+![](./Figs/sql20.png)
+## Përcaktimi i emrave të kolonave me AS
+
+  - Ju mund të riemërtoni, ose **ALIAS**, një kolonë për t'i bërë rezultatet tuaja më kuptimplote. 
+  
+  - Thjesht zgjidhni kolonën, e ndjekur nga **AS**, dhe më pas emrin e kolonës që dëshironi. 
+  
+  - Vini re se si **demand_loss_mw** kthehet si **lost_demand**, ndërsa **description** kthehet si **cause_of_outage**.
+  
+  
+## Përcaktimi i emrave të kolonave me AS
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT  demand_loss_mw AS lost_demand
+FROM 
+grid;
+
+```
+
+
+
+## Përcaktimi i emrave të kolonave me AS
+
+![](./Figs/sql21.png)  
+
+
+## Përcaktimi i emrave të kolonave me AS
+
+\AddToHookNext{env/Highlighting/begin}{\tiny} 
+
+```{sql, eval=FALSE}
+SELECT  description AS cause_of_outage
+FROM 
+grid;
+
+```
+
+
+
+## Select DISTINCT
+
+![](./Figs/sql22.png)  
 
 
 
