@@ -157,7 +157,7 @@
 
 \title{Leksioni 11}
 \author{Endri Raco}
-\date{24 May, 2024}
+\date{02 July, 2024}
 
 \begin{document}
 \frame{\titlepage}
@@ -167,600 +167,399 @@
 \end{frame}
 \section{Hyrje në SQL}\label{hyrje-nuxeb-sql}
 
-\begin{frame}{Si të Shkarkoni dhe Instaloni Mjetet e SQLite}
-\phantomsection\label{si-tuxeb-shkarkoni-dhe-instaloni-mjetet-e-sqlite}
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup}
+\textbf{Hapi 1} Shkoni te URL-ja:
+\url{https://www.microsoft.com/en-in/sql-server/sql-server-downloads}
+për shkarkim të serverit Microsoft SQL.
+\end{frame}
+
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup-1}
+Microsoft ofron dy edicione të specializuara të shkarkimit falas të SQL
+për të punuar në MS SQL Server:
+
+\includegraphics{./Figs/install1.png}
+\end{frame}
+
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup-2}
+\textbf{Developer} -- Ka të gjitha veçoritë që ofron MS SQL Server, por
+nuk mund ta përdorim atë në prodhim.
+
+Nga këndvështrimi i të mësuarit, a është një kandidat ideal për të
+filluar.
+\end{frame}
+
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup-3}
+\textbf{Express}: Ky është gjithashtu një version falas i MS SQL Server,
+por me disa kufizime në aplikimet e inteligjencës së biznesit.
+\end{frame}
+
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup-4}
+Ne do të zgjedhim versionin Developer për të shkarkuar serverin
+Microsoft SQL për instalim.
+
+\textbf{Hapi 2} Klikoni në ``Download Now''
+
+Shkarkoni SQL Server Setup
+\end{frame}
+
+\begin{frame}{Si të shkarkoni SQL Server Setup}
+\phantomsection\label{si-tuxeb-shkarkoni-sql-server-setup-5}
+Ne do të marrim instalimin e serverit SQL të konfiguruar si
+`SQLServer2022SSEI-Dev.exe' në një mjedis Windows, duke siguruar
+përputhshmëri dhe performancë të optimizuar për aplikacionet SQL Server
+Windows.
+\end{frame}
+
+\begin{frame}{Si të instaloni Microsoft SQL Server}
+\phantomsection\label{si-tuxeb-instaloni-microsoft-sql-server}
+Këtu është një proces hap pas hapi se si të instaloni SQL në Windows 10:
+
+\textbf{Hapi 1} Hapni skedarin \textbf{.exe}
+
+Klikoni dy herë në ``SQLServer2017-SSEI-Dev.exe''.
+\end{frame}
+
+\begin{frame}{Si të instaloni Microsoft SQL Server}
+\phantomsection\label{si-tuxeb-instaloni-microsoft-sql-server-1}
+Ekrani i mëposhtëm do të shfaqet me tre opsione: Basic, Custom dhe
+Download Files.
+
+\includegraphics{./Figs/install2.png}
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server}
+\textbf{Hapi 2} Zgjidhni versionin
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-1}
+Zgjidhni versionin bazë duke klikuar në opsionin ``Basic'', pasi ai ka
+të gjithë konfigurimin e paracaktuar të kërkuar për të mësuar MS SQL.
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-2}
+\textbf{Hapi 3} Pranoni kushtet
+
+Do të shfaqet ekrani ``Kushtet e licencës së serverit të Microsoft''.
+Lexoni Kushtet e Licencës dhe më pas klikoni ``Prano''.
+
+\includegraphics{./Figs/install3.png}
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-3}
+\textbf{Hapi 4} Zgjidhni vendndodhjen
+
+Më poshtë do të shfaqet dritarja ``Vendndodhja e instalimit të serverit
+SQL'', e cila është një hap vendimtar në procesin e instalimit të
+Microsoft SQL Server.
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-4}
+\includegraphics{./Figs/install4.png}
+
+Vendndodhja e parazgjedhur është Program Files Microsoft SQL Server.
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-5}
 \begin{itemize}
 \item
-  Shko në faqen zyrtare: \url{https://www.sqlite.org}
+  Opsionale, ne gjithashtu mund të ndryshojmë vendndodhjen e instalimit
+  duke klikuar në \textbf{Browse}.
 \item
-  Hap faqen e shkarkimit: \url{https://www.sqlite.org/download.html}
+  Pasi të zgjidhet vendndodhja, klikoni butonin ``Instalo'' për të
+  filluar instalimin e SQL Windows 10.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Si të Shkarkoni dhe Instaloni Mjetet e SQLite}
-\phantomsection\label{si-tuxeb-shkarkoni-dhe-instaloni-mjetet-e-sqlite-1}
-Zgjidh dhe shkarko versionin përkatës për sistemin tënd operativ (p.sh.,
-Windows, x64 ose x86)
-
-\includegraphics{./Figs/sql.png}
-\end{frame}
-
-\begin{frame}{Instalimi i Mjeteve SQLite}
-\phantomsection\label{instalimi-i-mjeteve-sqlite}
-\begin{itemize}
-\item
-  Krijo një dosje të re, p.sh \textbf{sqlite}
-\item
-  Ekstrakto përmbajtjen e skedarit të shkarkuar në këtë dosje
-\end{itemize}
-
-\includegraphics{./Figs/sql2.png}
-\end{frame}
-
-\begin{frame}{Ekzekutimi i SQLite nga Command Line}
-\phantomsection\label{ekzekutimi-i-sqlite-nga-command-line}
-\begin{itemize}
-\tightlist
-\item
-  Hap dritaren e Command Line
-\end{itemize}
-
-\includegraphics{./Figs/sql3.png}
-\end{frame}
-
-\begin{frame}{Ekzekutimi i SQLite nga Command Line}
-\phantomsection\label{ekzekutimi-i-sqlite-nga-command-line-1}
-\begin{itemize}
-\tightlist
-\item
-  Navigo në dosjen \textbf{sqlite}
-\end{itemize}
-
-\includegraphics{./Figs/sql4.png}
-\end{frame}
-
-\begin{frame}{Ekzekutimi i SQLite nga Command Line}
-\phantomsection\label{ekzekutimi-i-sqlite-nga-command-line-2}
-\begin{itemize}
-\tightlist
-\item
-  Ekzekuto SQLite duke shkruar: sqlite3
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Instalimi dhe Përdorimi i SQLiteStudio}
-\phantomsection\label{instalimi-dhe-puxebrdorimi-i-sqlitestudio}
-\begin{itemize}
-\tightlist
-\item
-  Tani shohim hap pas hapi se si të instaloni dhe përdorni SQLiteStudio,
-  një mjet falas dhe intuitiv GUI për menaxhimin e bazave të të dhënave
-  SQLite.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Shkarkimi i SQLiteStudio}
-\phantomsection\label{shkarkimi-i-sqlitestudio}
-SQLiteStudio është një mjet GUI falas dhe i lehtë për t'u përdorur që
-mund të shkarkohet nga faqja zyrtare.
-
-\begin{enumerate}
-\item
-  Hapni faqen e internetit
-  \url{https://github.com/pawelsalawa/sqlitestudio/releases}.
-\item
-  Zgjidhni versionin që dëshironi të shkarkoni, siç është versioni i
-  instaluesit ose versioni portativ.
-\item
-  Ruajeni skedarin e shkarkuar në një dosje në kompjuterin tuaj, për
-  shembull
-  \texttt{C:\textbackslash{}\textbackslash{}sqlite\textbackslash{}\textbackslash{}gui}.
-\end{enumerate}
-\end{frame}
-
-\begin{frame}{Instalimi i SQLiteStudio}
-\phantomsection\label{instalimi-i-sqlitestudio}
-Pas shkarkimit, ndiqni këto hapa për të instaluar SQLiteStudio:
-
-\begin{enumerate}
-\item
-  Navigoni tek dosja ku keni ruajtur skedarin e shkarkuar.
-\item
-  Ekstraktoni përmbajtjen e skedarit ZIP nëse keni shkarkuar versionin
-  portativ.
-\item
-  Nëse keni shkarkuar instaluesin, klikoni dyfish mbi të për të filluar
-  procesin e instalimit dhe ndiqni udhëzimet në ekran.
-\end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]{Nisja e SQLiteStudio}
-\phantomsection\label{nisja-e-sqlitestudio}
-Për të hapur SQLiteStudio pas instalimit:
-
-\begin{enumerate}
-\item
-  Shkoni tek dosja ku e keni instaluar programin, për shembull
-  \texttt{C:\textbackslash{}\textbackslash{}sqlite\textbackslash{}\textbackslash{}gui\textbackslash{}\textbackslash{}SQLiteStudio}.
-\item
-  Klikoni dy herë mbi ikonën e SQLiteStudio për ta hapur programin.
-\end{enumerate}
-\end{frame}
-
-\begin{frame}{Hyrje në SQL Server}
-\phantomsection\label{hyrje-nuxeb-sql-server}
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-6}
 \begin{itemize}
 \tightlist
 \item
-  SQL Server është një sistem databaze relacionale të zhvilluar nga
-  Microsoft.
+  Më poshtë do të shfaqet ekrani i progresit të ``Shkarkimit të paketës
+  së instalimit''.
 \end{itemize}
-\end{frame}
 
-\begin{frame}{Hyrje në SQL Server}
-\phantomsection\label{hyrje-nuxeb-sql-server-1}
-Do mësojmë:
+\includegraphics{./Figs/install5.png}
 
-\begin{itemize}
-\item
-  Si të shkruani pyetje (queries)
-\item
-  Konceptet bazë të SQL Server
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Hyrje në SQL Server}
-\phantomsection\label{hyrje-nuxeb-sql-server-2}
-\begin{itemize}
-\item
-  SQL Server është \textbf{dyqani} që përmban bazat e të dhënave dhe
-  tabelat
-\item
-  \textbf{Queries} janë mënyra si i marrim \textbf{produktet} nga
-  \textbf{raftet} dhe ngarkojmë \textbf{koshin}
-\item
-  \textbf{SELECT} është termi kyç për të marrë të dhëna
-\end{itemize}
-\end{frame}
-
-\section{Si të Importoni një Skedar CSV në
-SQLiteStudio}\label{si-tuxeb-importoni-njuxeb-skedar-csv-nuxeb-sqlitestudio}
-
-\begin{frame}{Hapi 1: Hapni SQLiteStudio}
-\phantomsection\label{hapi-1-hapni-sqlitestudio}
 \begin{itemize}
 \tightlist
 \item
-  Hapni SQLiteStudio në kompjuterin tuaj.
+  Prisni derisa të përfundojë shkarkimi i softuerit SQL.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave}
-\phantomsection\label{hapi-2-krijoni-ose-hapni-njuxeb-bazuxeb-tuxeb-tuxeb-dhuxebnave}
-Nëse nuk keni një bazë të të dhënave ku do të importoni CSV-në, krijoni
-një të re:
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-7}
+Pasi shkarkimi të ketë përfunduar, sistemi do të fillojë instalimin e
+versionit Developer.
+\end{frame}
 
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-8}
+Më poshtë ekrani tregon përparimin e instalimit.
+
+\includegraphics{./Figs/install6.png}
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-9}
+\textbf{Hapi 5} Përfundoni procesin e instalimit
+
+Pasi instalimi të përfundojë me sukses, do të shfaqet ekrani më poshtë.
+
+\includegraphics{./Figs/install7.png}
+\end{frame}
+
+\begin{frame}{Tani na duhet editor}
+\phantomsection\label{tani-na-duhet-editor}
+Hapim linkun :
+
+\url{https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16\#download-ssms}
+\end{frame}
+
+\begin{frame}{Tani na duhet editor}
+\phantomsection\label{tani-na-duhet-editor-1}
+Shkarkojmë SQL Server Management Studio (SSMS) 20.1
+
+\includegraphics{./Figs/install8.png}
+\end{frame}
+
+\begin{frame}{Tani na duhet editor}
+\phantomsection\label{tani-na-duhet-editor-2}
+Instalojmë hap pas hapi
+\end{frame}
+
+\begin{frame}{Instaloni SQL Server}
+\phantomsection\label{instaloni-sql-server-10}
+Ky konfigurim është i vetë-mjaftueshëm për të vazhduar më tej me mësimin
+e serverit SQL dhe ne mund ta `Mbyllim' këtë dritare.
+\end{frame}
+
+\section{Fillojmë}\label{fillojmuxeb}
+
+\begin{frame}{Hyrje në SQL}
+\phantomsection\label{hyrje-nuxeb-sql-1}
 \begin{itemize}
 \item
-  Shkoni te menuja \textbf{Database} dhe zgjidhni \textbf{Add a
-  database}.
+  SQL qëndron për \textbf{Structured Query Language} e cila përdoret për
+  të punuar me bazat e të dhënave.
 \item
-  Zgjidhni një emër për bazën e të dhënave (p.sh.,
-  \texttt{MyDatabase.db}) dhe vendndodhjen, më pas klikoni \textbf{OK}.
+  Serveri SQL dhe T-SQL (Transact-SQL) janë të dy RDMS (Sistemi i
+  Menaxhimit të Bazave të të Dhënave Relacionale) ku ky i fundit ka
+  funksione shtesë.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave}
-\phantomsection\label{hapi-2-krijoni-ose-hapni-njuxeb-bazuxeb-tuxeb-tuxeb-dhuxebnave-1}
-\includegraphics{./Figs/sql7.png}
-\end{frame}
-
-\begin{frame}{Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave}
-\phantomsection\label{hapi-2-krijoni-ose-hapni-njuxeb-bazuxeb-tuxeb-tuxeb-dhuxebnave-2}
+\begin{frame}{Hyrje në SQL}
+\phantomsection\label{hyrje-nuxeb-sql-2}
 \begin{itemize}
 \item
-  Nëse tashmë keni një bazë të të dhënave, sigurohuni që ajo është e
-  hapur në SQLiteStudio.
+  SQL Server ruan të dhënat në formën e tabelave dhe lidhjeve.
 \item
-  Krijoni lidhjen me databazën.
+  Ne nuk mund të qasemi drejtpërdrejt në të gjitha të dhënat, kështu që
+  përdorim pyetje \textbf{query} për të marrë të dhënat e duhura.
 \end{itemize}
-
-\includegraphics{./Figs/sql8.png}
 \end{frame}
 
-\begin{frame}{Hapi 3: Importoni Skedarin CSV}
-\phantomsection\label{hapi-3-importoni-skedarin-csv}
-\begin{itemize}
-\tightlist
-\item
-  Me bazën e të dhënave të hapur, shkoni te menuja \textbf{Tools} dhe
-  zgjidhni \textbf{Import}.
-\end{itemize}
-
-\includegraphics{./Figs/sql10.png}
-\end{frame}
-
-\begin{frame}{Hapi 3: Importoni Skedarin CSV}
-\phantomsection\label{hapi-3-importoni-skedarin-csv-1}
-\includegraphics{./Figs/sql11.png}
-\end{frame}
-
-\begin{frame}{Hapi 3: Importoni Skedarin CSV}
-\phantomsection\label{hapi-3-importoni-skedarin-csv-2}
-\begin{itemize}
-\tightlist
-\item
-  Në dritaren e importit, zgjidhni \textbf{CSV} si formatin dhe klikoni
-  \textbf{Next}.
-\end{itemize}
-
-\includegraphics{./Figs/sql12.png}
-\end{frame}
-
-\begin{frame}{Hapi 4: Konfiguroni Importimin e CSV-së}
-\phantomsection\label{hapi-4-konfiguroni-importimin-e-csv-suxeb}
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql}
 \begin{itemize}
 \item
-  Shfletoni për të gjetur skedarin CSV që dëshironi të importoni.
+  Hapim SQL Server Management Studio
 \item
-  Pasi ta zgjidhni skedarin tuaj CSV, do të kërkoheni të konfiguroni
-  cilësimet e importit:
-
-  \begin{itemize}
-  \item
-    \textbf{Emri i tabelës}: Është zakonisht e zakonshme të emëroni
-    tabelën pas skedarit CSV, pa prapashtesën e skedarit.
-  \item
-    \textbf{Emrat dhe llojet e kolonave}: SQLiteStudio do t'ju ofrojë
-    mundësinë të konfiguroni kolonat duke përcaktuar emrat dhe llojet e
-    të dhënave për secilën kolonë.
-  \end{itemize}
+  Selectojmë majtas \textbf{Databases}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Hapi 5: Përfundo Importimin}
-\phantomsection\label{hapi-5-puxebrfundo-importimin}
-\begin{itemize}
-\item
-  Pas konfigurimit të cilësimeve, vazhdoni me importimin duke ndjekur
-  udhëzimet në SQLiteStudio.
-\item
-  Kontrolloni të dhënat e importuara për të siguruar se janë saktë dhe
-  siç pritej.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Fillojmë}
-\phantomsection\label{fillojmuxeb}
-\begin{itemize}
-\item
-  \textbf{SELECT} është termi kyç për të marrë të dhëna
-\item
-  Shembull: \texttt{SELECT\ description\ FROM\ grid;}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Anatomia e një pyetjeje të thjeshtë SELECT}
-\phantomsection\label{anatomia-e-njuxeb-pyetjeje-tuxeb-thjeshtuxeb-select}
-\begin{itemize}
-\item
-  Deklaratat \textbf{SELECT} specifikojnë atë që duam të marrim nga një
-  tabelë.
-\item
-  Query më e thjeshtë zgjedh një kolonë, nga një tabelë.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Anatomia e një pyetjeje të thjeshtë SELECT}
-\phantomsection\label{anatomia-e-njuxeb-pyetjeje-tuxeb-thjeshtuxeb-select-1}
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-1}
 \begin{itemize}
 \tightlist
 \item
-  Në këtë query, ne zgjedhim shtyllën \textbf{description}, nga tabela
-  \textbf{grid}.
+  Me butonin e djathtë zgjedhim \textbf{New Database}
+\end{itemize}
+
+\includegraphics{./Figs/db1.png}
+\end{frame}
+
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-2}
+\begin{itemize}
+\tightlist
+\item
+  Te faqja e hapur vendosim emrin e databazës \textbf{grid} dhe OK
+\end{itemize}
+
+\includegraphics{./Figs/db3.png}
+\end{frame}
+
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-3}
+\begin{itemize}
+\tightlist
+\item
+  Te databaza e krijuar \textbf{grid} zgjedhim me butonin e djathtë
+  Tasks - Import Data
+\end{itemize}
+
+\includegraphics{./Figs/db4.png}
+\end{frame}
+
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-4}
+\begin{itemize}
+\tightlist
+\item
+  Navigojmë në folder ku kemi skedarin Excel \textbf{grid}
+\end{itemize}
+
+\includegraphics{./Figs/db5.png}
+\end{frame}
+
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-5}
+\begin{itemize}
+\tightlist
+\item
+  Në menunë e destinacionit zgjedhim \textbf{Microsoft Ole Db Provider
+  for SQL Server}
+\end{itemize}
+
+\includegraphics{./Figs/db6.png}
+\end{frame}
+
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-6}
+\begin{itemize}
+\tightlist
+\item
+  Në dritaret e tjera zgjedhim Next dhe Finish
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Anatomia e një pyetjeje të thjeshtë SELECT}
-\phantomsection\label{anatomia-e-njuxeb-pyetjeje-tuxeb-thjeshtuxeb-select-2}
+\begin{frame}{Importimi i tabelës Excel në SQL}
+\phantomsection\label{importimi-i-tabeluxebs-excel-nuxeb-sql-7}
+\begin{itemize}
+\tightlist
+\item
+  Në qoftë se procesi ka shkuar OK do shfaqet tabela si në figurë
+\end{itemize}
+
+\includegraphics{./Figs/db8.png}
+\end{frame}
+
+\begin{frame}{Hyrje në SQL}
+\phantomsection\label{hyrje-nuxeb-sql-3}
 \begin{itemize}
 \item
-  Vini re pikëpresjen që tregon fundin e qyery-t.
+  Deklarata \textbf{SELECT} specifikon atë që duam të marrim nga tabela.
 \item
-  Fjala tjetër kyçe që do t'ju duhet gjithmonë është \textbf{FROM} - për
-  të specifikuar vendndodhjen e tabelës burimore.
+  \textbf{FROM} specifikon vendndodhjen e tabelës burimore.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Fillojmë}
-\phantomsection\label{fillojmuxeb-1}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
+\begin{frame}{Hyrje në SQL}
+\phantomsection\label{hyrje-nuxeb-sql-4}
+Gjithmonë përfundoni një pyetje me një \textbf{;}.
+\end{frame}
 
+\begin{frame}[fragile]{Shembull}
+\phantomsection\label{shembull}
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SELECT}\NormalTok{ description}
-\KeywordTok{FROM}\NormalTok{ grid;}
+\KeywordTok{SELECT}\NormalTok{ description }
+\KeywordTok{FROM}\NormalTok{ dbo.grid$}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
 
-\begin{frame}{Fillojmë}
-\phantomsection\label{fillojmuxeb-2}
-Këtu janë rezultatet. Query kthen çdo rresht në kolonën e zgjedhur.
+\begin{frame}{Shembull}
+\phantomsection\label{shembull-1}
+\includegraphics{./Figs/query1.png} \#\# Hyrje në SQL
 
-\includegraphics{./Figs/sql13.png}
-\end{frame}
-
-\begin{frame}{Praktikë}
-\phantomsection\label{praktikuxeb}
 \begin{itemize}
 \item
-  Përsëritni hapat e mësipërm për të lidhur një databazë \textbf{artist}
+  Përdorni \textbf{TOP} për të kufizuar numrin e rreshtave të kthyer.
 \item
-  Do përdorim skedarin csv \textbf{artist} nga folder \textbf{db}
+  Ne gjithashtu mund të specifikojmë përqindjen e rreshtave duke
+  përdorur \textbf{TOP (5) PERCENT}.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Query me më shumë se një kolonë}
-\phantomsection\label{query-me-muxeb-shumuxeb-se-njuxeb-kolonuxeb}
-\begin{itemize}
-\item
-  Ju mund të zgjidhni kolona të shumta, duke e ndarë çdo emër kolone me
-  një presje.
-\item
-  Nuk keni nevojë për presje për kolonën e fundit të zgjedhur përpara
-  `FROM'.
-\end{itemize}
+\begin{frame}[fragile]{Shembull}
+\phantomsection\label{shembull-2}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT}\NormalTok{ TOP (}\DecValTok{5}\NormalTok{) }\KeywordTok{PERCENT}\NormalTok{ description}
+\KeywordTok{FROM}\NormalTok{ dbo.grid$}
+\end{Highlighting}
+\end{Shaded}
 \end{frame}
 
-\begin{frame}{Query me më shumë se një kolonë}
-\phantomsection\label{query-me-muxeb-shumuxeb-se-njuxeb-kolonuxeb-1}
+\begin{frame}{Shembull}
+\phantomsection\label{shembull-3}
+\includegraphics{./Figs/query2.png}
+\end{frame}
+
+\begin{frame}{Hyrje në SQL}
+\phantomsection\label{hyrje-nuxeb-sql-5}
 \begin{itemize}
 \tightlist
 \item
-  Sigurohemi që kemi bërë \textbf{disconnect} nga databaza
-  \textbf{artist}
+  Përdorni SELECT DISTINCT për të kthyer një listë me vlera unike nga
+  një kolonë.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Zgjedhja e më shumë se një kolone}
-\phantomsection\label{zgjedhja-e-muxeb-shumuxeb-se-njuxeb-kolone}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
+\begin{frame}[fragile]{Shembull}
+\phantomsection\label{shembull-4}
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SELECT}\NormalTok{ artistId, Name}
-\KeywordTok{FROM}\NormalTok{ artist;}
+\KeywordTok{SELECT}
+  \KeywordTok{DISTINCT}\NormalTok{ country }\KeywordTok{AS}\NormalTok{ unique\_country}
+\KeywordTok{FROM}
+\NormalTok{  dbo.eurovis$;}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
 
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query}
-\includegraphics{./Figs/sql14.png}
-\end{frame}
-
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-1}
-\includegraphics{./Figs/sql15.png}
-\end{frame}
-
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-2}
-\begin{itemize}
-\item
-  Këtu janë 2 query të ngjashme, me paraqitje të ndryshme.
-\item
-  Query e sipërme tregon të gjitha kolonat që do të zgjidhen në një
-  rresht.
-\item
-  Query e poshtme tregon çdo kolonë të zgjedhur në një rresht të ri.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-3}
-\begin{itemize}
-\item
-  Rezultatet e të dy query-ve do të jenë identike.
-\item
-  Ne do të përdorim kryesisht paraqitjen e poshtme gjatë gjithë
-  leksioneve.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-4}
-Mbajtja e fjalëve kyçe si SELECT dhe FROM me shkronja të mëdha, dhe
-emrat e tabelave dhe kolonave me shkronja të vogla, i bën query më të
-lehta për t'u lexuar.
-\end{frame}
-
-\begin{frame}[fragile]{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-5}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT} 
-\NormalTok{  description, }
-\NormalTok{  event\_year, }
-\NormalTok{  event\_date}
-\KeywordTok{FROM} 
-\NormalTok{  grid;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Formatimi i Query}
-\phantomsection\label{formatimi-i-query-6}
-\includegraphics{./Figs/sql16.png}
-\end{frame}
-
-\begin{frame}{Select LIMIT}
-\phantomsection\label{select-limit}
-\begin{itemize}
-\item
-  Në vend që të kthejmë çdo rresht, ne mund të përdorim \textbf{LIMIT}
-  për të kufizuar numrin e rreshtave të kthyer.
-\item
-  Specifikoni numrin e rreshtave që do të kthehen.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Select LIMIT}
-\phantomsection\label{select-limit-1}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT} 
-\NormalTok{artist\_id, }
-\NormalTok{artist\_name }
-\KeywordTok{FROM} 
-\NormalTok{artist }
-\KeywordTok{LIMIT} \DecValTok{5}\NormalTok{;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Select LIMIT}
-\phantomsection\label{select-limit-2}
-\includegraphics{./Figs/sql16.png}
-\end{frame}
-
-\begin{frame}{Select DISTINCT}
-\phantomsection\label{select-distinct}
-\begin{itemize}
-\item
-  Përdorni \textbf{SELECT DISTINCT} për të kthyer një listë me vlera
-  unike nga një kolonë.
-\item
-  Nëse përdorni \textbf{SELECT DISTINCT} me dy ose më shumë kolona, do
-  të ktheni çdo kombinim unik vlerash.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Select DISTINCT}
-\phantomsection\label{select-distinct-1}
-Krahasojmë rezultatin kur nuk përdorim \textbf{DISTINCT}
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT} 
-\NormalTok{nerc\_region}
-\KeywordTok{FROM} 
-\NormalTok{grid;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Select DISTINCT}
-\phantomsection\label{select-distinct-2}
-\includegraphics{./Figs/sql18.png}
-\end{frame}
-
-\begin{frame}[fragile]{Select DISTINCT}
-\phantomsection\label{select-distinct-3}
-Krahasojmë rezultatin kur përdorim \textbf{DISTINCT}
-
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT} \KeywordTok{DISTINCT}
-\NormalTok{nerc\_region}
-\KeywordTok{FROM} 
-\NormalTok{grid;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Select DISTINCT}
-\phantomsection\label{select-distinct-4}
-\includegraphics{./Figs/sql19.png}
-\end{frame}
-
-\begin{frame}{Select *}
-\phantomsection\label{select}
-\begin{itemize}
-\item
-  Përdorni \textbf{SELECT}, e ndjekur nga tasti \(\star\), për të kthyer
-  të gjitha rreshtat dhe kolonat në një tabelë.
-\item
-  Kjo është e mirë për eksplorimin e shpejtë të tabelave të vogla, por
-  jo për tabelat shumë të mëdha.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Select *}
-\phantomsection\label{select-1}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT} \OperatorTok{*}
-\KeywordTok{FROM} 
-\NormalTok{grid;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Select *}
-\phantomsection\label{select-2}
-\includegraphics{./Figs/sql20.png} \#\# Përcaktimi i emrave të kolonave
-me AS
+\begin{frame}{Shembull}
+\phantomsection\label{shembull-5}
+\includegraphics{./Figs/query4.png}\\
+\#\# Hyrje në SQL
 
 \begin{itemize}
+\tightlist
 \item
-  Ju mund të riemërtoni, ose \textbf{ALIAS}, një kolonë për t'i bërë
-  rezultatet tuaja më kuptimplote.
-\item
-  Thjesht zgjidhni kolonën, e ndjekur nga \textbf{AS}, dhe më pas emrin
-  e kolonës që dëshironi.
-\item
-  Vini re se si \textbf{demand\_loss\_mw} kthehet si
-  \textbf{lost\_demand}, ndërsa \textbf{description} kthehet si
-  \textbf{cause\_of\_outage}.
+  Përdorni SELECT * për të kthyer të gjitha rreshtat e një kolone. (Nuk
+  rekomandohet për tabela të mëdha).
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Përcaktimi i emrave të kolonave me AS}
-\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
+\begin{frame}[fragile]{Shembull}
+\phantomsection\label{shembull-6}
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SELECT}\NormalTok{  demand\_loss\_mw }\KeywordTok{AS}\NormalTok{ lost\_demand}
-\KeywordTok{FROM} 
-\NormalTok{grid;}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}
+\NormalTok{  dbo.eurovis$;}
 \end{Highlighting}
 \end{Shaded}
 \end{frame}
 
-\begin{frame}{Përcaktimi i emrave të kolonave me AS}
-\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as-1}
-\includegraphics{./Figs/sql21.png}
-\end{frame}
-
-\begin{frame}[fragile]{Përcaktimi i emrave të kolonave me AS}
-\phantomsection\label{puxebrcaktimi-i-emrave-tuxeb-kolonave-me-as-2}
-\AddToHookNext{env/Highlighting/begin}{\tiny}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{SELECT}\NormalTok{  description }\KeywordTok{AS}\NormalTok{ cause\_of\_outage}
-\KeywordTok{FROM} 
-\NormalTok{grid;}
-\end{Highlighting}
-\end{Shaded}
-\end{frame}
-
-\begin{frame}{Select DISTINCT}
-\phantomsection\label{select-distinct-5}
-\includegraphics{./Figs/sql22.png}
+\begin{frame}{Shembull}
+\phantomsection\label{shembull-7}
+\includegraphics{./Figs/query5.png}
 \end{frame}
 
 \end{document}

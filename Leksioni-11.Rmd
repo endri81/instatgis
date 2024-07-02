@@ -37,443 +37,278 @@ library(RSQLite)
 
 # Hyrje në SQL
 
-## Si të Shkarkoni dhe Instaloni Mjetet e SQLite
 
-  - Shko në faqen zyrtare: [https://www.sqlite.org](https://www.sqlite.org)
-  
-  - Hap faqen e shkarkimit: [https://www.sqlite.org/download.html](https://www.sqlite.org/download.html)
-  
-  
-## Si të Shkarkoni dhe Instaloni Mjetet e SQLite
-
-Zgjidh dhe shkarko versionin përkatës për sistemin tënd operativ (p.sh., Windows, x64 ose x86)
-
-![](./Figs/sql.png)
+## Si të shkarkoni SQL Server Setup
 
 
-## Instalimi i Mjeteve SQLite
+**Hapi 1** Shkoni te URL-ja: [https://www.microsoft.com/en-in/sql-server/sql-server-downloads](https://www.microsoft.com/en-in/sql-server/sql-server-downloads) për shkarkim të serverit Microsoft SQL.
 
-  - Krijo një dosje të re, p.sh **sqlite**
+## Si të shkarkoni SQL Server Setup
 
-  - Ekstrakto përmbajtjen e skedarit të shkarkuar në këtë dosje
+Microsoft ofron dy edicione të specializuara të shkarkimit falas të SQL për të punuar në MS SQL Server:
 
-![](./Figs/sql2.png)
-
-## Ekzekutimi i SQLite nga Command Line
-
-  - Hap dritaren e Command Line 
-  
-![](./Figs/sql3.png)  
-  
-  
-## Ekzekutimi i SQLite nga Command Line
-
-  - Navigo në dosjen **sqlite**
-
-![](./Figs/sql4.png) 
+![](./Figs/install1.png)
 
 
+## Si të shkarkoni SQL Server Setup
 
-## Ekzekutimi i SQLite nga Command Line
+**Developer** – Ka të gjitha veçoritë që ofron MS SQL Server, por nuk mund ta përdorim atë në prodhim. 
 
+Nga këndvështrimi i të mësuarit, a është një kandidat ideal për të filluar.
 
-  - Ekzekuto SQLite duke shkruar: sqlite3
-  
+## Si të shkarkoni SQL Server Setup
 
-
-## Instalimi dhe Përdorimi i SQLiteStudio
-
-  - Tani shohim hap pas hapi se si të instaloni dhe përdorni SQLiteStudio, një mjet falas dhe intuitiv GUI për menaxhimin e bazave të të        dhënave SQLite.
-
-## Shkarkimi i SQLiteStudio
-
-SQLiteStudio është një mjet GUI falas dhe i lehtë për t'u përdorur që mund të shkarkohet nga faqja zyrtare. 
-
-  1. Hapni faqen e internetit [https://github.com/pawelsalawa/sqlitestudio/releases](https://github.com/pawelsalawa/sqlitestudio/releases).
-
-  2. Zgjidhni versionin që dëshironi të shkarkoni, siç është versioni i instaluesit ose versioni portativ.
-
-  3. Ruajeni skedarin e shkarkuar në një dosje në kompjuterin tuaj, për shembull `C:\\sqlite\\gui`.
-
-## Instalimi i SQLiteStudio
-
-Pas shkarkimit, ndiqni këto hapa për të instaluar SQLiteStudio:
-
-  1. Navigoni tek dosja ku keni ruajtur skedarin e shkarkuar.
-
-  2. Ekstraktoni përmbajtjen e skedarit ZIP nëse keni shkarkuar versionin portativ.
-
-  3. Nëse keni shkarkuar instaluesin, klikoni dyfish mbi të për të filluar procesin e instalimit dhe ndiqni udhëzimet në ekran.
-
-## Nisja e SQLiteStudio
-
-Për të hapur SQLiteStudio pas instalimit:
-
-  1. Shkoni tek dosja ku e keni instaluar programin, për shembull `C:\\sqlite\\gui\\SQLiteStudio`.
-
-  2. Klikoni dy herë mbi ikonën e SQLiteStudio për ta hapur programin.
+**Express**: Ky është gjithashtu një version falas i MS SQL Server, por me disa kufizime në aplikimet e inteligjencës së biznesit.
 
 
-## Hyrje në SQL Server
+## Si të shkarkoni SQL Server Setup
 
-  - SQL Server është një sistem databaze relacionale të zhvilluar nga Microsoft. 
-  
+Ne do të zgjedhim versionin Developer për të shkarkuar serverin Microsoft SQL për instalim.
 
-## Hyrje në SQL Server
+**Hapi 2** Klikoni në "Download Now"
 
-Do mësojmë:
+Shkarkoni SQL Server Setup
 
-  - Si të shkruani pyetje (queries)
+## Si të shkarkoni SQL Server Setup
 
-  - Konceptet bazë të SQL Server
-
-## Hyrje në SQL Server
-
-  - SQL Server është **dyqani** që përmban bazat e të dhënave dhe tabelat
-  
-  - **Queries** janë mënyra si i marrim **produktet** nga **raftet** dhe ngarkojmë **koshin**
-
-  - **SELECT** është termi kyç për të marrë të dhëna
-
-# Si të Importoni një Skedar CSV në SQLiteStudio
-
-## Hapi 1: Hapni SQLiteStudio
-
-  - Hapni SQLiteStudio në kompjuterin tuaj.
+Ne do të marrim instalimin e serverit SQL të konfiguruar si 'SQLServer2022SSEI-Dev.exe' në një mjedis Windows, duke siguruar përputhshmëri dhe performancë të optimizuar për aplikacionet SQL Server Windows.
 
 
-## Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave
+## Si të instaloni Microsoft SQL Server
 
-Nëse nuk keni një bazë të të dhënave ku do të importoni CSV-në, krijoni një të re:
+Këtu është një proces hap pas hapi se si të instaloni SQL në Windows 10:
+
+**Hapi 1** Hapni skedarin **.exe**
+
+Klikoni dy herë në "SQLServer2017-SSEI-Dev.exe". 
+
+
+## Si të instaloni Microsoft SQL Server
+
+Ekrani i mëposhtëm do të shfaqet me tre opsione: Basic, Custom dhe Download Files.
+
+![](./Figs/install2.png)
+
+## Instaloni SQL Server
+
+
+**Hapi 2** Zgjidhni versionin
+
+## Instaloni SQL Server
+
+Zgjidhni versionin bazë duke klikuar në opsionin "Basic", pasi ai ka të gjithë konfigurimin e paracaktuar të kërkuar për të mësuar MS SQL.
+
+## Instaloni SQL Server
+
+**Hapi 3** Pranoni kushtet
+
+Do të shfaqet ekrani "Kushtet e licencës së serverit të Microsoft". Lexoni Kushtet e Licencës dhe më pas klikoni "Prano".
+
+![](./Figs/install3.png)
+
+## Instaloni SQL Server
+
+**Hapi 4** Zgjidhni vendndodhjen
+
+Më poshtë do të shfaqet dritarja "Vendndodhja e instalimit të serverit SQL", e cila është një hap vendimtar në procesin e instalimit të Microsoft SQL Server.
+
+
+## Instaloni SQL Server
+
+![](./Figs/install4.png)
+
+Vendndodhja e parazgjedhur është Program Files Microsoft SQL Server.
+
+
+## Instaloni SQL Server
+
+  - Opsionale, ne gjithashtu mund të ndryshojmë vendndodhjen e instalimit duke klikuar në **Browse**.
+
+  - Pasi të zgjidhet vendndodhja, klikoni butonin "Instalo" për të filluar instalimin e SQL Windows 10.
+
+## Instaloni SQL Server
+
+ - Më poshtë do të shfaqet ekrani i progresit të "Shkarkimit të paketës së instalimit". 
  
-  - Shkoni te menuja **Database** dhe zgjidhni **Add a database**.
- 
-  - Zgjidhni një emër për bazën e të dhënave (p.sh., `MyDatabase.db`) dhe vendndodhjen, më pas klikoni **OK**.
+![](./Figs/install5.png) 
+
+  - Prisni derisa të përfundojë shkarkimi i softuerit SQL.
+
+## Instaloni SQL Server
+
+Pasi shkarkimi të ketë përfunduar, sistemi do të fillojë instalimin e versionit Developer.
+
+## Instaloni SQL Server
+
+Më poshtë ekrani tregon përparimin e instalimit.
+
+![](./Figs/install6.png) 
+
+## Instaloni SQL Server
+
+**Hapi 5** Përfundoni procesin e instalimit
+
+Pasi instalimi të përfundojë me sukses, do të shfaqet ekrani më poshtë.
+
+![](./Figs/install7.png) 
+
+## Tani na duhet editor
+
+Hapim linkun :
+
+[https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms)
 
 
-## Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave
+## Tani na duhet editor
+
+Shkarkojmë SQL Server Management Studio (SSMS) 20.1
 
 
-![](./Figs/sql7.png) 
+![](./Figs/install8.png) 
 
-## Hapi 2: Krijoni ose Hapni një Bazë të Të Dhënave
+## Tani na duhet editor
 
-  - Nëse tashmë keni një bazë të të dhënave, sigurohuni që ajo është e hapur në SQLiteStudio.
+Instalojmë hap pas hapi
+
+
+## Instaloni SQL Server
+
+Ky konfigurim është i vetë-mjaftueshëm për të vazhduar më tej me mësimin e serverit SQL dhe ne mund ta 'Mbyllim' këtë dritare.
+
+
+# Fillojmë
+
+## Hyrje në SQL
+
+  - SQL qëndron për **Structured Query Language** e cila përdoret për të punuar me bazat e të dhënave.
   
-  - Krijoni lidhjen me databazën.
+  - Serveri SQL dhe T-SQL (Transact-SQL) janë të dy RDMS (Sistemi i Menaxhimit të Bazave të të Dhënave Relacionale) ku ky i fundit ka         funksione shtesë.
 
-![](./Figs/sql8.png) 
+## Hyrje në SQL
 
-## Hapi 3: Importoni Skedarin CSV
-
-  - Me bazën e të dhënave të hapur, shkoni te menuja **Tools** dhe zgjidhni **Import**.
+  - SQL Server ruan të dhënat në formën e tabelave dhe lidhjeve. 
   
-  
-![](./Figs/sql10.png)   
-  
-## Hapi 3: Importoni Skedarin CSV 
-
-![](./Figs/sql11.png)   
-
-## Hapi 3: Importoni Skedarin CSV 
-
-  - Në dritaren e importit, zgjidhni **CSV** si formatin dhe klikoni **Next**.
-  
-![](./Figs/sql12.png)   
-  
-## Hapi 4: Konfiguroni Importimin e CSV-së
-
-- Shfletoni për të gjetur skedarin CSV që dëshironi të importoni.
-
-- Pasi ta zgjidhni skedarin tuaj CSV, do të kërkoheni të konfiguroni cilësimet e importit:
-
-  - **Emri i tabelës**: Është zakonisht e zakonshme të emëroni tabelën pas skedarit CSV, pa prapashtesën e skedarit.
-
-  - **Emrat dhe llojet e kolonave**: SQLiteStudio do t'ju ofrojë mundësinë të konfiguroni kolonat duke përcaktuar emrat dhe llojet e të         dhënave për secilën kolonë.
-  
-
-## Hapi 5: Përfundo Importimin
-
-  - Pas konfigurimit të cilësimeve, vazhdoni me importimin duke ndjekur udhëzimet në SQLiteStudio.
-
-  - Kontrolloni të dhënat e importuara për të siguruar se janë saktë dhe siç pritej.
-
-
-## Fillojmë
-
-  - **SELECT** është termi kyç për të marrë të dhëna
-
-  - Shembull: `SELECT description FROM grid;`
-  
-  
-## Anatomia e një pyetjeje të thjeshtë SELECT
-
-  - Deklaratat **SELECT** specifikojnë atë që duam të marrim nga një tabelë. 
-  
-  - Query më e thjeshtë zgjedh një kolonë, nga një tabelë. 
-  
-## Anatomia e një pyetjeje të thjeshtë SELECT
-
-  - Në këtë query, ne zgjedhim shtyllën **description**, nga tabela **grid**. 
+  - Ne nuk mund të qasemi drejtpërdrejt në të gjitha të dhënat, kështu që përdorim pyetje **query** për të marrë të dhënat e duhura.
   
   
-## Anatomia e një pyetjeje të thjeshtë SELECT
+## Importimi i tabelës Excel në SQL
 
-  - Vini re pikëpresjen që tregon fundin e qyery-t.
+  - Hapim SQL Server Management Studio
   
-  - Fjala tjetër kyçe që do t'ju duhet gjithmonë është **FROM** - për të specifikuar vendndodhjen e tabelës burimore. 
+  - Selectojmë majtas **Databases**
   
-  
-## Fillojmë
+## Importimi i tabelës Excel në SQL
 
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
+  - Me butonin e djathtë zgjedhim **New Database**
+
+![](./Figs/db1.png) 
+
+## Importimi i tabelës Excel në SQL
+
+  - Te faqja e hapur vendosim emrin e databazës **grid** dhe OK
+
+![](./Figs/db3.png) 
+
+
+## Importimi i tabelës Excel në SQL
+
+  - Te databaza e krijuar **grid** zgjedhim me butonin e djathtë Tasks - Import Data
+
+![](./Figs/db4.png) 
+
+
+## Importimi i tabelës Excel në SQL
+
+  - Navigojmë në folder ku kemi skedarin Excel **grid**
+
+![](./Figs/db5.png) 
+
+
+## Importimi i tabelës Excel në SQL
+
+  - Në menunë e destinacionit zgjedhim **Microsoft Ole Db Provider for SQL Server**
+
+![](./Figs/db6.png) 
+
+## Importimi i tabelës Excel në SQL
+
+  - Në dritaret e tjera zgjedhim Next dhe Finish
+  
+  
+## Importimi i tabelës Excel në SQL
+
+  - Në qoftë se procesi ka shkuar OK do shfaqet tabela si në figurë
+  
+  
+![](./Figs/db8.png)  
+
+## Hyrje në SQL
+
+  - Deklarata **SELECT** specifikon atë që duam të marrim nga tabela.
+
+  - **FROM** specifikon vendndodhjen e tabelës burimore.
+
+## Hyrje në SQL
+
+Gjithmonë përfundoni një pyetje me një **;**.
+
+
+## Shembull
 
 ```{sql, eval=FALSE}
-SELECT description
-FROM grid;
+SELECT description 
+FROM dbo.grid$
 ```
 
+## Shembull
 
-## Fillojmë
+![](./Figs/query1.png) 
+## Hyrje në SQL
 
-Këtu janë rezultatet. Query kthen çdo rresht në kolonën e zgjedhur.  
-
-
-
-![](./Figs/sql13.png)  
-
-
-
-## Praktikë
-
-  - Përsëritni hapat e mësipërm për të lidhur një databazë **artist**
+  - Përdorni **TOP** për të kufizuar numrin e rreshtave të kthyer. 
   
-  - Do përdorim skedarin csv **artist** nga folder **db**
+  - Ne gjithashtu mund të specifikojmë përqindjen e rreshtave duke përdorur **TOP (5) PERCENT**.
   
-  
-## Query me më shumë se një kolonë
-
-  - Ju mund të zgjidhni kolona të shumta, duke e ndarë çdo emër kolone me një presje. 
-  
-  - Nuk keni nevojë për presje për kolonën e fundit të zgjedhur përpara 'FROM'.
-
-
-## Query me më shumë se një kolonë
-
-  - Sigurohemi që kemi bërë **disconnect** nga databaza **artist**
-    
-  
-## Zgjedhja e më shumë se një kolone
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
+## Shembull
 
 ```{sql, eval=FALSE}
-SELECT artistId, Name
-FROM artist;
+SELECT TOP (5) PERCENT description
+FROM dbo.grid$
 ```
 
+## Shembull
 
+![](./Figs/query2.png) 
 
-## Formatimi i Query
+## Hyrje në SQL
 
-![](./Figs/sql14.png)
-
-
-
-
-## Formatimi i Query  
-
-![](./Figs/sql15.png)
-  
-## Formatimi i Query 
-
-  - Këtu janë 2 query të ngjashme, me paraqitje të ndryshme. 
-  
-  - Query e sipërme tregon të gjitha kolonat që do të zgjidhen në një rresht. 
-  
-  - Query e poshtme tregon çdo kolonë të zgjedhur në një rresht të ri. 
+  - Përdorni SELECT DISTINCT për të kthyer një listë me vlera unike nga një kolonë.
   
   
-## Formatimi i Query
-
-  - Rezultatet e të dy query-ve do të jenë identike. 
-  
-  - Ne do të përdorim kryesisht paraqitjen e poshtme gjatë gjithë leksioneve. 
-  
-  
-## Formatimi i Query
-
-  Mbajtja e fjalëve kyçe si SELECT dhe FROM me shkronja të mëdha, dhe emrat e tabelave dhe kolonave me shkronja të vogla, i bën query më të lehta për t'u lexuar.
-  
-  
-  
-## Formatimi i Query
-
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
+## Shembull
 
 ```{sql, eval=FALSE}
-SELECT 
-  description, 
-  event_year, 
-  event_date
-FROM 
-  grid;
+SELECT
+  DISTINCT country AS unique_country
+FROM
+  dbo.eurovis$;
 ```
 
-## Formatimi i Query
+## Shembull
 
-![](./Figs/sql16.png)
+![](./Figs/query4.png)   
+## Hyrje në SQL
 
-## Select LIMIT
+  - Përdorni SELECT * për të kthyer të gjitha rreshtat e një kolone. (Nuk rekomandohet për tabela të mëdha).
 
-  - Në vend që të kthejmë çdo rresht, ne mund të përdorim **LIMIT** për të kufizuar numrin e rreshtave të kthyer. 
-  
-  - Specifikoni numrin e rreshtave që do të kthehen. 
-  
-
-  
-## Select LIMIT
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
+## Shembull
 
 ```{sql, eval=FALSE}
-SELECT 
-artist_id, 
-artist_name 
-FROM 
-artist 
-LIMIT 5;
-
+SELECT * FROM
+  dbo.eurovis$;
 ```
 
+## Shembull
 
-
-## Select LIMIT
-
-![](./Figs/sql16.png)
-
-## Select DISTINCT
-
-  - Përdorni **SELECT DISTINCT** për të kthyer një listë me vlera unike nga një kolonë. 
-  
-  - Nëse përdorni **SELECT DISTINCT** me dy ose më shumë kolona, do të ktheni çdo kombinim unik vlerash.
-
-
-## Select DISTINCT
-
-Krahasojmë rezultatin kur nuk përdorim **DISTINCT**
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
-
-```{sql, eval=FALSE}
-SELECT 
-nerc_region
-FROM 
-grid;
-
-```
-
-
-
-## Select DISTINCT
-
-![](./Figs/sql18.png)
-
-## Select DISTINCT
-
-Krahasojmë rezultatin kur përdorim **DISTINCT**
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
-
-```{sql, eval=FALSE}
-SELECT DISTINCT
-nerc_region
-FROM 
-grid;
-
-```
-
-
-
-## Select DISTINCT
-
-![](./Figs/sql19.png)
-
-
-## Select *
-
-  - Përdorni **SELECT**, e ndjekur nga tasti $\star$, për të kthyer të gjitha rreshtat dhe kolonat në një tabelë. 
-  
-  - Kjo është e mirë për eksplorimin e shpejtë të tabelave të vogla, por jo për tabelat shumë të mëdha. 
-  
-  
-## Select *
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
-
-```{sql, eval=FALSE}
-SELECT *
-FROM 
-grid;
-
-```
-
-
-
-## Select *
-
-![](./Figs/sql20.png)
-## Përcaktimi i emrave të kolonave me AS
-
-  - Ju mund të riemërtoni, ose **ALIAS**, një kolonë për t'i bërë rezultatet tuaja më kuptimplote. 
-  
-  - Thjesht zgjidhni kolonën, e ndjekur nga **AS**, dhe më pas emrin e kolonës që dëshironi. 
-  
-  - Vini re se si **demand_loss_mw** kthehet si **lost_demand**, ndërsa **description** kthehet si **cause_of_outage**.
-  
-  
-## Përcaktimi i emrave të kolonave me AS
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
-
-```{sql, eval=FALSE}
-SELECT  demand_loss_mw AS lost_demand
-FROM 
-grid;
-
-```
-
-
-
-## Përcaktimi i emrave të kolonave me AS
-
-![](./Figs/sql21.png)  
-
-
-## Përcaktimi i emrave të kolonave me AS
-
-\AddToHookNext{env/Highlighting/begin}{\tiny} 
-
-```{sql, eval=FALSE}
-SELECT  description AS cause_of_outage
-FROM 
-grid;
-
-```
-
-
-
-## Select DISTINCT
-
-![](./Figs/sql22.png)  
-
-
-
-
-
-
-
-
-
+![](./Figs/query5.png)  
 
