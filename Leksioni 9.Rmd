@@ -1017,6 +1017,8 @@ country_centrality_df.head(10)
 ## Qëndra e Nyjeve
 
 ![](./Figs/qnyje.png)
+
+
 ## Importo Rrjetin
 
 \AddToHookNext{env/Highlighting/begin}{\tiny}    
